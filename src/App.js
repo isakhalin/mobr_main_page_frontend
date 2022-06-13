@@ -5,10 +5,11 @@ import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 
 //Custom comps
-import { Header } from "./components"
+import {Header} from "./components"
 
 //Style
 import './App.css';
+
 
 export const App = () => {
     return (
