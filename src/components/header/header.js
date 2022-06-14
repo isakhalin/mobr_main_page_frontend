@@ -18,7 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Контакты', 'Заявки', 'Ссылки'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export const Header = () => {
@@ -44,7 +44,7 @@ export const Header = () => {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <HistoryEduIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
+                    <HistoryEduIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1, fontSize: "3rem"}}/>
 
                     <Typography
                         variant="h6"
@@ -54,15 +54,15 @@ export const Header = () => {
                         sx={{
                             mr: 2,
                             display: {xs: 'none', md: 'flex'},
-                            fontFamily: 'Monospace',
-                            // fontFamily: 'Times New Roman',
-                            fontWeight: 200,
-                            // letterSpacing: '.4rem',
+                            flexGrow: 5,
+                            fontFamily: 'Roboto', //Monospace
+                            fontWeight: 400,
+                            letterSpacing: '.1rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
                     >
-                        Министерство образования Сахалинской области md
+                        Министерство образования Сахалинской области
                     </Typography>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
