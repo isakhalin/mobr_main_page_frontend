@@ -5,11 +5,21 @@ import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 
 //Custom comps
-import {Header} from "./components"
+import {Header} from "./components";
+
+/** Pages */
+import {
+    ApplicationsPage,
+    ContactsPage,
+    GuidesPage,
+    LinksPage,
+    MainPage,
+    LoginPage,
+    SignUpPage
+} from "./pages";
 
 //Style
 import './App.css';
-
 
 export const App = () => {
     return (
@@ -17,7 +27,14 @@ export const App = () => {
             <BrowserRouter>
                 <Header/>
                 <Routes>
-                    <Route path="/" element={<h1>Main page</h1>}/>
+                    <Route path="/" element={<MainPage />}/>
+                    <Route path="/applications" element={<ApplicationsPage />}/>
+                    <Route path="/guides" element={<GuidesPage />}/>
+                    <Route path="/contacts" element={<ContactsPage />}/>
+                    <Route path="/links" element={<LinksPage />}/>
+                    <Route path="/login" element={<LoginPage />}/>
+                    <Route path="/signup" element={<SignUpPage />}/>
+                    <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
                 </Routes>
             </BrowserRouter>
         </div>

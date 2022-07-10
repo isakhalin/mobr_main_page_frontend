@@ -2,6 +2,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import {Provider} from "react-redux"
+import { store } from "./store"
+
 //Custom comps
 import {App} from './App';
 
@@ -13,10 +16,12 @@ import {CustomThemeProvider} from "./components"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <React.StrictMode>
-    <CustomThemeProvider>
-        <StyledEngineProvider injectFirst>
-            <App/>
-        </StyledEngineProvider>
-    </CustomThemeProvider>
+    <Provider store={store}>
+        <CustomThemeProvider>
+            <StyledEngineProvider injectFirst>
+                <App/>
+            </StyledEngineProvider>
+        </CustomThemeProvider>
+    </Provider>
     // </React.StrictMode>
 );

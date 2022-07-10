@@ -1,8 +1,6 @@
 import React from 'react';
 
-//** Style **//
-// import classes from "./header.module.css"
-
+/** MUI Material Comps*/
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,8 +16,60 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+/** */
+import {NavLink} from 'react-router-dom'
+
+/** Style */
+import classes from "./header.module.css"
+
+const pages = [
+    {
+        title: 'Главная',
+        to: '/'
+    },
+    {
+        title: 'Ссылки',
+        to: '/links'
+    },
+    {
+        title: 'Инструкции',
+        to: '/guides'
+    },
+    {
+        title: 'Контакты',
+        to: '/contacts'
+    },
+    {
+        title: 'Формы',
+        to: '/applications'
+    },
+    {
+        title: 'Заявки',
+        to: '/'
+    },
+];
+
+const settingsWithoutAuth = [
+    {
+        title: 'Регистрация',
+        to: '/signup'
+    },
+    {
+        title: 'Войти',
+        to: '/login'
+    },
+];
+
+const settingsWithAuth = [
+    {
+        title: 'Профайл',
+        to: '/profile'
+    },
+    {
+        title: 'Выйти',
+        to: '/'
+    },
+];
 
 export const Header = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -46,6 +96,7 @@ export const Header = () => {
                 <Toolbar disableGutters>
                     <HistoryEduIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
 
+                    {/* Отображение в MD (medium laptop) */}
                     <Typography
                         variant="h6"
                         noWrap
@@ -62,7 +113,7 @@ export const Header = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        Министерство образования Сахалинской области md
+                        Сахминобр
                     </Typography>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
@@ -95,8 +146,16 @@ export const Header = () => {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">
+                                        <NavLink
+                                            className={classes.menuLinks}
+                                            to={page.to}
+                                            key={page.title}
+                                        >
+                                            {page.title}
+                                        </NavLink>
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -121,20 +180,28 @@ export const Header = () => {
                     >
                         LOGO2
                     </Typography>
+                    {/* Это кнопки в шапке при отображении на лаптоп */}
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {pages.map((page) => (
                             <Button
-                                key={page}
+                                key={page.title}
                                 onClick={handleCloseNavMenu}
                                 sx={{my: 2, color: 'white', display: 'block'}}
                             >
-                                {page}
+                                <NavLink
+                                    className={classes.navLinks}
+                                    to={page.to}
+                                    key={page.title}
+                                >
+                                    {page.title}
+                                </NavLink>
                             </Button>
                         ))}
                     </Box>
 
+                    {/* Круглая менюшка справа в углу */}
                     <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Open settings">
+                        <Tooltip title="Открыть меню">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
                             </IconButton>
@@ -155,9 +222,17 @@ export const Header = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                            {settingsWithoutAuth.map((setting) => (
+                                <MenuItem key={setting.title} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">
+                                        <NavLink
+                                            className={classes.menuLinks}
+                                            to={setting.to}
+                                            key={setting.title}
+                                        >
+                                            {setting.title}
+                                        </NavLink>
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
