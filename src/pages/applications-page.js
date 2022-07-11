@@ -5,7 +5,7 @@ import React from 'react';
 export const ApplicationsPage = () => {
     return (
         <div>
-            <h1>Страница с формами заявок</h1>
+            <h3>Страница с формами заявок</h3>
         </div>
     );
 };

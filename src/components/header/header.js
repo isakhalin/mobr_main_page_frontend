@@ -46,7 +46,7 @@ const pages = [
     },
     {
         title: 'Заявки',
-        to: '/'
+        to: '/tickets'
     },
 ];
 
@@ -188,16 +188,13 @@ export const Header = () => {
                         {pages.map((page) => (
                             <Button
                                 key={page.title}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => {
+                                    handleCloseNavMenu();
+                                    navigate(page.to)
+                                }}
                                 sx={{my: 2, color: 'white', display: 'block'}}
                             >
-                                <NavLink
-                                    className={classes.navLinks}
-                                    to={page.to}
-                                    key={page.title}
-                                >
-                                    {page.title}
-                                </NavLink>
+                                {page.title}
                             </Button>
                         ))}
                     </Box>
@@ -226,15 +223,12 @@ export const Header = () => {
                             onClose={handleCloseUserMenu}
                         >
                             {settingsWithoutAuth.map((setting) => (
-                                <MenuItem key={setting.title} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center" onClick={() => navigate("/login")}>
-                                        {/*<NavLink*/}
-                                        {/*    className={classes.menuLinks}*/}
-                                        {/*    to={setting.to}*/}
-                                        {/*    key={setting.title}*/}
-                                        {/*>*/}
-                                            {setting.title}
-                                        {/*</NavLink>*/}
+                                <MenuItem key={setting.title} onClick={() => {
+                                    handleCloseUserMenu();
+                                    navigate(setting.to)
+                                }}>
+                                    <Typography textAlign="center">
+                                        {setting.title}
                                     </Typography>
                                 </MenuItem>
                             ))}

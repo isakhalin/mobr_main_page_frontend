@@ -15,7 +15,7 @@ export const LoginPage = () => {
 
     return (
         <div>
-            <h1>Страница входа</h1>
+            <h4>Страница входа</h4>
             <LoginPassForm getForm={getForm}/>
             <Button variant="contained">Войти</Button>
         </div>

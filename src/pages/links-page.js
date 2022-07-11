@@ -3,6 +3,9 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 
+/** Style */
+import classes from './links-page.module.css'
+
 import { Button } from '@mui/material';
 
 export const LinksPage = () => {
@@ -45,12 +48,12 @@ export const LinksPage = () => {
 
     return (
         <div>
-            <h1>Все необходимые ссылки  </h1>
+            <h3>Все необходимые ссылки</h3>
             <h4>Внешние ресурсы:</h4>
-            {linksOut.map((link) => (<div key={link.title}><Button variant="outlined" href={link.to}>{link.title}</Button></div>))}
+            {linksOut.map((link) => (<div key={link.title}><Button className={classes.btn_link} variant="outlined" href={link.to}>{link.title}</Button></div>))}
             <h4>Внутренние ресурсы (Доступны только в туннеле):</h4>
             {linksInner.map((link) => (
-                <div key={link.title}><Button variant="outlined" href={link.to}>{link.title}</Button></div>))}
+                <div key={link.title}><Button className={classes.btn_link} variant="outlined" href={link.to}>{link.title}</Button></div>))}
         </div>
     );
 };

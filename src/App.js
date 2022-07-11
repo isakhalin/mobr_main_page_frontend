@@ -15,7 +15,8 @@ import {
     LinksPage,
     MainPage,
     LoginPage,
-    SignUpPage
+    SignUpPage,
+    TiketsPage
 } from "./pages";
 
 //Style
@@ -34,6 +35,7 @@ export const App = () => {
                     <Route path="/links" element={<LinksPage />}/>
                     <Route path="/login" element={<LoginPage />}/>
                     <Route path="/signup" element={<SignUpPage />}/>
+                    <Route path="/tickets" element={<TiketsPage />}/>
                     <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
                 </Routes>
             </BrowserRouter>
