@@ -18,6 +18,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
 /** */
 import {NavLink} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 /** Style */
 import classes from "./header.module.css"
@@ -85,6 +86,8 @@ export const Header = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const navigate = useNavigate()
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -224,14 +227,14 @@ export const Header = () => {
                         >
                             {settingsWithoutAuth.map((setting) => (
                                 <MenuItem key={setting.title} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">
-                                        <NavLink
-                                            className={classes.menuLinks}
-                                            to={setting.to}
-                                            key={setting.title}
-                                        >
+                                    <Typography textAlign="center" onClick={() => navigate("/login")}>
+                                        {/*<NavLink*/}
+                                        {/*    className={classes.menuLinks}*/}
+                                        {/*    to={setting.to}*/}
+                                        {/*    key={setting.title}*/}
+                                        {/*>*/}
                                             {setting.title}
-                                        </NavLink>
+                                        {/*</NavLink>*/}
                                     </Typography>
                                 </MenuItem>
                             ))}
