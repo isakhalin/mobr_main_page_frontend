@@ -72,7 +72,7 @@ const settingsWithAuth = [
     },
 ];
 
-export const Header = () => {
+export const Header = ({user}) => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -201,6 +201,7 @@ export const Header = () => {
 
                     {/* Круглая менюшка справа в углу */}
                     <Box sx={{flexGrow: 0}}>
+                        {user ? <span>{user.uid}</span> : <span>Авторизуйтесь</span>}
                         <Tooltip title="Открыть меню">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>

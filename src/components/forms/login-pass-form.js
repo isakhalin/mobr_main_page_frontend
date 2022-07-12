@@ -41,6 +41,7 @@ export const LoginPassForm = ({getForm}) => {
                     variant="standard"
                     value={form.login}
                     onChange={(e) => setFormFromInput(e)}
+                    type="email"
                 >
                     Login
                 </TextField>
@@ -50,6 +51,7 @@ export const LoginPassForm = ({getForm}) => {
                     variant="standard"
                     value={form.pass}
                     onChange={(e) => setFormFromInput(e)}
+                    type="password"
                 >
                     Pass
                 </TextField>
