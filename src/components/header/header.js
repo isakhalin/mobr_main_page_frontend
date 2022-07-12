@@ -16,9 +16,16 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
-/** */
+/** React Router */
 import {NavLink} from 'react-router-dom'
 import {useNavigate} from 'react-router-dom'
+
+/** React-Redux */
+import {useSelector} from "react-redux";
+
+/** Firebase */
+import {signOut} from 'firebase/auth'
+import { auth } from '../../api'
 
 /** Style */
 import classes from "./header.module.css"
@@ -68,11 +75,12 @@ const settingsWithAuth = [
     },
     {
         title: 'Выйти',
-        to: '/'
     },
 ];
 
 export const Header = ({user}) => {
+    const {firstName} = useSelector((state) => state.profile.form);
+    console.log("Отрисовался хедер")
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -88,6 +96,14 @@ export const Header = ({user}) => {
     };
 
     const navigate = useNavigate()
+
+    const profileBtnHandler = (to) => {
+        if (typeof(to) === 'string') {
+            navigate(to);
+        } else {
+            signOut(auth);
+        }
+    };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -181,7 +197,7 @@ export const Header = ({user}) => {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO2
+                        Минобр
                     </Typography>
                     {/* Это кнопки в шапке при отображении на лаптоп */}
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
@@ -201,7 +217,7 @@ export const Header = ({user}) => {
 
                     {/* Круглая менюшка справа в углу */}
                     <Box sx={{flexGrow: 0}}>
-                        {user ? <span>{user.uid}</span> : <span>Авторизуйтесь</span>}
+                        {firstName ? <span>{firstName}</span> : <></>}
                         <Tooltip title="Открыть меню">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
@@ -222,8 +238,22 @@ export const Header = ({user}) => {
                             }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
-                        >
-                            {settingsWithoutAuth.map((setting) => (
+                        >{firstName ?
+                            // Если пользователь авторизовался
+                            (settingsWithAuth.map((setting) => (
+                                <MenuItem key={setting.title} onClick={() => {
+                                    handleCloseUserMenu();
+                                    profileBtnHandler(setting.to)
+                                    // navigate(setting.to)
+                                }}>
+                                    <Typography textAlign="center">
+                                        {setting.title}
+                                    </Typography>
+                                </MenuItem>
+                            )))
+                            :
+                            // Если пользователь не авторизовался
+                            (settingsWithoutAuth.map((setting) => (
                                 <MenuItem key={setting.title} onClick={() => {
                                     handleCloseUserMenu();
                                     navigate(setting.to)
@@ -232,7 +262,8 @@ export const Header = ({user}) => {
                                         {setting.title}
                                     </Typography>
                                 </MenuItem>
-                            ))}
+                            )))
+                        }
                         </Menu>
                     </Box>
                 </Toolbar>

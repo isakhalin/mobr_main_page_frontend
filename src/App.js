@@ -11,9 +11,6 @@ import {onAuthStateChanged} from 'firebase/auth'
 /** Custom comps */
 import {Header} from "./components";
 
-/** Подключаем api */
-import {getProfileFromFirebase} from './api'
-
 /** Pages */
 import {
     ApplicationsPage,
@@ -42,6 +39,7 @@ export const App = () => {
         const authListener = onAuthStateChanged(auth, (user) => {
             if (!!user) {
                 setSession(user);
+                //TODO Вызываем хук получения профиля и записи в глобал стейт
             } else {
                 setSession(null)
             }
@@ -52,7 +50,7 @@ export const App = () => {
     return (
         <div className="App">
             <BrowserRouter>
-                <Header user={session}/>
+                <Header/>
                 <Routes>
                     <Route path="/" element={<MainPage/>}/>
                     <Route path="/applications" element={<ApplicationsPage/>}/>
