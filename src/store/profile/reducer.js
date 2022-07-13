@@ -9,6 +9,7 @@ const profileState = {
         firstName: "",
         lastName: "",
         dept: "",
+        avatar: "",
         isAdmin: false
     },
     status: {

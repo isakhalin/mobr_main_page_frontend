@@ -50,7 +50,7 @@ export const App = () => {
     return (
         <div className="App">
             <BrowserRouter>
-                <Header/>
+                <Header user={session}/>
                 <Routes>
                     <Route path="/" element={<MainPage/>}/>
                     <Route path="/applications" element={<ApplicationsPage/>}/>

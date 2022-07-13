@@ -25,7 +25,7 @@ import {useSelector} from "react-redux";
 
 /** Firebase */
 import {signOut} from 'firebase/auth'
-import { auth } from '../../api'
+import {auth} from '../../api'
 
 /** Style */
 import classes from "./header.module.css"
@@ -48,12 +48,8 @@ const pages = [
         to: '/contacts'
     },
     {
-        title: 'Формы',
+        title: 'Регистрация',
         to: '/applications'
-    },
-    {
-        title: 'Заявки',
-        to: '/tickets'
     },
 ];
 
@@ -74,12 +70,16 @@ const settingsWithAuth = [
         to: '/profile'
     },
     {
+        title: 'Заявки',
+        to: '/tickets'
+    },
+    {
         title: 'Выйти',
     },
 ];
 
 export const Header = ({user}) => {
-    const {firstName} = useSelector((state) => state.profile.form);
+    const {firstName, avatar} = useSelector((state) => state.profile.form);
     console.log("Отрисовался хедер")
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -217,10 +217,10 @@ export const Header = ({user}) => {
 
                     {/* Круглая менюшка справа в углу */}
                     <Box sx={{flexGrow: 0}}>
-                        {firstName ? <span>{firstName}</span> : <></>}
+                        {user ? <span className={classes.profileText}>{firstName}</span> : <></>}
                         <Tooltip title="Открыть меню">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                                <Avatar alt={user ? firstName : "Jhon Sharp"} src={user ? `/avatars/${avatar}` : ""}/>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -238,7 +238,7 @@ export const Header = ({user}) => {
                             }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
-                        >{firstName ?
+                        >{user ?
                             // Если пользователь авторизовался
                             (settingsWithAuth.map((setting) => (
                                 <MenuItem key={setting.title} onClick={() => {
