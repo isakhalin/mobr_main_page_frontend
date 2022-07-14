@@ -11,19 +11,25 @@ import thunk from "redux-thunk"
 /** include Api */
 import {
     getProfileFromFirebaseApi,
-    setApplicationToFirebaseApi
+    setApplicationToFirebaseApi,
+    sendTicketToFirebaseApi,
+    getTicketsFromFirebaseApi,
 } from '../api'
 
 /** include reducers */
-import {ProfileReducer} from '../store/profile'
+import {ProfileReducer} from '../store/profile';
+import {TicketReducer} from '../store/tickets'
 
 const rootReducers = combineReducers({
     profile: ProfileReducer,
+    tickets: TicketReducer,
 });
 
 const api = {
     getProfileFromFirebaseApi,
-    setApplicationToFirebaseApi
+    setApplicationToFirebaseApi,
+    sendTicketToFirebaseApi,
+    getTicketsFromFirebaseApi,
 }
 
 export const store = createStore(

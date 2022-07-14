@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+
+import {useDispatch, useSelector} from "react-redux";
 
 import {
     Box,
@@ -6,8 +8,15 @@ import {
     Button
 } from '@mui/material'
 
+/** include Thunks */
+import { getTickets } from '../store/tickets'
+
 export const TiketsPage = () => {
-    const [form, setForm] = useState()
+    const dispatch = useDispatch();
+    const [form, setForm] = useState();
+    const isForm = !(!!form);
+
+    const tickets = useSelector(state => state.tickets.tickets);
 
     const setFormFromTextField = (event) => {
         setForm(event.target.value)
@@ -16,6 +25,12 @@ export const TiketsPage = () => {
     const sandClickHandler = () => {
 
     };
+
+    console.log("TICKETS", tickets)
+
+    useEffect(() => {
+        dispatch(getTickets());
+    }, []);
 
     return (
         <div>
@@ -42,6 +57,7 @@ export const TiketsPage = () => {
                         <Button
                             variant="outlined"
                             onClick={sandClickHandler}
+                            disabled={isForm}
                         >
                             Отправить
                         </Button>
