@@ -22,13 +22,12 @@ export const getProfileError = (error) => ({
 
 // Методы для очистки профиля из глобального стейта при выходе
 export const clearProfileStart = () => ({
-    type: GET_PROFILE_START,
+    type: CLEAR_PROFILE_START,
 })
-export const clearProfileSuccess = (profile) => ({
-    type: GET_PROFILE_SUCCESS,
-    payload: profile
+export const clearProfileSuccess = () => ({
+    type: CLEAR_PROFILE_SUCCESS,
 })
 export const clearProfileError = (error) => ({
-    type: GET_PROFILE_ERROR,
+    type: CLEAR_PROFILE_ERROR,
     payload: error
 })

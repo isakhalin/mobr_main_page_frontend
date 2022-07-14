@@ -1,7 +1,10 @@
 import {
     getProfileStart,
     getProfileSuccess,
-    getProfileError
+    getProfileError,
+    clearProfileStart,
+    clearProfileSuccess,
+    clearProfileError
 } from './actions'
 
 export const getProfile = (uid) => async (dispatch, _, api) => {
@@ -9,11 +12,12 @@ export const getProfile = (uid) => async (dispatch, _, api) => {
         dispatch(getProfileStart());
         const getProfileFromDB = await api.getProfileFromFirebaseApi(uid);
         console.log("getProfileFromDB.val()", getProfileFromDB)
-        const {firstName, lastName, dept, isAdmin, avatar} = getProfileFromDB.val();
+        const {firstName, middleName, lastName, dept, isAdmin, avatar} = getProfileFromDB.val();
 
         const profile = {
             firstName: firstName,
             lastName: lastName,
+            middleName: middleName,
             avatar: avatar,
             dept: dept,
             isAdmin: isAdmin
@@ -22,5 +26,14 @@ export const getProfile = (uid) => async (dispatch, _, api) => {
         dispatch(getProfileSuccess(profile))
     } catch (e) {
         dispatch(getProfileError(e));
+    }
+}
+
+export const clearProfile = () => (dispatch, _, api) => {
+    try {
+        dispatch(clearProfileStart());
+        dispatch(clearProfileSuccess());
+    } catch (e) {
+        dispatch(clearProfileError(e))
     }
 }

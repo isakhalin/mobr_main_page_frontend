@@ -2,7 +2,10 @@
 import React, {useEffect, useState} from "react";
 
 /** React Router */
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+
+/** Include routes */
+import { PublicRoute, PrivateRoute } from './components/route'
 
 /** Firebase */
 import {auth} from './api';
@@ -10,6 +13,9 @@ import {onAuthStateChanged} from 'firebase/auth'
 
 /** Custom comps */
 import {Header} from "./components";
+
+/** Include Thunks */
+import { clearProfile, getProfile } from "./store/profile";
 
 /** Pages */
 import {
@@ -20,30 +26,33 @@ import {
     MainPage,
     LoginPage,
     SignUpPage,
-    TiketsPage
+    TiketsPage,
+    ProfilePage
 } from "./pages";
 
 //Style
 import './App.css';
+import {useDispatch, useSelector} from "react-redux";
 
 export const App = () => {
+    const dispatch = useDispatch();
     const [session, setSession] = useState(null);
-    const [profile, setProfile] = useState({
-        firstName: "",
-        lastName: "",
-        dept: "",
-        isAdmin: false
-    })
+    const isAuth = !!session;
+    // const {firstName, lastName, middleName} = useSelector(state => state.profile.form)
 
     useEffect(() => {
         const authListener = onAuthStateChanged(auth, (user) => {
             if (!!user) {
+                console.log("Вызвался санк ГЕТ")
                 setSession(user);
+                dispatch(getProfile(user.uid));
                 //TODO Вызываем хук получения профиля и записи в глобал стейт
             } else {
-                setSession(null)
+                console.log("Вызвался санк клеар")
+                setSession(null);
+                dispatch(clearProfile());
             }
-        })
+        });
         return () => authListener();
     }, []);
 
@@ -53,13 +62,14 @@ export const App = () => {
                 <Header user={session}/>
                 <Routes>
                     <Route path="/" element={<MainPage/>}/>
-                    <Route path="/applications" element={<ApplicationsPage/>}/>
+                    <Route path="/applications" element={<PublicRoute isAuth={isAuth}><ApplicationsPage/></PublicRoute>}/>
                     <Route path="/guides" element={<GuidesPage/>}/>
-                    <Route path="/contacts" element={<ContactsPage/>}/>
-                    <Route path="/links" element={<LinksPage/>}/>
-                    <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/contacts" element={<PrivateRoute isAuth={isAuth}><ContactsPage/></PrivateRoute>}/>
+                    <Route path="/links" element={<PrivateRoute isAuth={isAuth}><LinksPage/></PrivateRoute>}/>
+                    <Route path="/login" element={<PublicRoute isAuth={isAuth}><LoginPage/></PublicRoute>}/>
+                    <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage/></PrivateRoute>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
-                    <Route path="/tickets" element={<TiketsPage/>}/>
+                    <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TiketsPage/></PrivateRoute>}/>
                     <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
                 </Routes>
             </BrowserRouter>

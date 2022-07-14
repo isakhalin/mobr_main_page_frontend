@@ -1,16 +1,26 @@
 //TODO Страница отображает формы для отправки заявок
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {styled} from '@mui/material/styles';
+
+/** MUI Material */
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 import {Box, Button} from '@mui/material';
 import TextField from '@mui/material/TextField';
+import {light} from "@mui/material/styles/createPalette";
+
+import {setApplicationToFirebaseApi} from '../api'
 
 const Accordion = styled((props) => (<MuiAccordion disableGutters elevation={0} square {...props} />))
 (({theme}) => ({
@@ -52,36 +62,88 @@ export const ApplicationsPage = () => {
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
+    //Форма идентификации личности
     const [form1, setForm1] = useState({
         lastName: '',
         firstName: '',
         middleName: '',
     });
+    //Форма идентификации личности в качестве работника
     const [form2, setForm2] = useState({
-        org: '',
-        dept: '',
-        position: '',
-        room: '',
-        phone: ''
+        prevOrg: '',    // Предыдущее место работы
+        org: '',        // Организация
+        dept: '',       // Отдел
+        position: '',   // Должность
+        room: '',       // Кабинет
+        phone: '',      // Рабочий номер телефона
+        isMinobr: null    // Принадлежность к Минобр
     });
-    const [form3, setForm3] = useState();
+    const [form3, setForm3] = useState({});
+
     const [form4, setForm4] = useState();
+
+    //Логика радио кнопок
+    // const [valueRadio, setValueRadio] = React.useState('');
+    const handleChangeRadio = (event) => {
+        if (event.target.value === "true") {
+            setForm2({...form2, org: "Министерство образования Сахалинской области", isMinobr: true})
+        } else {
+            setForm2({...form2, org: "", isMinobr: false})
+        }
+    };
+
+    const sendApplicationForm = () => {
+        setApplicationToFirebaseApi(form2);
+        setForm1({
+            lastName: '',
+            firstName: '',
+            middleName: '',
+        });
+        setForm2({
+            prevOrg: '',
+            org: '',
+            dept: '',
+            position: '',
+            room: '',
+            phone: '',
+            isMinobr: null
+        });
+    };
+
+    const [isDisabled, setIsDisabled] = useState(true)
+
+    useEffect(() => {
+        if (form1.firstName && form1.lastName && form1.middleName && form2.prevOrg && form2.org && form2.dept && form2.position && (form2.isMinobr !== null) && form2.phone && form2.room) {
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
+    }, [form1, form2])
 
     return (
         <div>
             <h3>Страница с формами заявок</h3>
-            <div>Я официально устроен в: </div> <span>Министерство образования </span><span>Подведомственная организация</span>
+
+            <FormControl>
+                <FormLabel id="demo-controlled-radio-buttons-group">Место официального трудоустройства:</FormLabel>
+                <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={form2.isMinobr}
+                    onChange={handleChangeRadio}
+                >
+                    <FormControlLabel value="true" control={<Radio/>} label="Министерство образования"/>
+                    <FormControlLabel value="false" control={<Radio/>} label="Подведомственная организация"/>
+                </RadioGroup>
+            </FormControl>
+
             <div>
                 <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                     <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                        <Typography>Форма идентификации</Typography>
+                        <Typography>Форма идентификации личности</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography>
-                            <p>
-                                Если Вы не знаете есть ли у вас учётная запись в сети ПСО (в ЕСК), вы можете уточнить
-                                эту информацию у системного администратора на пердыдущем месте работы.
-                            </p>
                             <Box
                                 component="form"
                                 sx={{
@@ -123,65 +185,17 @@ export const ApplicationsPage = () => {
                                         onChange={(e) => setForm1({...form1, middleName: e.target.value})}
                                     />
                                 </div>
-                                {/*<div>*/}
-                                {/*    <TextField*/}
-                                {/*        id="standard-basic"*/}
-                                {/*        required={true}*/}
-                                {/*        sx={{width: '400px'}}*/}
-                                {/*        label="Отдел"*/}
-                                {/*        variant="standard"*/}
-                                {/*        value={form1.dept}*/}
-                                {/*        onChange={(e) => setForm1({...form1, dept: e.target.value})}*/}
-                                {/*    />*/}
-                                {/*</div>*/}
-                                {/*<div>*/}
-                                {/*    <TextField*/}
-                                {/*        id="standard-basic"*/}
-                                {/*        required={true}*/}
-                                {/*        sx={{width: '400px'}}*/}
-                                {/*        label="Должность"*/}
-                                {/*        variant="standard"*/}
-                                {/*        value={form1.position}*/}
-                                {/*        onChange={(e) => setForm1({...form1, position: e.target.value})}*/}
-                                {/*    />*/}
-                                {/*</div>*/}
-                                {/*<div>*/}
-                                {/*    <TextField*/}
-                                {/*        id="standard-basic"*/}
-                                {/*        required={true}*/}
-                                {/*        sx={{width: '400px'}}*/}
-                                {/*        label="Кабинет"*/}
-                                {/*        variant="standard"*/}
-                                {/*        value={form1.room}*/}
-                                {/*        onChange={(e) => setForm1({...form1, room: e.target.value})}*/}
-                                {/*    />*/}
-                                {/*</div>*/}
-                                {/*<div>*/}
-                                {/*    <TextField*/}
-                                {/*        id="standard-basic"*/}
-                                {/*        required={true}*/}
-                                {/*        sx={{width: '400px'}}*/}
-                                {/*        label="Рабочий телефон"*/}
-                                {/*        variant="standard"*/}
-                                {/*        value={form1.phone}*/}
-                                {/*        onChange={(e) => setForm1({...form1, phone: e.target.value})}*/}
-                                {/*    />*/}
-                                {/*</div>*/}
-                                <Button variant="outlined">Сохранить</Button>
+                                {/*<Button variant="outlined">Сохранить</Button>*/}
                             </Box>
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
                 <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                     <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-                        <Typography>Я уже работал/работала в госучреждении и имею учётную запись в сети ПСО</Typography>
+                        <Typography>Форма идентификации сотрудника</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography>
-                            <p>
-                                Если Вы не знаете есть ли у вас учётная запись в сети ПСО (в ЕСК), вы можете уточнить
-                                эту информацию у системного администратора на пердыдущем месте работы.
-                            </p>
                             <Box
                                 component="form"
                                 sx={{
@@ -195,10 +209,10 @@ export const ApplicationsPage = () => {
                                         id="standard-basic"
                                         required={true}
                                         sx={{width: '400px'}}
-                                        label="Место официального трудоустройства"
+                                        label="Предыдущее место работы"
                                         variant="standard"
-                                        value={form2.org}
-                                        onChange={(e) => setForm2({...form2, org: e.target.value})}
+                                        value={form2.prevOrg}
+                                        onChange={(e) => setForm2({...form2, prevOrg: e.target.value})}
                                     />
                                 </div>
                                 <div>
@@ -206,7 +220,19 @@ export const ApplicationsPage = () => {
                                         id="standard-basic"
                                         required={true}
                                         sx={{width: '400px'}}
-                                        label="Отдел (Фактического трудоустройства)"
+                                        label="Место текущего официального трудоустройства"
+                                        variant="standard"
+                                        value={form2.org}
+                                        onChange={(e) => setForm2({...form2, org: e.target.value})}
+                                    />
+                                </div>
+
+                                <div>
+                                    <TextField
+                                        id="standard-basic"
+                                        required={true}
+                                        sx={{width: '400px'}}
+                                        label="Отдел (текущее трудоустройство)"
                                         variant="standard"
                                         value={form2.dept}
                                         onChange={(e) => setForm2({...form2, dept: e.target.value})}
@@ -217,7 +243,7 @@ export const ApplicationsPage = () => {
                                         id="standard-basic"
                                         required={true}
                                         sx={{width: '400px'}}
-                                        label="Должность (Официального трудоустройства)"
+                                        label="Должность (текущее трудоустройство)"
                                         variant="standard"
                                         value={form2.position}
                                         onChange={(e) => setForm2({...form2, position: e.target.value})}
@@ -228,7 +254,7 @@ export const ApplicationsPage = () => {
                                         id="standard-basic"
                                         required={true}
                                         sx={{width: '400px'}}
-                                        label="Кабинет (фактическое место работы)"
+                                        label="Кабинет (текущее трудоустройство)"
                                         variant="standard"
                                         value={form2.room}
                                         onChange={(e) => setForm2({...form2, room: e.target.value})}
@@ -239,45 +265,32 @@ export const ApplicationsPage = () => {
                                         id="standard-basic"
                                         required={true}
                                         sx={{width: '400px'}}
-                                        label="Рабочий телефон (фактическое место работы)"
+                                        label="Рабочий телефон (текущее трудоустройство)"
                                         variant="standard"
                                         value={form2.phone}
                                         onChange={(e) => setForm2({...form2, phone: e.target.value})}
                                     />
                                 </div>
-                                <Button variant="outlined">Сохранить</Button>
+                                {/*<Button variant="outlined">Сохранить</Button>*/}
                             </Box>
 
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-                    <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-                        <Typography>Я ранее не работал/работала в госучреждении и не имею учётную запись в сети
-                            ПСО</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-                            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                            sit amet blandit leo lobortis eget.
-                        </Typography>
-                    </AccordionDetails>
-                </Accordion>
-                <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
-                    <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
-                        <Typography>Форма доступа в СЭД</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-                            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                            sit amet blandit leo lobortis eget.
-                        </Typography>
-                    </AccordionDetails>
-                </Accordion>
+                {/*<Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>*/}
+                {/*    <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">*/}
+                {/*        <Typography>Форма доступа в СЭД</Typography>*/}
+                {/*    </AccordionSummary>*/}
+                {/*    <AccordionDetails>*/}
+                {/*        <Typography>*/}
+                {/*            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse*/}
+                {/*            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor*/}
+                {/*            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,*/}
+                {/*            sit amet blandit leo lobortis eget.*/}
+                {/*        </Typography>*/}
+                {/*    </AccordionDetails>*/}
+                {/*</Accordion>*/}
+                <Button variant="outlined" onClick={sendApplicationForm} disabled={isDisabled}>Отправить</Button>
             </div>
 
 

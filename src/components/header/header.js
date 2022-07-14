@@ -30,7 +30,22 @@ import {auth} from '../../api'
 /** Style */
 import classes from "./header.module.css"
 
-const pages = [
+const pagesWithoutAuth = [
+    {
+        title: 'Главная',
+        to: '/'
+    },
+    {
+        title: 'Инструкции',
+        to: '/guides'
+    },
+    {
+        title: 'Регистрация',
+        to: '/applications'
+    },
+];
+
+const pagesWithAuth = [
     {
         title: 'Главная',
         to: '/'
@@ -46,10 +61,6 @@ const pages = [
     {
         title: 'Контакты',
         to: '/contacts'
-    },
-    {
-        title: 'Регистрация',
-        to: '/applications'
     },
 ];
 
@@ -98,7 +109,7 @@ export const Header = ({user}) => {
     const navigate = useNavigate()
 
     const profileBtnHandler = (to) => {
-        if (typeof(to) === 'string') {
+        if (typeof (to) === 'string') {
             navigate(to);
         } else {
             signOut(auth);
@@ -164,19 +175,37 @@ export const Header = ({user}) => {
                                 display: {xs: 'block', md: 'none'},
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">
-                                        <NavLink
-                                            className={classes.menuLinks}
-                                            to={page.to}
-                                            key={page.title}
-                                        >
-                                            {page.title}
-                                        </NavLink>
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                            {
+                                !user
+                                    ?
+                                    (pagesWithoutAuth.map((page) => (
+                                        <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">
+                                                <NavLink
+                                                    className={classes.menuLinks}
+                                                    to={page.to}
+                                                    key={page.title}
+                                                >
+                                                    {page.title}
+                                                </NavLink>
+                                            </Typography>
+                                        </MenuItem>
+                                    )))
+                                    :
+                                    (pagesWithAuth.map((page) => (
+                                        <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">
+                                                <NavLink
+                                                    className={classes.menuLinks}
+                                                    to={page.to}
+                                                    key={page.title}
+                                                >
+                                                    {page.title}
+                                                </NavLink>
+                                            </Typography>
+                                        </MenuItem>
+                                    )))
+                            }
                         </Menu>
                     </Box>
                     {/*//////////////////////*/}
@@ -201,18 +230,35 @@ export const Header = ({user}) => {
                     </Typography>
                     {/* Это кнопки в шапке при отображении на лаптоп */}
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page.title}
-                                onClick={() => {
-                                    handleCloseNavMenu();
-                                    navigate(page.to)
-                                }}
-                                sx={{my: 2, color: 'white', display: 'block'}}
-                            >
-                                {page.title}
-                            </Button>
-                        ))}
+                        {
+                            !user
+                                ?
+                                (pagesWithoutAuth.map((page) => (
+                                    <Button
+                                        key={page.title}
+                                        onClick={() => {
+                                            handleCloseNavMenu();
+                                            navigate(page.to)
+                                        }}
+                                        sx={{my: 2, color: 'white', display: 'block'}}
+                                    >
+                                        {page.title}
+                                    </Button>
+                                )))
+                                :
+                                (pagesWithAuth.map((page) => (
+                                    <Button
+                                        key={page.title}
+                                        onClick={() => {
+                                            handleCloseNavMenu();
+                                            navigate(page.to)
+                                        }}
+                                        sx={{my: 2, color: 'white', display: 'block'}}
+                                    >
+                                        {page.title}
+                                    </Button>
+                                )))
+                        }
                     </Box>
 
                     {/* Круглая менюшка справа в углу */}

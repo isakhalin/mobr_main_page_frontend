@@ -9,7 +9,10 @@ import {
 import thunk from "redux-thunk"
 
 /** include Api */
-import {getProfileFromFirebaseApi} from '../api'
+import {
+    getProfileFromFirebaseApi,
+    setApplicationToFirebaseApi
+} from '../api'
 
 /** include reducers */
 import {ProfileReducer} from '../store/profile'
@@ -19,7 +22,8 @@ const rootReducers = combineReducers({
 });
 
 const api = {
-    getProfileFromFirebaseApi
+    getProfileFromFirebaseApi,
+    setApplicationToFirebaseApi
 }
 
 export const store = createStore(

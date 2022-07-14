@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
 
 /** Firebase */
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
@@ -19,17 +18,14 @@ import {Button} from "@mui/material"
 // };
 
 export const LoginPage = () => {
-    const dispatch = useDispatch();
     const [form, setForm] = useState();
 
     const getForm = (form) => {
         setForm(form);
     };
 
-    const onLogin = async () => {
-        const qwe = await signInWithEmailAndPassword(auth, form.login, form.pass);
-        // signIn(form);
-        dispatch(getProfile(qwe.user.uid));
+    const onLogin = () => {
+        return signInWithEmailAndPassword(auth, form.login, form.pass);
     };
 
     return (

@@ -1,4 +1,4 @@
-import { database, auth } from './firebase';
+import { database } from './firebase';
 import {set, get, child, ref} from 'firebase/database';
 
 //Получаем профиль пользователя из firebase
