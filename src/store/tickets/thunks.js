@@ -30,10 +30,17 @@ export const sendTicket = (ticket, ticketCount) => async (dispatch, _, api) => {
 }
 
 export const getTickets = () => async (dispatch, _, api) => {
+    const tickets = {};
     try {
         dispatch(getTicketsStart());
-        const tickets = await api.getTicketsFromFirebaseApi.val();
-        dispatch(getTicketsSuccess(tickets));
+        const snap = await api.getTicketsFromFirebaseApi();
+        console.log("SNAP", snap.val())
+
+        // snap.forEach((el) => {
+        //     tickets[el.key] = Object.values(el.val());
+        // })
+
+        dispatch(getTicketsSuccess(snap.val()));
     } catch (e) {
         dispatch(getTicketsError(e))
     }

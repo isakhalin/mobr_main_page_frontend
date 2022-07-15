@@ -6,5 +6,5 @@ export const sendTicketToFirebaseApi = (ticket) => {
 };
 
 export const getTicketsFromFirebaseApi = () => {
-  return get(child(ref(database), 'tickets'));
+  return get(child(ref(database), "tickets"));
 };

@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 /** Include routes */
-import { PublicRoute, PrivateRoute } from './components/route'
+import { PublicRoute, PrivateRoute, AdminRoute } from './components/route'
 
 /** Firebase */
 import {auth} from './api';
@@ -27,7 +27,8 @@ import {
     LoginPage,
     SignUpPage,
     TiketsPage,
-    ProfilePage
+    ProfilePage,
+    AdminPage,
 } from "./pages";
 
 //Style
@@ -38,12 +39,12 @@ export const App = () => {
     const dispatch = useDispatch();
     const [session, setSession] = useState(null);
     const isAuth = !!session;
-    // const {firstName, lastName, middleName} = useSelector(state => state.profile.form)
+    const {isAdmin} = useSelector(state => state.profile.form);
 
     useEffect(() => {
         const authListener = onAuthStateChanged(auth, (user) => {
             if (!!user) {
-                console.log("Вызвался санк ГЕТ")
+                console.log("Вызвался санк ГЕТ");
                 setSession(user);
                 dispatch(getProfile(user.uid));
                 //TODO Вызываем хук получения профиля и записи в глобал стейт
@@ -68,8 +69,9 @@ export const App = () => {
                     <Route path="/links" element={<PrivateRoute isAuth={isAuth}><LinksPage/></PrivateRoute>}/>
                     <Route path="/login" element={<PublicRoute isAuth={isAuth}><LoginPage/></PublicRoute>}/>
                     <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage/></PrivateRoute>}/>
-                    <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TiketsPage/></PrivateRoute>}/>
+                    <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage/></AdminRoute>}/>
+                    <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
                 </Routes>
             </BrowserRouter>

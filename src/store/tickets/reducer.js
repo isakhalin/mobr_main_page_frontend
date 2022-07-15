@@ -6,16 +6,16 @@ import {
 
 const ticketState = {
     tickets: {
-        1: [
-            {
-                ticketDate: '',
-                ticketAuthor: '',
-                ticketStatus: '',       //Принимает статусы: sent, processed, finished, completed
-                ticketImportance: '',   //Принимает значения: high, normal, low
-                ticketText: '',
-            }
-        ],
-        2: [],
+        // 1: [
+        //     {
+        //         ticketDate: '',
+        //         ticketAuthor: '',
+        //         ticketStatus: '',       //Принимает статусы: sent, processed, finished, completed
+        //         ticketImportance: '',   //Принимает значения: high, normal, low
+        //         ticketText: '',
+        //     }
+        // ],
+        // 2: [],
     },
     status: {
         pendingSet: false,

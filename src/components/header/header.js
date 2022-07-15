@@ -64,6 +64,13 @@ const pagesWithAuth = [
     },
 ];
 
+const adminPages = [
+    {
+        title: 'Админка',
+        to: '/admin'
+    },
+]
+
 const settingsWithoutAuth = [
     {
         title: 'Регистрация',
@@ -90,7 +97,7 @@ const settingsWithAuth = [
 ];
 
 export const Header = ({user}) => {
-    const {firstName, avatar} = useSelector((state) => state.profile.form);
+    const {firstName, avatar, isAdmin} = useSelector((state) => state.profile.form);
     console.log("Отрисовался хедер")
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -266,7 +273,7 @@ export const Header = ({user}) => {
                         {user ? <span className={classes.profileText}>{firstName}</span> : <></>}
                         <Tooltip title="Открыть меню">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt={user ? firstName : "Jhon Sharp"} src={user ? `/avatars/${avatar}` : ""}/>
+                                <Avatar sx={{ width: 50, height: 50 }} alt={user ? firstName : "Jhon Sharp"} src={user ? `/avatars/${avatar}` : ""}/>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -284,7 +291,22 @@ export const Header = ({user}) => {
                             }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
-                        >{user ?
+                        >
+                            {
+                                isAdmin ?
+                                    adminPages.map((setting) => (
+                                <MenuItem key={setting.title} onClick={() => {
+                                    handleCloseUserMenu();
+                                    profileBtnHandler(setting.to)
+                                    // navigate(setting.to)
+                                }}>
+                                    <Typography textAlign="center">
+                                        {setting.title}
+                                    </Typography>
+                                </MenuItem>
+                            )) : <></>
+                            }
+                            {user ?
                             // Если пользователь авторизовался
                             (settingsWithAuth.map((setting) => (
                                 <MenuItem key={setting.title} onClick={() => {
