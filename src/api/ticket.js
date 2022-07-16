@@ -5,6 +5,12 @@ export const sendTicketToFirebaseApi = (ticket) => {
     return set(child(ref(database), `tickets/${new Date}`), ticket)
 };
 
-export const getTicketsFromFirebaseApi = () => {
-  return get(child(ref(database), "tickets"));
+export const getTicketsFromFirebaseApi = (uid, isAdmin) => {
+    if (!isAdmin){
+        console.log("АПИ ПОД ЮЗЕРОМ")
+        return get(child(ref(database), `tickets/${uid}`));
+    } else {
+        console.log("АПИ ПОД АДМИНОМ")
+        return get(child(ref(database), "tickets"));
+    }
 };

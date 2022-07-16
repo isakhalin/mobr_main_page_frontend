@@ -9,14 +9,14 @@ import {
 } from '@mui/material'
 
 /** include Thunks */
-import { getTickets } from '../store/tickets'
+import {getTickets} from '../store/tickets'
 
-export const TiketsPage = () => {
+export const TiketsPage = ({session, isAdmin}) => {
     const dispatch = useDispatch();
+    const {tickets, status} = useSelector((state) => state.tickets);
     const [form, setForm] = useState();
     const isForm = !(!!form);
 
-    const tickets = useSelector(state => state.tickets.tickets);
 
     const setFormFromTextField = (event) => {
         setForm(event.target.value)
@@ -29,7 +29,11 @@ export const TiketsPage = () => {
     console.log("TICKETS", tickets)
 
     useEffect(() => {
-        dispatch(getTickets());
+
+    }, [tickets])
+
+    useEffect(() => {
+        dispatch(getTickets(session.uid, isAdmin));
     }, []);
 
     return (
@@ -62,10 +66,27 @@ export const TiketsPage = () => {
                             Отправить
                         </Button>
                     </div>
+                    {/*{tickets ?*/}
+                    {/*        console.log("&&&&", tickets)*/}
+
+                    {/*    : <div>Loading...</div>*/}
+                    {/*}*/}
                 </Box>
                 <div>
-                    <div>Все активные задачи:</div>
                     <div>Задачи, отправленные мной:</div>
+                    {
+                        !status.pendingGet ?
+                            tickets.map(el => (
+                                <div style={{border: "solid 1px grey", borderRadius: "5px", marginBottom: "5px", padding: "5px", textAlign: "left"}}>
+                                    <div><span>Дата: </span><span>{el.ticketDate}</span></div>
+                                    <div><span>Отправитель: </span><span>{el.ticketAuthorLastName} {el.ticketAuthorFirstName}</span></div>
+                                    <div><span>Статус: </span><span>{el.ticketStatus === 'sent' ? "Отправлено" : el.ticketStatus === 'processed' ? "Выполняется" : "Готово"}</span></div>
+                                    <div><span>Описание проблемы:</span></div>
+                                    <div><span><span>{el.ticketText}</span></span></div>
+                                </div>
+                            ))
+                            : <span>Loading...</span>
+                    }
                 </div>
             </div>
         </div>

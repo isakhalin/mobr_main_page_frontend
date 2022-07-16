@@ -44,12 +44,10 @@ export const App = () => {
     useEffect(() => {
         const authListener = onAuthStateChanged(auth, (user) => {
             if (!!user) {
-                console.log("Вызвался санк ГЕТ");
                 setSession(user);
                 dispatch(getProfile(user.uid));
                 //TODO Вызываем хук получения профиля и записи в глобал стейт
             } else {
-                console.log("Вызвался санк клеар")
                 setSession(null);
                 dispatch(clearProfile());
             }
@@ -69,7 +67,7 @@ export const App = () => {
                     <Route path="/links" element={<PrivateRoute isAuth={isAuth}><LinksPage/></PrivateRoute>}/>
                     <Route path="/login" element={<PublicRoute isAuth={isAuth}><LoginPage/></PublicRoute>}/>
                     <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage/></PrivateRoute>}/>
-                    <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TiketsPage/></PrivateRoute>}/>
+                    <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TiketsPage session={session} isAdmin={isAdmin}/></PrivateRoute>}/>
                     <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage/></AdminRoute>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
@@ -78,4 +76,3 @@ export const App = () => {
         </div>
     );
 }
-

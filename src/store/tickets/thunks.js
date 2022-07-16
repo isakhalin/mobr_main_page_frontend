@@ -29,19 +29,39 @@ export const sendTicket = (ticket, ticketCount) => async (dispatch, _, api) => {
     }
 }
 
-export const getTickets = () => async (dispatch, _, api) => {
-    const tickets = {};
+export const getTickets = (uid, isAdmin) => async (dispatch, _, api) => {
     try {
         dispatch(getTicketsStart());
-        const snap = await api.getTicketsFromFirebaseApi();
-        console.log("SNAP", snap.val())
 
-        // snap.forEach((el) => {
-        //     tickets[el.key] = Object.values(el.val());
+        if (!isAdmin) {
+            const snap = await api.getTicketsFromFirebaseApi(uid).then(data => data.val());
+            dispatch(getTicketsSuccess(snap));
+        } else {
+            const snap = await api.getTicketsFromFirebaseApi(uid, isAdmin).then(data => data.val());    // Приходит объект вида { [{},{}] , [{},{}] }
+            const tickets = [];
+            for (let el in snap) {
+                if (snap.hasOwnProperty(el)) {
+                    tickets.push(...snap[el]);
+                }
+            }
+            dispatch(getTicketsSuccess(tickets));
+        }
+
+
+        // const data = snap.val();
+        // console.log("SNAP", snap)
+
+        // snap.forEach(el => {
+        //     el.forEach(el => {
+        //         console.log("LOG", el.val())
+        //         tickets.push(el.val());
+        //     })
+        //
         // })
+        // console.log("NEW TICKETS", tickets)
 
-        dispatch(getTicketsSuccess(snap.val()));
     } catch (e) {
+        console.log("SOME WRONG")
         dispatch(getTicketsError(e))
     }
 }
