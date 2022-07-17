@@ -20,7 +20,7 @@ export const TiketsPage = ({session, isAdmin}) => {
     const {tickets, status} = useSelector((state) => state.tickets);
     const {firstName, lastName} = useSelector((state) => state.profile.form);
     const [form, setForm] = useState('');
-    const [importance, setImportance] = useState("high");
+    const [importance, setImportance] = useState("low");
     const isForm = !(!!form);
 
     console.log("IMP", importance)
@@ -81,7 +81,7 @@ export const TiketsPage = ({session, isAdmin}) => {
                                     onChange={(e) => setImportance(e.target.value)}
                                 >
                                     <MenuItem value="low">Не срочно</MenuItem>
-                                    <MenuItem value="normal">В рабочем порядке</MenuItem>
+                                    <MenuItem value="normal">В порядке очереди</MenuItem>
                                     <MenuItem value="high">Срочно</MenuItem>
                                 </Select>
                             </FormControl>
@@ -112,6 +112,7 @@ export const TiketsPage = ({session, isAdmin}) => {
                                     <div>
                                         <span>Отправитель: </span><span>{el.ticketAuthorLastName} {el.ticketAuthorFirstName}</span>
                                     </div>
+                                    <div><span>Срочность: </span><span>{el.ticketImportance === 'low' ? "Не срочно" : el.ticketImportance === 'normal' ? "В порядке очереди" : "Срочно"}</span></div>
                                     <div>
                                         <span>Статус: </span><span>{el.ticketStatus === 'sent' ? "Отправлено" : el.ticketStatus === 'processed' ? "Выполняется" : "Готово"}</span>
                                     </div>
