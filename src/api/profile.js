@@ -1,9 +1,17 @@
-import { database } from './firebase';
+import {database} from './firebase';
 import {set, get, child, ref} from 'firebase/database';
 
 //Получаем профиль пользователя из firebase
-export const getProfileFromFirebaseApi = (uid = "2Nj33j4YwDSvAyvA67KJVCu5bhp1") => {
-    return get(child(ref(database), `profiles/${uid}`));
+export const getProfileFromFirebaseApi = (uid, isAdmin) => {
+    // return get(child(ref(database), `profiles/${uid}`));
+
+    if (!isAdmin) {
+        return get(child(ref(database), `profiles/${uid}`));
+    } else {
+        // console.log('timestamp:', serverTimestamp())
+        return get(child(ref(database), "profiles"));
+    }
+
 };
 
 // записываем профиль пользователя в firebase

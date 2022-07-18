@@ -7,7 +7,7 @@ import {
     clearProfileError
 } from './actions'
 
-export const getProfile = (uid) => async (dispatch, _, api) => {
+export const getProfile = (uid, isAdmin = false) => async (dispatch, _, api) => {
     try {
         dispatch(getProfileStart());
         const getProfileFromDB = await api.getProfileFromFirebaseApi(uid);

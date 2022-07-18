@@ -33,7 +33,7 @@ export const sendTicket = (ticket, uid) => async (dispatch, _, api) => {
 
 // isAdmin - флаг обозначающий роль пользователя (админ - true, пользователь - false).
 // uid - UID пользователя, передается в api чтобы обратиться только к своей ноде в firebase.
-export const getTickets = (uid, isAdmin) => async (dispatch, _, api) => {
+export const getTickets = (uid, isAdmin = false) => async (dispatch, _, api) => {
     try {
         dispatch(getTicketsStart());
         const tickets = [];
