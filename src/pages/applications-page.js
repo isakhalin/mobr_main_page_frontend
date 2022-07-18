@@ -64,7 +64,7 @@ export const ApplicationsPage = () => {
     };
     // Форма для отправки
     const [form, setForm] = useState({
-        date: new Date().getTime(),       // Дата
+        date: '',       // Дата
         lastName: '',   // Фамилия
         firstName: '',  // Имя
         middleName: '', // Отчество
