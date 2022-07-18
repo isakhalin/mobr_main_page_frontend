@@ -6,6 +6,9 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+/** include Custom Comps */
+import {Applications} from '../components/applications'; // Компонент с формами заявок (апликации)
+
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
 
@@ -51,19 +54,19 @@ export const AdminPage = () => {
         <Box sx={{width: '100%'}}>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={value} onChange={handleTabsChange} aria-label="basic tabs example">
-                    <Tab label="Пользователи" {...a11yProps(0)} />
-                    <Tab label="Тикеты" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
+                    <Tab label="Users" {...a11yProps(0)} />
+                    <Tab label="Tickets" {...a11yProps(1)} />
+                    <Tab label="Applications" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                Item One
+                Users
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                Tickets
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <Applications />
             </TabPanel>
         </Box>
     );

@@ -62,44 +62,42 @@ export const ApplicationsPage = () => {
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
-    //Форма идентификации личности
-    const [form1, setForm1] = useState({
-        lastName: '',
-        firstName: '',
-        middleName: '',
-    });
-    //Форма идентификации личности в качестве работника
-    const [form2, setForm2] = useState({
+    // Форма для отправки
+    const [form, setForm] = useState({
+        date: new Date().getTime(),       // Дата
+        lastName: '',   // Фамилия
+        firstName: '',  // Имя
+        middleName: '', // Отчество
         prevOrg: '',    // Предыдущее место работы
         org: '',        // Организация
         dept: '',       // Отдел
         position: '',   // Должность
         room: '',       // Кабинет
         phone: '',      // Рабочий номер телефона
-        isMinobr: null    // Принадлежность к Минобр
-    });
-    const [form3, setForm3] = useState({});
+        isMinobr: null  // Принадлежность к Минобр
+    })
 
-    const [form4, setForm4] = useState();
+    // const [form3, setForm3] = useState({});
+    //
+    // const [form4, setForm4] = useState();
 
     //Логика радио кнопок
     // const [valueRadio, setValueRadio] = React.useState('');
     const handleChangeRadio = (event) => {
         if (event.target.value === "true") {
-            setForm2({...form2, org: "Министерство образования Сахалинской области", isMinobr: true})
+            setForm({...form, org: "Министерство образования Сахалинской области", isMinobr: true})
         } else {
-            setForm2({...form2, org: "", isMinobr: false})
+            setForm({...form, org: "", isMinobr: false})
         }
     };
 
-    const sendApplicationForm = () => {
-        setApplicationToFirebaseApi(form2);
-        setForm1({
+    const sendApplicationForm = async () => {
+        await setApplicationToFirebaseApi({...form, date: new Date().getTime()});
+        setForm({
+            date: '',
             lastName: '',
             firstName: '',
             middleName: '',
-        });
-        setForm2({
             prevOrg: '',
             org: '',
             dept: '',
@@ -113,12 +111,12 @@ export const ApplicationsPage = () => {
     const [isDisabled, setIsDisabled] = useState(true)
 
     useEffect(() => {
-        if (form1.firstName && form1.lastName && form1.middleName && form2.prevOrg && form2.org && form2.dept && form2.position && (form2.isMinobr !== null) && form2.phone && form2.room) {
+        if (form.firstName && form.lastName && form.middleName && form.prevOrg && form.org && form.dept && form.position && (form.isMinobr !== null) && form.phone && form.room) {
             setIsDisabled(false);
         } else {
             setIsDisabled(true);
         }
-    }, [form1, form2])
+    }, [form])
 
     return (
         <div>
@@ -129,7 +127,7 @@ export const ApplicationsPage = () => {
                 <RadioGroup
                     aria-labelledby="demo-controlled-radio-buttons-group"
                     name="controlled-radio-buttons-group"
-                    value={form2.isMinobr}
+                    value={form.isMinobr}
                     onChange={handleChangeRadio}
                 >
                     <FormControlLabel value="true" control={<Radio/>} label="Министерство образования"/>
@@ -159,8 +157,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Фамилия"
                                         variant="standard"
-                                        value={form1.lastName}
-                                        onChange={(e) => setForm1({...form1, lastName: e.target.value})}
+                                        value={form.lastName}
+                                        onChange={(e) => setForm({...form, lastName: e.target.value})}
                                     />
                                 </div>
                                 <div>
@@ -170,8 +168,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Имя"
                                         variant="standard"
-                                        value={form1.firstName}
-                                        onChange={(e) => setForm1({...form1, firstName: e.target.value})}
+                                        value={form.firstName}
+                                        onChange={(e) => setForm({...form, firstName: e.target.value})}
                                     />
                                 </div>
                                 <div>
@@ -181,8 +179,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Отчество"
                                         variant="standard"
-                                        value={form1.middleName}
-                                        onChange={(e) => setForm1({...form1, middleName: e.target.value})}
+                                        value={form.middleName}
+                                        onChange={(e) => setForm({...form, middleName: e.target.value})}
                                     />
                                 </div>
                                 {/*<Button variant="outlined">Сохранить</Button>*/}
@@ -211,8 +209,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Предыдущее место работы"
                                         variant="standard"
-                                        value={form2.prevOrg}
-                                        onChange={(e) => setForm2({...form2, prevOrg: e.target.value})}
+                                        value={form.prevOrg}
+                                        onChange={(e) => setForm({...form, prevOrg: e.target.value})}
                                     />
                                 </div>
                                 <div>
@@ -222,8 +220,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Место текущего официального трудоустройства"
                                         variant="standard"
-                                        value={form2.org}
-                                        onChange={(e) => setForm2({...form2, org: e.target.value})}
+                                        value={form.org}
+                                        onChange={(e) => setForm({...form, org: e.target.value})}
                                     />
                                 </div>
 
@@ -234,8 +232,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Отдел (текущее трудоустройство)"
                                         variant="standard"
-                                        value={form2.dept}
-                                        onChange={(e) => setForm2({...form2, dept: e.target.value})}
+                                        value={form.dept}
+                                        onChange={(e) => setForm({...form, dept: e.target.value})}
                                     />
                                 </div>
                                 <div>
@@ -245,8 +243,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Должность (текущее трудоустройство)"
                                         variant="standard"
-                                        value={form2.position}
-                                        onChange={(e) => setForm2({...form2, position: e.target.value})}
+                                        value={form.position}
+                                        onChange={(e) => setForm({...form, position: e.target.value})}
                                     />
                                 </div>
                                 <div>
@@ -256,8 +254,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Кабинет (текущее трудоустройство)"
                                         variant="standard"
-                                        value={form2.room}
-                                        onChange={(e) => setForm2({...form2, room: e.target.value})}
+                                        value={form.room}
+                                        onChange={(e) => setForm({...form, room: e.target.value})}
                                     />
                                 </div>
                                 <div>
@@ -267,8 +265,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Рабочий телефон (текущее трудоустройство)"
                                         variant="standard"
-                                        value={form2.phone}
-                                        onChange={(e) => setForm2({...form2, phone: e.target.value})}
+                                        value={form.phone}
+                                        onChange={(e) => setForm({...form, phone: e.target.value})}
                                     />
                                 </div>
                                 {/*<Button variant="outlined">Сохранить</Button>*/}
