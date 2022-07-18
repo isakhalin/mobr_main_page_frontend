@@ -2,6 +2,9 @@ import {
     GET_PROFILE_START,
     GET_PROFILE_SUCCESS,
     GET_PROFILE_ERROR,
+    GET_ALL_PROFILES_START,
+    GET_ALL_PROFILES_SUCCESS,
+    GET_ALL_PROFILES_ERROR,
     CLEAR_PROFILE_START,
     CLEAR_PROFILE_SUCCESS,
     CLEAR_PROFILE_ERROR
@@ -52,6 +55,13 @@ export const ProfileReducer = (state = profileState, action) => {
                 ...state,
                 status: {...state.status, pendingGet: false, errorGet: action.payload}
             };
+        //TODO Допилить редюсер
+        case GET_ALL_PROFILES_START:
+            return {}
+        case GET_ALL_PROFILES_SUCCESS:
+            return {}
+        case GET_ALL_PROFILES_ERROR:
+            return {}
         case CLEAR_PROFILE_START:
             return {
                 ...state,

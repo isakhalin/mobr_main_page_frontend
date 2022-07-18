@@ -11,6 +11,7 @@ import thunk from "redux-thunk"
 /** include Api */
 import {
     getProfileFromFirebaseApi,
+    getAllProfilesFromFirebaseApi,
     setApplicationToFirebaseApi,
     getApplicationsFromFireBaseApi,
     sendTicketToFirebaseApi,
@@ -30,6 +31,7 @@ const rootReducers = combineReducers({
 
 const api = {
     getProfileFromFirebaseApi,
+    getAllProfilesFromFirebaseApi,
     setApplicationToFirebaseApi,
     getApplicationsFromFireBaseApi,
     sendTicketToFirebaseApi,

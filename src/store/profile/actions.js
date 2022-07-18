@@ -2,6 +2,9 @@ import {
     GET_PROFILE_START,
     GET_PROFILE_SUCCESS,
     GET_PROFILE_ERROR,
+    GET_ALL_PROFILES_START,
+    GET_ALL_PROFILES_SUCCESS,
+    GET_ALL_PROFILES_ERROR,
     CLEAR_PROFILE_START,
     CLEAR_PROFILE_SUCCESS,
     CLEAR_PROFILE_ERROR
@@ -17,6 +20,19 @@ export const getProfileSuccess = (profile) => ({
 })
 export const getProfileError = (error) => ({
     type: GET_PROFILE_ERROR,
+    payload: error
+})
+
+// Методы для получения всех профилей в глобальный стейт
+export const getAllProfilesStart = () => ({
+    type: GET_ALL_PROFILES_START,
+})
+export const getAllProfilesSuccess = (profiles) => ({
+    type: GET_ALL_PROFILES_SUCCESS,
+    payload: profiles
+})
+export const getAllProfilesError = (error) => ({
+    type: GET_ALL_PROFILES_ERROR,
     payload: error
 })
 
