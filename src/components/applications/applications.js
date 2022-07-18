@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import { SamplesButton } from "../excel/SamplesButton";
 
 /** include Thunks */
 import {getApplications} from '../../store/applications'
+
+/** Include Custom Comps */
+// import { SamplesButton } from "../excel/SamplesButton";
 
 export const Applications = () => {
     const dispatch = useDispatch();
@@ -31,7 +33,7 @@ export const Applications = () => {
                             <div><span>Должность: </span><span>{el.position}</span></div>
                             <div><span>т.: </span><span>{el.phone}</span></div>
                             <div><span>Кабинет: </span><span>{el.room}</span></div>
-                            <SamplesButton profileData={el} />
+                            {/*<SamplesButton profileData={el} />*/}
                         </div>
                     ))
             }
