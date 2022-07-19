@@ -17,7 +17,11 @@ const clearedForm = {
     middleName: "",
     dept: "",
     avatar: "",
-    isAdmin: false
+    isAdmin: false,
+    isMinobr: "",
+    org: "",
+    phoneNumber: "",
+    phoneNumberMobile: ""
 }
 
 const profileState = {
@@ -27,7 +31,11 @@ const profileState = {
         middleName: "",
         dept: "",
         avatar: "",
-        isAdmin: false
+        isAdmin: false,
+        isMinobr: "",
+        org: "",
+        phoneNumber: "",
+        phoneNumberMobile: ""
     },
     profiles: [],
     status: {
