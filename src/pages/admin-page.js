@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 
 /** include Custom Comps */
 import {Applications} from '../components/applications'; // Компонент с формами заявок (апликации)
+import {Users} from "../components/users";  // Компонент для процессов с пользователями
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -60,7 +61,7 @@ export const AdminPage = () => {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                Users
+                <Users />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 Tickets

@@ -29,9 +29,12 @@ const profileState = {
         avatar: "",
         isAdmin: false
     },
+    profiles: [],
     status: {
         pendingGet: false,
         errorGet: null,
+        pendingAllGet: false,
+        errorAllGet: null,
         pendingClear: false,
         errorClear: null
     }
@@ -57,11 +60,21 @@ export const ProfileReducer = (state = profileState, action) => {
             };
         //TODO Допилить редюсер
         case GET_ALL_PROFILES_START:
-            return {}
+            return {
+                ...state,
+                status: {...state.status, pendingAllGet: true, errorAllGet: null}
+            }
         case GET_ALL_PROFILES_SUCCESS:
-            return {}
+            return {
+                ...state,
+                profiles: [...action.payload],
+                status: {...state.status, pendingAllGet: false}
+            }
         case GET_ALL_PROFILES_ERROR:
-            return {}
+            return {
+                ...state,
+                status: {...state.status, pendingAllGet: false, errorAllGet: action.payload}
+            }
         case CLEAR_PROFILE_START:
             return {
                 ...state,

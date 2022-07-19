@@ -39,23 +39,17 @@ export const getAllProfiles = () => async (dispatch, _, api) => {
     try {
         dispatch(getAllProfilesStart());
 
-        const getProfileFromDB = await api.getAllProfilesFromFirebaseApi();
-        console.log("getProfileFromDB.val()", getProfileFromDB.val())
+        const snap = await api.getAllProfilesFromFirebaseApi(); // Приходит объект вида { {}{}{} }
+        // console.log("getProfileFromDB.val()", profilesData);
+        const profiles = [];
 
-        // const {firstName, middleName, lastName, dept, isAdmin, avatar} = getProfileFromDB.val();
-        //
-        // const profile = {
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     middleName: middleName,
-        //     avatar: avatar,
-        //     dept: dept,
-        //     isAdmin: isAdmin
-        // }
-        //
-        // dispatch(getAllProfilesSuccess(profile))
+        snap.forEach((el) => {
+            profiles.push({uid: el.key, ...el.val()});  // получаем массив вида [ {}{}{} ], в каждый объект дописываем свойство равное ключу, который представляет собой uid.
+        })                                                  // Таким образом записываем в объект uid
 
+        dispatch(getAllProfilesSuccess(profiles));
     } catch (e) {
+        console.log("Что-то пошло не так")
         dispatch(getAllProfilesError(e));
     }
 }
