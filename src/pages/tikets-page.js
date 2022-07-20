@@ -50,12 +50,12 @@ export const TicketsPage = ({session, isAdmin}) => {
     return (
         <div>
             <h3>Здесть можно оставить заявку на решение проблемы</h3>
-            <div style={{display: "flex"}}>
+            <div style={{display: "flex", flexWrap: "wrap"}}>
                 <div>
                     <Box
                         component="form"
                         sx={{
-                            '& .MuiTextField-root': {m: 1, width: '45ch'},
+                            '& .MuiTextField-root': {m: 1, width: '25ch'},
                         }}
                         noValidate
                         autoComplete="off"
@@ -64,6 +64,7 @@ export const TicketsPage = ({session, isAdmin}) => {
                             id="standard-multiline-static"
                             label="Опишите проблему"
                             multiline
+                            style={{minWidth: "300px", maxWidth: "100%"}}
                             rows={4}
                             defaultValue=""
                             value={form}
@@ -86,7 +87,7 @@ export const TicketsPage = ({session, isAdmin}) => {
                                 </Select>
                             </FormControl>
                             <Button
-                                style={{marginTop: "12px"}}
+                                style={{marginTop: "12px", padding: "4px 10px", lineHeight: "2"}}
                                 variant="outlined"
                                 onClick={sandClickHandler}
                                 disabled={isForm}

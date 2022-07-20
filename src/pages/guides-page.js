@@ -37,8 +37,8 @@ export const GuidesPage = () => {
     return (
         <div>
             <h3>Инструкции и руководства для пользователей</h3>
-            <p>Для получения учётной записи ПК, доступа в СЭД, почтового ящика, заполните формы во кладке "Регистрация" и
-                ожидайте ответа.</p>
+            <p>Для получения учётной записи ПК, доступа в СЭД, почтового ящика, заполните формы во кладке "Регистрация"
+                и ожидайте ответа.</p>
             <p>
                 По всем техническим вопросам Вы можете обращаться к администраторам системы:
                 <div>Степанов Роман Викторович. т.46-59-59 (внутренний 59-59).</div>
@@ -46,10 +46,21 @@ export const GuidesPage = () => {
                 <div>Или лично в кабинет 31.</div>
                 <br/>
                 <ButtonGroup
-                orientation='vertical'
-                variant="outlined"
+                    orientation='vertical'
+                    variant="outlined"
                 >
-                {guidesLinks.map((element) => (<Button key = {element.to} href={element.to} target={"_blank"}>{element.title}</Button>))}
+                    {
+                        guidesLinks.map((element) => (
+                                <Button
+                                    key={element.to}
+                                    href={element.to}
+                                    target={"_blank"}
+                                >
+                                    {element.title}
+                                </Button>
+                            )
+                        )
+                    }
                 </ButtonGroup>
             </p>
         </div>
