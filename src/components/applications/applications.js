@@ -24,7 +24,7 @@ export const Applications = () => {
                     <div>Loading...</div>
                     :
                     applications.map((el) => (
-                        <div key={el.date} style={{border: "solid 1px black", borderRadius: "5px", marginBottom: "5px", padding: "5px", textAlign: "left"}}>
+                        <div key={el.date} style={{border: "solid 1px #00000040", backgroundColor: "#05050008", borderRadius: "5px", marginBottom: "5px", padding: "5px", textAlign: "left"}}>
                             <div><span>Дата заявки: </span><span>{el.date}</span></div>
                             <div><span>ФИО: </span><span>{el.lastName} {el.firstName} {el.middleName}</span></div>
                             <div><span>Место предыдущей работы: </span><span>{el.prevOrg}</span></div>

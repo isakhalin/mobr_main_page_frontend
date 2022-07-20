@@ -17,18 +17,18 @@ export const getProfile = (uid) => async (dispatch, _, api) => {
         const getProfileFromDB = await api.getProfileFromFirebaseApi(uid);
         console.log("getProfileFromDB.val()", getProfileFromDB.val())
 
-        const {firstName, middleName, lastName, dept, isAdmin, avatar} = getProfileFromDB.val();
+        // const {firstName, middleName, lastName, dept, isAdmin, avatar} = getProfileFromDB.val();
+        //
+        // const profile = {
+        //     firstName: firstName,
+        //     lastName: lastName,
+        //     middleName: middleName,
+        //     avatar: avatar,
+        //     dept: dept,
+        //     isAdmin: isAdmin
+        // }
 
-        const profile = {
-            firstName: firstName,
-            lastName: lastName,
-            middleName: middleName,
-            avatar: avatar,
-            dept: dept,
-            isAdmin: isAdmin
-        }
-
-        dispatch(getProfileSuccess(profile))
+        dispatch(getProfileSuccess(getProfileFromDB.val()));
 
     } catch (e) {
         dispatch(getProfileError(e));

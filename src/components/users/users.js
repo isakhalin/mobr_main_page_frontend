@@ -22,7 +22,8 @@ export const Users = () => {
                     :
                     profiles.map((el, idx) => (
                         <div key={el.uid} style={{
-                            border: "solid 1px grey",
+                            border: "solid 1px #00000040",
+                            backgroundColor: "#05050008",
                             borderRadius: "5px",
                             padding: "5px",
                             marginBottom: "5px",
