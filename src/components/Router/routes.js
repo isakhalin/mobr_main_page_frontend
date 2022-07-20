@@ -1,3 +1,5 @@
+// Для роутера component/Router/router.js. (component/Router/router.js, component/Router/routes.js, component/utils/consts.js)
+
 /** Include Utils */
 import {
     MAIN_ROUTE,             // Both route
@@ -66,14 +68,4 @@ export const adminRoutes = [
         component: AdminPage,
     },
 ]
-// <Route path="/" element={<MainPage/>}/>
-// <Route path="/applications" element={<PublicRoute isAuth={isAuth}><ApplicationsPage/></PublicRoute>}/>
-// <Route path="/guides" element={<GuidesPage/>}/>
-// <Route path="/contacts" element={<PrivateRoute isAuth={isAuth}><ContactsPage/></PrivateRoute>}/>
-// <Route path="/links" element={<PrivateRoute isAuth={isAuth}><LinksPage/></PrivateRoute>}/>
-// <Route path="/login" element={<PublicRoute isAuth={isAuth}><LoginPage/></PublicRoute>}/>
-// <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage/></PrivateRoute>}/>
-// <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TiketsPage session={session} isAdmin={isAdmin}/></PrivateRoute>}/>
-// <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage/></AdminRoute>}/>
-// <Route path="/signup" element={<SignUpPage/>}/>
-// <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
+

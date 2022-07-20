@@ -1,3 +1,5 @@
+// Для роутера component/Router/router.js. (component/Router/router.js, component/Router/routes.js, component/utils/consts.js)
+
 export const MAIN_ROUTE = '/';
 export const APPLICATIONS_ROUTE = '/applications';
 export const GUIDES_ROUTE = '/guides';

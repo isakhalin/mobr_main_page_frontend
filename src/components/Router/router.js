@@ -1,5 +1,9 @@
+// Вариант роутера. (component/Router/router.js, component/Router/routes.js, component/utils/consts.js)
+// Непонятно как передавать в роутере пропсы в копонент
+
 import React from "react";
 import {Route, Switch, Redirect} from 'react-router-dom';
+
 
 import {privateRoutes, publicRoutes, adminRoutes} from './routes'
 
@@ -18,7 +22,7 @@ export const AppRouter = ({session, isAdmin = false}) => {
                                 <Route path={path} element={component} exact={true}/>
                             ))
                         }
-                        <Redirect to={MAIN_ROUTE} /> {/* Редиректит в MAIN_ROUTE при попытке перейти на несуществующий роут*/}
+                        <Redirect to={MAIN_ROUTE} /> {/* Редиректит в MAIN_ROUTE при попытке перейти на несуществующий роут */}
                     </Switch>
                 )
                 :
@@ -29,7 +33,7 @@ export const AppRouter = ({session, isAdmin = false}) => {
                                 <Route path={path} element={component} exact={true}/>
                             ))
                         }
-                        <Redirect to={MAIN_ROUTE} /> {/* Редиректит в MAIN_ROUTE при попытке перейти на несуществующий роут*/}
+                        <Redirect to={MAIN_ROUTE} /> {/* Редиректит в MAIN_ROUTE при попытке перейти на несуществующий роут */}
                     </Switch>
                 )
         )
@@ -41,6 +45,7 @@ export const AppRouter = ({session, isAdmin = false}) => {
                         <Route path={path} element={component} exact={true}/>
                     ))
                 }
+                <Redirect to={MAIN_ROUTE} /> {/* Редиректит в MAIN_ROUTE при попытке перейти на несуществующий роут*/}
             </Switch>
         )
 }
