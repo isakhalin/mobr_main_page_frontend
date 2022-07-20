@@ -15,7 +15,7 @@ import {
 /** include Thunks */
 import {getTickets, sendTicket} from '../store/tickets'
 
-export const TiketsPage = ({session, isAdmin}) => {
+export const TicketsPage = ({session, isAdmin}) => {
     const dispatch = useDispatch();
     const {tickets, status} = useSelector((state) => state.tickets);
     const {firstName, lastName} = useSelector((state) => state.profile.form);

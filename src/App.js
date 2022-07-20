@@ -26,7 +26,7 @@ import {
     MainPage,
     LoginPage,
     SignUpPage,
-    TiketsPage,
+    TicketsPage,
     ProfilePage,
     AdminPage,
 } from "./pages";
@@ -46,7 +46,7 @@ export const App = () => {
             if (!!user) {
                 setSession(user);
                 dispatch(getProfile(user.uid));
-                //TODO Вызываем хук получения профиля и записи в глобал стейт
+                // Вызываем хук получения профиля и записи в глобал стейт
             } else {
                 setSession(null);
                 dispatch(clearProfile());
@@ -67,7 +67,7 @@ export const App = () => {
                     <Route path="/links" element={<PrivateRoute isAuth={isAuth}><LinksPage/></PrivateRoute>}/>
                     <Route path="/login" element={<PublicRoute isAuth={isAuth}><LoginPage/></PublicRoute>}/>
                     <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage/></PrivateRoute>}/>
-                    <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TiketsPage session={session} isAdmin={isAdmin}/></PrivateRoute>}/>
+                    <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TicketsPage session={session} isAdmin={isAdmin}/></PrivateRoute>}/>
                     <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage/></AdminRoute>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
