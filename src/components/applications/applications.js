@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 /** include Thunks */
@@ -21,7 +21,7 @@ export const Applications = () => {
     const dispatch = useDispatch();
     const {applications, status} = useSelector((state) => state.applications); // Получаем апликейшоны из глобального стейта
 
-    const addUserVisibility = false;
+    const [addUserVisibility, setAddUserVisibility] = useState(false);
 
     // Логика работы меню три точки в карточке апликейшона
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,8 +29,17 @@ export const Applications = () => {
     const iconHandleClick = (event) => {
         setAnchorEl(event.currentTarget);
     }
-    const iconHandleClose = (e) => {
-        console.log("!!!!!!!!!!!!", e)
+    const iconHandleClose = (e, target) => {
+        if (e.target.selected === "Add user") {
+            setAddUserVisibility(true);
+
+            // let art = document.getElementById('')
+
+            // console.log("E", e.currentTarget)
+            console.log("E", e);
+            console.log("data", e.target.attributes.data.value)
+            console.log("applications", applications)
+        }
         setAnchorEl(null);
     };
     const addUser = () => {
@@ -52,17 +61,21 @@ export const Applications = () => {
                 status.pendingGet ?
                     <div>Loading...</div>
                     :
-                    applications.map((el) => (
-                        <div key={el.date} style={{
-                            border: "solid 1px #00000040",
-                            backgroundColor: "#05050008",
-                            borderRadius: "5px",
-                            marginBottom: "5px",
-                            padding: "5px",
-                            textAlign: "left",
-                            display: "flex"
-                        }}>
-                            <div>
+                    applications.map((el, idx) => (
+                        <div key={el.date}
+                             style={{
+                                 border: "solid 1px #00000040",
+                                 backgroundColor: "#05050008",
+                                 borderRadius: "5px",
+                                 marginBottom: "5px",
+                                 padding: "5px",
+                                 textAlign: "left",
+                                 display: "flex"
+                             }}
+                        >
+                            <div
+                                onClick={() => {console.log(idx)}}
+                            >
                                 <IconButton
                                     aria-label="more"
                                     id="long-button"
@@ -92,8 +105,8 @@ export const Applications = () => {
                                 >
                                     {
                                         iconsOptions.map((option) => (
-                                                <MenuItem key={option} selected={option === 'Delete'}
-                                                          onClick={iconHandleClose}>
+                                                <MenuItem key={option} selected={option === "fgdfgd"}
+                                                          onClick={(e) => iconHandleClose(e)}>
                                                     {option}
                                                 </MenuItem>
                                             )
