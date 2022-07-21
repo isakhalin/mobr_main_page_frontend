@@ -66,7 +66,6 @@ export const ProfileReducer = (state = profileState, action) => {
                 ...state,
                 status: {...state.status, pendingGet: false, errorGet: action.payload}
             };
-        //TODO Допилить редюсер
         case GET_ALL_PROFILES_START:
             return {
                 ...state,
