@@ -34,7 +34,7 @@ export const Users = () => {
                                 {idx + 1}
                             </div>
                             <div>
-                                <div    ><span></span><span>{el.lastName}</span></div>
+                                <div><span></span><span>{el.lastName}</span></div>
                                 <div><span></span><span>{el.middleName}</span></div>
                                 <div><span></span><span>{el.firstName}</span></div>
                                 <div><span></span><span>{el.org}</span></div>
