@@ -21,7 +21,7 @@ export const AddUser = ({userApplication}) => {
 
     return (
         <div>
-            Это юзер аппликэйшон
+            Это форма создания учётки
             {/*<Typography>*/}
             {/*    <Box*/}
             {/*        component="form"*/}
