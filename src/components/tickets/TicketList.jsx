@@ -7,21 +7,19 @@ export const TicketList = ({session, isAdmin = false}) => {
 
     const dispatch = useDispatch();
     const {tickets, status} = useSelector((state) => state.tickets);
-
     useEffect(() => {
         dispatch(getTickets(session.uid, isAdmin));
     }, []);
-
     return (
         <div>
             {
-                !status.pendingGet ?
+                status.pendingGet ?
+                    <span>Загружаю...</span>
+                    :
                     tickets.map(el => (
                         <Ticket el={el} isAdmin={isAdmin}/>
                     ))
-                    : <span>Loading...</span>
             }
         </div>
     );
 };
-
