@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 /** MUI Material Comps */
 import {Box, Button, TextField, Typography} from "@mui/material"
 
-export const ProfilePage = () => {
+/** Include Thunks */
+import { sendProfile } from '../store/profile';
+
+export const ProfilePage = ({session}) => {
+    const dispatch = useDispatch();
+
     const {
-        date,                   // Дата апликейшена. Возможно сохранять в профиль не нужно
+        date,
         firstName,
         lastName,
         middleName,
         dept,
         isMinobr,
+        isAdmin,
         org,
         prevOrg,
         phoneNumber,
@@ -23,235 +29,211 @@ export const ProfilePage = () => {
     } = useSelector((state) => state.profile.form)
 
     const [profile, setProfile] = useState({
-        date: date ?? '', //*
+        date: date, //*
         firstName: firstName, //*
         lastName: lastName, //*
         middleName: middleName, //*
         dept: dept, //*
         isMinobr: isMinobr,
+        isAdmin: isAdmin,
         org: org, //*
         prevOrg: prevOrg,
-        phoneNumber: phoneNumber ?? '', //*
-        phoneNumberMobile: phoneNumberMobile ?? '', //*
+        phoneNumber: phoneNumber, //*
+        phoneNumberMobile: phoneNumberMobile, //*
         position: position, //*
         room: room, //*
-        email: '@sakhalin.gov.ru', //*
-        avatar: "",
+        email: email, //*
+        avatar: avatar,
     });
+
+    const postProfile = () => {
+        console.log(session.uid)
+        dispatch(sendProfile(session.uid, profile));
+    };
 
     return (
         <Typography>
-            Мои личные данные:
+            <h4>Профиль сотрудника:</h4>
             <Box
                 component="form"
                 sx={{
                     '& > :not(style)': {m: 0.3, width: '25ch', fontSize: 12},
+                    display: "flex",
+                    flexDirection: "column"
                 }}
                 noValidate
                 autoComplete="off"
+
             >
-                {/*        <div>*/}
-                {/*            <TextField*/}
-                {/*                id="standard-basic"*/}
-                {/*                required={true}*/}
-                {/*                sx={{width: '400px'}}*/}
-                {/*                label="Фамилия"*/}
-                {/*                variant="standard"*/}
-                {/*                value={}*/}
-                {/*                onChange={(e) => setForm({...form, lastName: e.target.value})}*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                <div>
-                    <TextField
-                        id="standard-basic-mail"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Дата регистрации"
-                        type="email"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile({...newUser, email: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-mail"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Фамилия"
-                        type="email"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile({...newUser, email: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-pass"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Имя"
-                        type="password"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-mail"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Отчество"
-                        type="email"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile({...newUser, email: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-pass"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Организация"
-                        type="password"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-mail"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Отдел"
-                        type="email"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile({...newUser, email: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-pass"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Телефон"
-                        type="password"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-mail"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Мобильный телефон"
-                        type="email"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile({...newUser, email: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-pass"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Должность"
-                        type="password"
-                        variant="standard"
-                        value={profile.}
-                        onChange={(e) => setProfile(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-mail"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Кабинет"
-                        type="text"
-                        variant="standard"
-                        value={profile.room}
-                        onChange={(e) => setProfile({...profile, room: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <TextField
-                        id="standard-basic-pass"
-                        required={true}
-                        sx={{width: '250px'}}
-                        label="Электронная почта"
-                        type="text"
-                        variant="standard"
-                        value={profile.email}
-                        onChange={(e) => setProfile({...profile, email: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <Button
-                        variant="outlined"
-                        onClick={createNewUser}
-                        size="small"
-                        sx={{
-                            fontSize: 12,
-                        }}
-                    >
-                        Сформировать
-                    </Button>
-                </div>
+                <TextField
+                    id="standard-basic-date"
+                    required={false}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Дата регистрации"
+                    type="text"
+                    variant="standard"
+                    value={profile.date}
+                    disabled
+                    // onChange={(e) => setProfile({...profile, date: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-lastName"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Фамилия"
+                    type="text"
+                    variant="standard"
+                    value={profile.lastName}
+                    onChange={(e) => setProfile({...profile, lastName: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-firstName"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Имя"
+                    type="text"
+                    variant="standard"
+                    value={profile.firstName}
+                    onChange={(e) => setProfile({...profile, firstName: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-middleName"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Отчество"
+                    type="text"
+                    variant="standard"
+                    value={profile.middleName}
+                    onChange={(e) => setProfile({...profile, middleName: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-org"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Организация"
+                    type="text"
+                    variant="standard"
+                    value={profile.org}
+                    onChange={(e) => setProfile({...profile, org: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-dept"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Отдел"
+                    type="text"
+                    variant="standard"
+                    value={profile.dept}
+                    onChange={(e) => setProfile({...profile, dept: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-phoneNumber"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Телефон"
+                    type="text"
+                    variant="standard"
+                    value={profile.phoneNumber}
+                    onChange={(e) => setProfile({...profile, phoneNumber: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-phoneNumberMobile"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Мобильный телефон"
+                    type="text"
+                    variant="standard"
+                    value={profile.phoneNumberMobile}
+                    onChange={(e) => setProfile({...profile, phoneNumberMobile: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-position"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Должность"
+                    type="text"
+                    variant="standard"
+                    value={profile.position}
+                    onChange={(e) => setProfile({...profile, position: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-room"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Кабинет"
+                    type="text"
+                    variant="standard"
+                    value={profile.room}
+                    onChange={(e) => setProfile({...profile, room: e.target.value})}
+                />
+                <TextField
+                    id="standard-basic-email"
+                    required={true}
+                    sx={{maxWidth: '500px', minWidth: '300px'}}
+                    label="Электронная почта"
+                    type="text"
+                    variant="standard"
+                    value={profile.email}
+                    onChange={(e) => setProfile({...profile, email: e.target.value})}
+                />
+                <Button
+                    variant="outlined"
+                    onClick={postProfile}
+                    size="small"
+                    sx={{
+                        fontSize: 12,
+                    }}
+                >
+                    Сохранить
+                </Button>
             </Box>
             {/*<Box sx={{'& > :not(style)': {m: 0.2, fontSize: 12}}}>*/}
             {/*    /!*<FormControlLabel sx={{'& .MuiFormControlLabel-label': {fontSize: 12}}} control={<Checkbox />} label="Сотрудник министерства" />*!/*/}
             {/*    <Button variant="outlined" onClick={createNewUser}>Сформировать</Button>*/}
             {/*</Box>*/}
         </Typography>
+    );
+}
 
-
-    {/*/!*TODO Перенести стили*!/*/
-    }
-    {/*<div style={{*/
-    }
-    {/*    border: "solid 1px black",*/
-    }
-    {/*    borderRadius: "5px",*/
-    }
-    {/*    padding: "5px",*/
-    }
-    {/*    margin: "5px",*/
-    }
-    {/*    textAlign: "left"*/
-    }
-    {/*}}>*/
-    }
-    {/*    <div><span>Фамилия: </span><span>{lastName}</span></div>*/
-    }
-    {/*    <div><span>Имя: </span><span>{firstName}</span></div>*/
-    }
-    {/*    <div><span>Отчество: </span><span>{middleName}</span></div>*/
-    }
-    {/*    <div><span>Организация: </span><span>{org}</span></div>*/
-    }
-    {/*    <div><span>Отдел: </span><span>{dept}</span></div>*/
-    }
-    {/*    <div><span>Рабочий телефон: </span><span>{phoneNumber ? phoneNumber : "Не указано"}</span></div>*/
-    }
-    {/*    <div><span>Мобильный телефон: </span><span>{phoneNumberMobile ? phoneNumberMobile : "Не указано"}</span>*/
-    }
-    {/*    </div>*/
-    }
-    {/*</div>*/
-    }
-    {/*<Button variant="outlined">Редактировать</Button>*/
-    }
-)
-    ;
-};
+// {/*/!*TODO Перенести стили*!/*/
+// }
+// {/*<div style={{*/
+// }
+// {/*    border: "solid 1px black",*/
+// }
+// {/*    borderRadius: "5px",*/
+// }
+// {/*    padding: "5px",*/
+// }
+// {/*    margin: "5px",*/
+// }
+// {/*    textAlign: "left"*/
+// }
+// {/*}}>*/
+// }
+// {/*    <div><span>Фамилия: </span><span>{lastName}</span></div>*/
+// }
+// {/*    <div><span>Имя: </span><span>{firstName}</span></div>*/
+// }
+// {/*    <div><span>Отчество: </span><span>{middleName}</span></div>*/
+// }
+// {/*    <div><span>Организация: </span><span>{org}</span></div>*/
+// }
+// {/*    <div><span>Отдел: </span><span>{dept}</span></div>*/
+// }
+// {/*    <div><span>Рабочий телефон: </span><span>{phoneNumber ? phoneNumber : "Не указано"}</span></div>*/
+// }
+// {/*    <div><span>Мобильный телефон: </span><span>{phoneNumberMobile ? phoneNumberMobile : "Не указано"}</span>*/
+// }
+// {/*    </div>*/
+// }
+// {/*</div>*/
+// }
+// {/*<Button variant="outlined">Редактировать</Button>*/
+// }
+// )
+//     ;
+// };
 
 // firstName: "",
 // lastName: "",

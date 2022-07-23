@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from "../../api";
 
 /** Include Api */
-import { setProfileToFirebaseApi } from "../../api";
+import { setProfileToFirebaseApi, updateApplicationToFirebaseApi } from "../../api";
 
 /** MUI Material Comps */
 import {
@@ -17,10 +17,6 @@ import {
     Typography,
     FormControlLabel,
 } from "@mui/material";
-
-// const sendNewProfile = (email, pass) => {
-//     return createUserWithEmailAndPassword(auth, email, pass).then(user => user.user.uid);
-// };
 
 export const AddUser = ({application}) => {
     const dispatch = useDispatch();
@@ -46,26 +42,24 @@ export const AddUser = ({application}) => {
     });
     const [pass, setPass] = useState('');
 
-    const setMail = () => {
-        let email = 'some@sakhalin.gov.ru';
-        const name = newUser.firstName[0];
-        console.log("Первая бква имени", name)
-        return email
-    };
+    // const setMail = () => {
+    //     let email = 'some@sakhalin.gov.ru';
+    //     const name = newUser.firstName[0];
+    //     console.log("Первая бква имени", name)
+    //     return email
+    // };
 
 
     const createNewUser = async () => {
         const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
-        console.log("newUSER-Uid", newUserUid);
-        // const newUserUid = await sendNewProfile(loginPass.login, loginPass.pass);
-        //TODO Тут нужно вызывать api setProfileToFirebaseApi и записывать профиль в FB
-        await setProfileToFirebaseApi(newUserUid, newUser);
+        await setProfileToFirebaseApi(newUserUid, newUser);     // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
+        await updateApplicationToFirebaseApi({date: application.date, isComplete: true})       // Вызываем санк для изменения флага isComplete в апликейшене глобального стейта и FB
         await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
     };
 
-    useEffect(() => {
-        // setMail()
-    }, [])
+    // useEffect(() => {
+    //     setMail()
+    // }, [])
 
     return (
         <div>

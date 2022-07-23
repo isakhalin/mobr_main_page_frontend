@@ -48,6 +48,7 @@ export const App = () => {
                 dispatch(getProfile(user.uid));
                 // Вызываем хук получения профиля и записи в глобал стейт
                 console.log("ВЫ авторизованы под UID: ", user.uid)
+                console.log("Ваша сессия: ", user)
             } else {
                 setSession(null);
                 dispatch(clearProfile());
@@ -67,7 +68,7 @@ export const App = () => {
                     <Route path="/contacts" element={<PrivateRoute isAuth={isAuth}><ContactsPage/></PrivateRoute>}/>
                     <Route path="/links" element={<PrivateRoute isAuth={isAuth}><LinksPage/></PrivateRoute>}/>
                     <Route path="/login" element={<PublicRoute isAuth={isAuth}><LoginPage/></PublicRoute>}/>
-                    <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage/></PrivateRoute>}/>
+                    <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage session={session} /></PrivateRoute>}/>
                     <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TicketsPage session={session} isAdmin={isAdmin}/></PrivateRoute>}/>
                     <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage session={session} isAdmin={isAdmin}/></AdminRoute>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>

@@ -2,6 +2,10 @@ export const GET_PROFILE_START = '@profile/get profile start';
 export const GET_PROFILE_SUCCESS = '@profile/get profile success';
 export const GET_PROFILE_ERROR = '@profile/get profile error';
 
+export const SEND_PROFILE_START = '@profile/send profile start';
+export const SEND_PROFILE_SUCCESS = '@profile/send profile success';
+export const SEND_PROFILE_ERROR = '@profile/send profile error';
+
 export const GET_ALL_PROFILES_START = '@profile/get all profiles start';
 export const GET_ALL_PROFILES_SUCCESS = '@profile/get all profiles success';
 export const GET_ALL_PROFILES_ERROR = '@profile/get all profiles error';

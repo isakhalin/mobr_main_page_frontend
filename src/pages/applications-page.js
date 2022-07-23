@@ -64,17 +64,18 @@ export const ApplicationsPage = () => {
     };
     // Форма для отправки
     const [form, setForm] = useState({
-        date: '',       // Дата
-        lastName: '',   // Фамилия
-        firstName: '',  // Имя
-        middleName: '', // Отчество
-        prevOrg: '',    // Предыдущее место работы
-        org: '',        // Организация
-        dept: '',       // Отдел
-        position: '',   // Должность
-        room: '',       // Кабинет
-        phone: '',      // Рабочий номер телефона
-        isMinobr: null  // Принадлежность к Минобр
+        date: null,         // Дата
+        isComplete: false,  // Флаг выполнения заявки
+        lastName: '',       // Фамилия
+        firstName: '',      // Имя
+        middleName: '',     // Отчество
+        prevOrg: '',        // Предыдущее место работы
+        org: '',            // Организация
+        dept: '',           // Отдел
+        position: '',       // Должность
+        room: '',           // Кабинет
+        phone: '',          // Рабочий номер телефона
+        isMinobr: null      // Принадлежность к Минобр
     })
 
     // const [form3, setForm3] = useState({});
@@ -94,7 +95,7 @@ export const ApplicationsPage = () => {
     const sendApplicationForm = async () => {
         await setApplicationToFirebaseApi({...form, date: new Date().getTime()});
         setForm({
-            date: '',
+            date: null,
             lastName: '',
             firstName: '',
             middleName: '',
@@ -152,7 +153,7 @@ export const ApplicationsPage = () => {
                             >
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-lastName"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Фамилия"
@@ -163,7 +164,7 @@ export const ApplicationsPage = () => {
                                 </div>
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-firstName"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Имя"
@@ -174,7 +175,7 @@ export const ApplicationsPage = () => {
                                 </div>
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-middleName"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Отчество"
@@ -204,7 +205,7 @@ export const ApplicationsPage = () => {
                             >
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-prevOrg"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Предыдущее место работы"
@@ -215,7 +216,7 @@ export const ApplicationsPage = () => {
                                 </div>
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-org"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Место текущего официального трудоустройства"
@@ -227,7 +228,7 @@ export const ApplicationsPage = () => {
 
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-dept"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Отдел (текущее трудоустройство)"
@@ -238,7 +239,7 @@ export const ApplicationsPage = () => {
                                 </div>
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-position"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Должность (текущее трудоустройство)"
@@ -249,7 +250,7 @@ export const ApplicationsPage = () => {
                                 </div>
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-room"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Кабинет (текущее трудоустройство)"
@@ -260,7 +261,7 @@ export const ApplicationsPage = () => {
                                 </div>
                                 <div>
                                     <TextField
-                                        id="standard-basic"
+                                        id="standard-basic-phone"
                                         required={true}
                                         sx={{width: '400px'}}
                                         label="Рабочий телефон (текущее трудоустройство)"

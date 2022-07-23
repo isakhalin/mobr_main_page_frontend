@@ -29,6 +29,14 @@ export const getApplications = () => async (dispatch, _, api) => {
     }
 }
 
+export const updateApplication = (partOfApplication) => (dispatch, _, api) => {
+    try {
+
+    } catch (e) {
+
+    }
+}
+
 
 
 

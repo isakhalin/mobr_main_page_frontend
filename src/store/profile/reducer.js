@@ -2,12 +2,15 @@ import {
     GET_PROFILE_START,
     GET_PROFILE_SUCCESS,
     GET_PROFILE_ERROR,
+    SEND_PROFILE_START,
+    SEND_PROFILE_SUCCESS,
+    SEND_PROFILE_ERROR,
     GET_ALL_PROFILES_START,
     GET_ALL_PROFILES_SUCCESS,
     GET_ALL_PROFILES_ERROR,
     CLEAR_PROFILE_START,
     CLEAR_PROFILE_SUCCESS,
-    CLEAR_PROFILE_ERROR
+    CLEAR_PROFILE_ERROR,
 } from './types';
 
 // По умолчанию пустая форма, используем если надо обнулить текущий стейт.
@@ -32,6 +35,7 @@ const profileState = {
         middleName: '',
         dept: '',
         isMinobr: false,
+        isAdmin: false,
         org: '',
         prevOrg: '',
         phoneNumber: '',
@@ -45,6 +49,8 @@ const profileState = {
     status: {
         pendingGet: false,
         errorGet: null,
+        pendingSet: false,
+        errorSet: null,
         pendingAllGet: false,
         errorAllGet: null,
         pendingClear: false,
@@ -70,6 +76,22 @@ export const ProfileReducer = (state = profileState, action) => {
                 ...state,
                 status: {...state.status, pendingGet: false, errorGet: action.payload}
             };
+        case SEND_PROFILE_START:
+            return {
+                ...state,
+                status: {...state.status, pendingSet: true, errorSet: null}
+            };
+        case SEND_PROFILE_SUCCESS:
+            return {
+                ...state,
+                form: {...state.form, ...action.payload},
+                status: {...state.status, pendingSet: false}
+            };
+        case SEND_PROFILE_ERROR:
+            return {
+                ...state,
+                status: {...state.status, pendingSet: false, errorSet: action.payload}
+            }
         case GET_ALL_PROFILES_START:
             return {
                 ...state,

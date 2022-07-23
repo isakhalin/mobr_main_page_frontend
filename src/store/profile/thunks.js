@@ -2,6 +2,9 @@ import {
     getProfileStart,
     getProfileSuccess,
     getProfileError,
+    sendProfileStart,
+    sendProfileSuccess,
+    sendProfileError,
     clearProfileStart,
     clearProfileSuccess,
     clearProfileError,
@@ -51,6 +54,17 @@ export const getAllProfiles = () => async (dispatch, _, api) => {
     } catch (e) {
         console.log("Что-то пошло не так")
         dispatch(getAllProfilesError(e));
+    }
+}
+
+export const sendProfile = (uid, profile) => async (dispatch, _, api) => {
+    console.log("Вызвался санк")
+    try {
+        dispatch(sendProfileStart());
+        await api.setProfileToFirebaseApi(uid, profile);
+        dispatch(sendProfileSuccess(profile));
+    } catch (e) {
+        dispatch(sendProfileError(e))
     }
 }
 

@@ -1,14 +1,19 @@
 import {
     GET_APPLICATIONS_START,
     GET_APPLICATIONS_SUCCESS,
-    GET_APPLICATIONS_ERROR
+    GET_APPLICATIONS_ERROR,
+    UPDATE_APPLICATION_START,
+    UPDATE_APPLICATION_SUCCESS,
+    UPDATE_APPLICATION_ERROR
 } from './types'
 
 const ApplicationState = {
     applications: [],
     status: {
         pendingGet: false,
-        errorGet: null
+        errorGet: null,
+        pendingUpdate: false,
+        errorUpdate: null,
     }
 }
 
@@ -29,6 +34,23 @@ export const ApplicationReducer = (state = ApplicationState, action) => {
             return {
                 ...state,
                 status: {...state.status, pendingGet: false, errorGet: action.payload}
+            }
+        case UPDATE_APPLICATION_START:
+            return {
+                ...state,
+                status: {...state.status, pendingUpdate: true, errorUpdate: null}
+            }
+        case UPDATE_APPLICATION_SUCCESS:
+            // const finded = ApplicationState["applications"].indexOf()
+            return {
+                ...state,
+                applications: {...state.applications},
+                status: {...state.status, pendingUpdate: false}
+            }
+        case UPDATE_APPLICATION_ERROR:
+            return {
+                ...state,
+                status: {...state.status, pendingUpdate: false, errorUpdate: action.payload}
             }
         default:
             return state;
