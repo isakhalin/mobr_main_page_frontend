@@ -47,6 +47,7 @@ export const App = () => {
                 setSession(user);
                 dispatch(getProfile(user.uid));
                 // Вызываем хук получения профиля и записи в глобал стейт
+                console.log("ВЫ авторизованы под UID: ", user.uid)
             } else {
                 setSession(null);
                 dispatch(clearProfile());

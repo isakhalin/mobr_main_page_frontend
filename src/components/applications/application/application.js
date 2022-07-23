@@ -22,32 +22,33 @@ export const Application = ({application}) => {
     const iconHandleClick = (event) => {
         setAnchorEl(event.currentTarget);
     }
-    const iconHandleClose = (date) => {
-        console.log("DATE ON CLICK", date)
-        setAddUserVisibility(true);
+    const iconHandleClose = (option) => {
+        if(option === "Add user"){
+            addUser();
+        }
         setAnchorEl(null);
     };
     const addUser = () => {
-
+        setAddUserVisibility(!addUserVisibility);
     };
 
     return (
         <div>
             {
                 addUserVisibility
-                    ? <AddUser/>
+                    ? <AddUser application={application}/>
                     : <></>
             }
             <div
-                 style={{
-                     border: "solid 1px #00000040",
-                     backgroundColor: "#05050008",
-                     borderRadius: "5px",
-                     marginBottom: "5px",
-                     padding: "5px",
-                     textAlign: "left",
-                     display: "flex"
-                 }}
+                style={{
+                    border: "solid 1px #00000040",
+                    backgroundColor: "#05050008",
+                    borderRadius: "5px",
+                    marginBottom: "5px",
+                    padding: "5px",
+                    textAlign: "left",
+                    display: "flex"
+                }}
             >
                 <div>
                     <IconButton
@@ -80,7 +81,7 @@ export const Application = ({application}) => {
                         {
                             iconsOptions.map((option) => (
                                     <MenuItem key={option} selected={option === "fgdfgd"}
-                                              onClick={() => iconHandleClose(application.date)}>
+                                              onClick={() => iconHandleClose(option)}>
                                         {option}
                                     </MenuItem>
                                 )
@@ -91,7 +92,8 @@ export const Application = ({application}) => {
 
                 <div>
                     <div><span>Дата заявки: </span><span>{application.date}</span></div>
-                    <div><span>ФИО: </span><span>{application.lastName} {application.firstName} {application.middleName}</span>
+                    <div>
+                        <span>ФИО: </span><span>{application.lastName} {application.firstName} {application.middleName}</span>
                     </div>
                     <div><span>Место предыдущей работы: </span><span>{application.prevOrg}</span></div>
                     <div><span>Место текущего трудоустройства: </span><span>{application.org}</span></div>
