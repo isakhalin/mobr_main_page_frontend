@@ -26,16 +26,20 @@ const clearedForm = {
 
 const profileState = {
     form: {
-        firstName: "",
-        lastName: "",
-        middleName: "",
-        dept: "",
-        avatar: "",
-        isAdmin: false,
-        isMinobr: "",
-        org: "",
-        phoneNumber: "",
-        phoneNumberMobile: ""
+        date: '',
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        dept: '',
+        isMinobr: false,
+        org: '',
+        prevOrg: '',
+        phoneNumber: '',
+        phoneNumberMobile: '',
+        position: '',
+        room: '',
+        email: '',
+        avatar: '',
     },
     profiles: [],
     status: {

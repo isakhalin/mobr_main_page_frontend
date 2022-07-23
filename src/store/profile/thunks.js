@@ -54,6 +54,14 @@ export const getAllProfiles = () => async (dispatch, _, api) => {
     }
 }
 
+// export const createNewProfile = (uid, profile) => (dispatch, _, api) => {
+//     try {
+//
+//     } catch (e) {
+//         dispatch()
+//     }
+// }
+
 export const clearProfile = () => (dispatch, _, api) => {
     try {
         dispatch(clearProfileStart());

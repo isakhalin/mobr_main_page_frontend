@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch} from "react-redux";
 
 /** Firebase */
-import {createUserWithEmailAndPassword, signOut} from 'firebase/auth';
-import {auth} from "../../api";
+import { createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from "../../api";
+
+/** Include Api */
+import { setProfileToFirebaseApi } from "../../api";
 
 /** MUI Material Comps */
 import {
@@ -19,6 +23,8 @@ import {
 // };
 
 export const AddUser = ({application}) => {
+    const dispatch = useDispatch();
+
     const [newUser, setNewUser] = useState({
         //Данные в апликейшене
         date: application.date,                   // Дата апликейшена. Возможно сохранять в профиль не нужно
@@ -34,17 +40,14 @@ export const AddUser = ({application}) => {
         position: application.position,
         room: application.room,
 
-        email: '',
+        email: '@sakhalin.gov.ru',
         avatar: "",                                 //+ Данные в профиле
         isAdmin: false,
     });
-    const [loginPass, setLoginPass] = useState({
-        login: '',
-        pass: ''
-    });
+    const [pass, setPass] = useState('');
 
     const setMail = () => {
-        let email = 'some@mail.ru';
+        let email = 'some@sakhalin.gov.ru';
         const name = newUser.firstName[0];
         console.log("Первая бква имени", name)
         return email
@@ -52,14 +55,16 @@ export const AddUser = ({application}) => {
 
 
     const createNewUser = async () => {
-        const newUserUid = await createUserWithEmailAndPassword(auth, loginPass.login, loginPass.pass).then(user => user.user.uid);
-        // const newUserUid = await sendNewProfile(loginPass.login, loginPass.pass);
+        const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
         console.log("newUSER-Uid", newUserUid);
-        await signOut(auth);
+        // const newUserUid = await sendNewProfile(loginPass.login, loginPass.pass);
+        //TODO Тут нужно вызывать api setProfileToFirebaseApi и записывать профиль в FB
+        await setProfileToFirebaseApi(newUserUid, newUser);
+        await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
     };
 
     useEffect(() => {
-        setMail()
+        // setMail()
     }, [])
 
     return (
@@ -87,24 +92,26 @@ export const AddUser = ({application}) => {
                     {/*        </div>*/}
                     <div>
                         <TextField
-                            id="standard-basic"
+                            id="standard-basic-mail"
                             required={true}
                             sx={{width: '250px'}}
                             label="Логин"
+                            type="email"
                             variant="standard"
-                            value={loginPass.login}
-                            onChange={(e) => setLoginPass({...loginPass, login: e.target.value})}
+                            value={newUser.email}
+                            onChange={(e) => setNewUser({...newUser, email: e.target.value})}
                         />
                     </div>
                     <div>
                         <TextField
-                            id="standard-basic"
+                            id="standard-basic-pass"
                             required={true}
                             sx={{width: '250px'}}
-                            label="Пароль"
+                            label="Пароль (минимум 6 символов)"
+                            type="password"
                             variant="standard"
-                            value={loginPass.pass}
-                            onChange={(e) => setLoginPass({...loginPass, pass: e.target.value})}
+                            value={pass}
+                            onChange={(e) => setPass(e.target.value)}
                         />
                     </div>
                     <div>
