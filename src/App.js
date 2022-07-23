@@ -68,7 +68,7 @@ export const App = () => {
                     <Route path="/login" element={<PublicRoute isAuth={isAuth}><LoginPage/></PublicRoute>}/>
                     <Route path="/profile" element={<PrivateRoute isAuth={isAuth}><ProfilePage/></PrivateRoute>}/>
                     <Route path="/tickets" element={<PrivateRoute isAuth={isAuth}><TicketsPage session={session} isAdmin={isAdmin}/></PrivateRoute>}/>
-                    <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage/></AdminRoute>}/>
+                    <Route path="/admin" element={<AdminRoute isAdmin={isAdmin}><AdminPage session={session} isAdmin={isAdmin}/></AdminRoute>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/*" element={<h1>404. Страница не найдена.</h1>}/>
                 </Routes>

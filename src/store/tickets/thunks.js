@@ -41,42 +41,86 @@ export const getTickets = (uid, isAdmin = false) => async (dispatch, _, api) => 
         const decreaseSort = () => {
 
         }
+        // debugger
+        const snap = await api.getTicketsFromFirebaseApi(uid, isAdmin).then(data => data.val()); // Приходит объект вида { dsaf: {}, fdsf: {} }
 
-        if (!isAdmin) {
-            const snap = await api.getTicketsFromFirebaseApi(uid).then(data => data.val()); // Приходит объект вида { dsaf: {}, fdsf: {} }
-            console.log("GET SNAP", snap)
-            for (let el in snap) {
-                if (snap.hasOwnProperty(el)) {
-                    tickets.push(snap[el]);
-                }
-            }
-            dispatch(getTicketsSuccess(tickets));
-        } else {
-            const snap = await api.getTicketsFromFirebaseApi(uid, isAdmin).then(data => data.val());    // Приходит объект вида { uid: { date: {}, date: {} }, uid: { date: {}, date: {} } }
-            console.log("GET SNAP", snap)
-            for (let el in snap) {      // В el приходит значение свойства uid
-                if (snap.hasOwnProperty(el)) {  //Проверяем есть ли такое свойство в объекте snap
+        for (let el in snap) {      // В el приходит значение свойства uid
+            if (snap.hasOwnProperty(el)) {  //Проверяем есть ли такое свойство в объекте snap
+                if (isAdmin) { //Проверяем адимн ли это
                     for (let subEl in snap[el]) {   // В subEl приходит значение свойства date
                         // console.log("SUBEL", snap[el][subEl])
-                        if(snap[el].hasOwnProperty(subEl)){ //Проверяем есть ли такое свойство в объекте snap[el]
+                        if (snap[el].hasOwnProperty(subEl)) { //Проверяем есть ли такое свойство в объекте snap[el]
                             tickets.push(snap[el][subEl]);  //Пушим в массив содержимое свойства subEl объекта snap[el]
                         }
                     }
+                } else { // если не админ, то просто пушим в массив значение свойства объекта snap[el]
+                    tickets.push(snap[el]);
                 }
             }
-
-            // Пызырьковая сортировка массива
-            tickets.sort((a, b) => {
-                if (a.ticketDate > b.ticketDate) {
-                    return -1;
-                }
-                if (a.ticketDate < b.ticketDate){
-                    return 1;
-                }
-                return 0
-            })
-            dispatch(getTicketsSuccess(tickets)); // Передаемм tickets, который имеет вид [{},{}]
         }
+
+        // Пызырьковая сортировка массива
+        tickets.sort((a, b) => {
+            if (a.ticketDate > b.ticketDate) {
+                return -1;
+            }
+            if (a.ticketDate < b.ticketDate) {
+                return 1;
+            }
+            return 0
+        })
+        dispatch(getTicketsSuccess(tickets)); // Передаемм tickets, который имеет вид [{},{}]
+
+        // if (!isAdmin) {
+        //     const snap = await api.getTicketsFromFirebaseApi(uid, !isAdmin).then(data => data.val()); // Приходит объект вида { dsaf: {}, fdsf: {} }
+        //     console.log("GET SNAP", snap)
+        //     for (let el in snap) {
+        //         // debugger
+        //         if (snap.hasOwnProperty(el)) {
+        //             for (let elem in snap[el]) {
+        //                 if(snap[el].hasOwnProperty(elem)){
+        //                     tickets.push(snap[el][elem]);
+        //                 }
+        //             }
+        //             // tickets.push(snap[el]);
+        //         }
+        //     }
+        //     tickets.sort((a, b) => {
+        //         if (a.ticketDate > b.ticketDate) {
+        //             return -1;
+        //         }
+        //         if (a.ticketDate < b.ticketDate){
+        //             return 1;
+        //         }
+        //         return 0
+        //     })
+        //     dispatch(getTicketsSuccess(tickets));
+        // } else {
+        //     const snap = await api.getTicketsFromFirebaseApi(uid, isAdmin).then(data => data.val());    // Приходит объект вида { uid: { date: {}, date: {} }, uid: { date: {}, date: {} } }
+        //     console.log("GET SNAP", snap)
+        //     for (let el in snap) {      // В el приходит значение свойства uid
+        //         if (snap.hasOwnProperty(el)) {  //Проверяем есть ли такое свойство в объекте snap
+        //             for (let subEl in snap[el]) {   // В subEl приходит значение свойства date
+        //                 // console.log("SUBEL", snap[el][subEl])
+        //                 if(snap[el].hasOwnProperty(subEl)){ //Проверяем есть ли такое свойство в объекте snap[el]
+        //                     tickets.push(snap[el][subEl]);  //Пушим в массив содержимое свойства subEl объекта snap[el]
+        //                 }
+        //             }
+        //         }
+        //     }
+        //
+        //     // Пызырьковая сортировка массива
+        //     tickets.sort((a, b) => {
+        //         if (a.ticketDate > b.ticketDate) {
+        //             return -1;
+        //         }
+        //         if (a.ticketDate < b.ticketDate){
+        //             return 1;
+        //         }
+        //         return 0
+        //     })
+        //     dispatch(getTicketsSuccess(tickets)); // Передаемм tickets, который имеет вид [{},{}]
+        // }
     } catch (e) {
         console.log("SOME WRONG")
         dispatch(getTicketsError(e))

@@ -8,7 +8,8 @@ import Box from '@mui/material/Box';
 
 /** include Custom Comps */
 import {Applications} from '../components/applications'; // Компонент с формами заявок (апликации)
-import {Users} from "../components/users";  // Компонент для процессов с пользователями
+import {Users} from "../components/users";
+import {TicketList} from "../components/tickets";  // Компонент для процессов с пользователями
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -43,7 +44,7 @@ function a11yProps(index) {
     };
 }
 
-export const AdminPage = () => {
+export const AdminPage = ({session, isAdmin}) => {
     const [value, setValue] = React.useState(0);
 
     const handleTabsChange = (event, newValue) => {
@@ -64,7 +65,7 @@ export const AdminPage = () => {
                 <Users />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Tickets
+                <TicketList session={session} isAdmin={isAdmin}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Applications />
