@@ -14,10 +14,11 @@ import {
 
 /** include Thunks */
 import {getTickets, sendTicket} from '../store/tickets'
+import {TicketList} from "../components/tickets";
 
 export const TicketsPage = ({session, isAdmin}) => {
     const dispatch = useDispatch();
-    const {tickets, status} = useSelector((state) => state.tickets);
+    // const {tickets, status} = useSelector((state) => state.tickets);     //перенесено в TicketList
     const {firstName, lastName} = useSelector((state) => state.profile.form);
     const [form, setForm] = useState('');
     const [importance, setImportance] = useState("low");
@@ -42,10 +43,12 @@ export const TicketsPage = ({session, isAdmin}) => {
         dispatch(getTickets(session.uid, isAdmin))
         setForm('');
     };
-
-    useEffect(() => {
-        dispatch(getTickets(session.uid, isAdmin));
-    }, []);
+    //перенесено в TicketList
+    // useEffect(() => {
+    //     dispatch(getTickets(session.uid)); // не передаем isAdmin чтобы в заявка отображались только заявки пользователяы
+    //
+    //     // dispatch(getTickets(session.uid, isAdmin));
+    // }, []);
 
     return (
         <div>
@@ -99,30 +102,32 @@ export const TicketsPage = ({session, isAdmin}) => {
                 </div>
                 <div>
                     <div>Задачи, отправленные мной:</div>
-                    {
-                        !status.pendingGet ?
-                            tickets.map(el => (
-                                <div style={{
-                                    border: "solid 1px grey",
-                                    borderRadius: "5px",
-                                    marginBottom: "5px",
-                                    padding: "5px",
-                                    textAlign: "left"
-                                }}>
-                                    <div><span>Дата: </span><span>{el.ticketDate}</span></div>
-                                    <div>
-                                        <span>Отправитель: </span><span>{el.ticketAuthorLastName} {el.ticketAuthorFirstName}</span>
-                                    </div>
-                                    <div><span>Срочность: </span><span>{el.ticketImportance === 'low' ? "Не срочно" : el.ticketImportance === 'normal' ? "В порядке очереди" : "Срочно"}</span></div>
-                                    <div>
-                                        <span>Статус: </span><span>{el.ticketStatus === 'sent' ? "Отправлено" : el.ticketStatus === 'processed' ? "Выполняется" : "Готово"}</span>
-                                    </div>
-                                    <div><span>Описание проблемы:</span></div>
-                                    <div><span><span>{el.ticketText}</span></span></div>
-                                </div>
-                            ))
-                            : <span>Loading...</span>
-                    }
+                    <TicketList session={session}/> {/*передаем без админа чтобы не было лишник кнопок*/}
+                    {/*{*/}
+                    {/*    !status.pendingGet ?*/}
+                    {/*        tickets.map(el => (*/}
+                    {/*            <Ticket el = {el}/> //передаем без админа чтобы не было лишник кнопок*/}
+                    {/*            // <div style={{*/}
+                    {/*            //     border: "solid 1px grey",*/}
+                    {/*            //     borderRadius: "5px",*/}
+                    {/*            //     marginBottom: "5px",*/}
+                    {/*            //     padding: "5px",*/}
+                    {/*            //     textAlign: "left"*/}
+                    {/*            // }}>*/}
+                    {/*            //     <div><span>Дата: </span><span>{el.ticketDate}</span></div>*/}
+                    {/*            //     <div>*/}
+                    {/*            //         <span>Отправитель: </span><span>{el.ticketAuthorLastName} {el.ticketAuthorFirstName}</span>*/}
+                    {/*            //     </div>*/}
+                    {/*            //     <div><span>Срочность: </span><span>{el.ticketImportance === 'low' ? "Не срочно" : el.ticketImportance === 'normal' ? "В порядке очереди" : "Срочно"}</span></div>*/}
+                    {/*            //     <div>*/}
+                    {/*            //         <span>Статус: </span><span>{el.ticketStatus === 'sent' ? "Отправлено" : el.ticketStatus === 'processed' ? "Выполняется" : "Готово"}</span>*/}
+                    {/*            //     </div>*/}
+                    {/*            //     <div><span>Описание проблемы:</span></div>*/}
+                    {/*            //     <div><span><span>{el.ticketText}</span></span></div>*/}
+                    {/*            // </div>*/}
+                    {/*        ))*/}
+                    {/*        : <span>Loading...</span>*/}
+                    {/*}*/}
                 </div>
             </div>
         </div>
