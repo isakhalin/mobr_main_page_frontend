@@ -1,11 +1,7 @@
-// export const GET_PROFILE_START = '@profile/get profile start';
-// export const GET_PROFILE_SUCCESS = '@profile/get profile success';
-// export const GET_PROFILE_ERROR = '@profile/get profile error';
-//
-// export const CLEAR_PROFILE_START = '@profile/clear profile start';
-// export const CLEAR_PROFILE_SUCCESS = '@profile/clear profile success';
-// export const CLEAR_PROFILE_ERROR = '@profile/clear profile error';
-
 export const GET_APPLICATIONS_START = '@applications/get applications start';
-export const GET_APPLICATIONS_SUCCESS = '@profile/get applications success';
-export const GET_APPLICATIONS_ERROR = '@profile/get applications error';
+export const GET_APPLICATIONS_SUCCESS = '@applications/get applications success';
+export const GET_APPLICATIONS_ERROR = '@applications/get applications error';
+
+export const UPDATE_APPLICATION_START = "@applications/update application start";
+export const UPDATE_APPLICATION_SUCCESS = "@applications/update application success";
+export const UPDATE_APPLICATION_ERROR = "@applications/update application error";
