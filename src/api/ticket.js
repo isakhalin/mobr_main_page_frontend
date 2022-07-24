@@ -3,7 +3,8 @@ import {set, get, child, ref, serverTimestamp, onValue, off} from 'firebase/data
 
 export const sendTicketToFirebaseApi = (ticket, uid) => {
 
-    // получение таймпштампа
+    // получение таймпштампа рабочий вариант
+
     /* //Вариант 1
 
 //     Перекос часов
