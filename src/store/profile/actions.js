@@ -2,6 +2,9 @@ import {
     GET_PROFILE_START,
     GET_PROFILE_SUCCESS,
     GET_PROFILE_ERROR,
+    SEND_PROFILE_START,
+    SEND_PROFILE_SUCCESS,
+    SEND_PROFILE_ERROR,
     GET_ALL_PROFILES_START,
     GET_ALL_PROFILES_SUCCESS,
     GET_ALL_PROFILES_ERROR,
@@ -33,6 +36,19 @@ export const getAllProfilesSuccess = (profiles) => ({
 })
 export const getAllProfilesError = (error) => ({
     type: GET_ALL_PROFILES_ERROR,
+    payload: error
+})
+
+// Методы для изменения собственного профиля в глобальном стейте
+export const sendProfileStart = () => ({
+    type: SEND_PROFILE_START,
+})
+export const sendProfileSuccess = (profile) => ({
+    type: SEND_PROFILE_SUCCESS,
+    payload: profile
+})
+export const sendProfileError = (error) => ({
+    type: SEND_PROFILE_ERROR,
     payload: error
 })
 

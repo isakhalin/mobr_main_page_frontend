@@ -56,19 +56,19 @@ export const AdminPage = ({session, isAdmin}) => {
         <Box sx={{width: '100%'}}>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={value} onChange={handleTabsChange} aria-label="basic tabs example">
-                    <Tab label="Users" {...a11yProps(0)} />
-                    <Tab label="Tickets" {...a11yProps(1)} />
-                    <Tab label="Applications" {...a11yProps(2)} />
+                    <Tab label="Tickets" {...a11yProps(0)} />
+                    <Tab label="Applications" {...a11yProps(1)} />
+                    <Tab label="Users" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <Users />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
                 <TicketList session={session} isAdmin={isAdmin}/>
             </TabPanel>
+            <TabPanel value={value} index={1}>
+                <Applications/>
+            </TabPanel>
             <TabPanel value={value} index={2}>
-                <Applications />
+                <Users/>
             </TabPanel>
         </Box>
     );

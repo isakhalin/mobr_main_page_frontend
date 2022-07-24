@@ -10,6 +10,7 @@ import {Application} from "./application";
 export const Applications = () => {
     const dispatch = useDispatch();
     const {applications, status} = useSelector((state) => state.applications); // Получаем апликейшоны из глобального стейта
+    const {profiles} = useSelector((state) => state.profile);       //Получам профили всех юзеров из глобального стейта
 
     useEffect(() => {
         dispatch(getApplications())
@@ -22,7 +23,11 @@ export const Applications = () => {
                     <div>Загружаю...</div>
                     :
                     applications.map((el, idx) => (
-                        <Application key={el.date} application={el}/>
+                        <Application
+                            key={el.date}
+                            application={el}
+                            complete={el.isComplete}
+                        />
                     ))
             }
         </div>

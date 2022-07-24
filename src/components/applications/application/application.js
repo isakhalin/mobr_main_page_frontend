@@ -13,7 +13,7 @@ const iconsOptions = [
     'Delete'
 ]
 
-export const Application = ({application}) => {
+export const Application = ({application, complete}) => {
     const [addUserVisibility, setAddUserVisibility] = useState(false);
 
     // Логика работы меню три точки в карточке апликейшона
@@ -23,7 +23,7 @@ export const Application = ({application}) => {
         setAnchorEl(event.currentTarget);
     }
     const iconHandleClose = (option) => {
-        if(option === "Add user"){
+        if (option === "Add user") {
             addUser();
         }
         setAnchorEl(null);
@@ -47,7 +47,8 @@ export const Application = ({application}) => {
                     marginBottom: "5px",
                     padding: "5px",
                     textAlign: "left",
-                    display: "flex"
+                    display: "flex",
+                    color: complete ? 'rgba(0,0,0,0.17)' : ''
                 }}
             >
                 <div>

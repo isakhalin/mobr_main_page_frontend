@@ -7,7 +7,7 @@ export const getProfileFromFirebaseApi = (uid) => {
 };
 
 // записываем профиль пользователя в firebase
-export const setProfileFromFirebaseApi = (uid, profile) => {
+export const setProfileToFirebaseApi = (uid, profile) => {
     return set(child(ref(database), `profiles/${uid}`), profile)
 }
 
