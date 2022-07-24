@@ -8,6 +8,9 @@ import { auth } from "../../api";
 /** Include Api */
 import { setProfileToFirebaseApi, updateApplicationToFirebaseApi } from "../../api";
 
+/** Include Thunks */
+import { updateFlagIsCompleteInApplication } from '../../store/applications'
+
 /** MUI Material Comps */
 import {
     Box,
@@ -18,7 +21,7 @@ import {
     FormControlLabel,
 } from "@mui/material";
 
-export const AddUser = ({application}) => {
+export const AddUser = ({application, indexOfApplication}) => {
     const dispatch = useDispatch();
 
     const [newUser, setNewUser] = useState({
@@ -50,11 +53,12 @@ export const AddUser = ({application}) => {
     // };
 
 
-    const createNewUser = async () => {
-        const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
-        await setProfileToFirebaseApi(newUserUid, newUser);     // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
-        await updateApplicationToFirebaseApi({date: application.date, isComplete: true})       // Вызываем санк для изменения флага isComplete в апликейшене глобального стейта и FB
-        await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
+    const createNewUser = () => {
+        // const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
+        // await setProfileToFirebaseApi(newUserUid, newUser);     // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
+        // console.log("indexOfApplication", indexOfApplication)
+        dispatch(updateFlagIsCompleteInApplication({date: application.date, isComplete: true}, indexOfApplication));
+        // await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
     };
 
     // useEffect(() => {

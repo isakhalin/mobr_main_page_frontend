@@ -36,15 +36,27 @@ export const ApplicationReducer = (state = ApplicationState, action) => {
                 status: {...state.status, pendingGet: false, errorGet: action.payload}
             }
         case UPDATE_APPLICATION_START:
+            console.log("APPLICATIONS IN REDUCER", state);
             return {
                 ...state,
                 status: {...state.status, pendingUpdate: true, errorUpdate: null}
             }
         case UPDATE_APPLICATION_SUCCESS:
             // const finded = ApplicationState["applications"].indexOf()
+            // console.log("APPLICATIONS IN REDUCER", ApplicationState["applications"]);
+            console.log("ПРИШЕЛ ИНДЕКС ЭЛЕМЕНТА", action.payload.indexOfApplication)
+            // console.log(state.applications.indexOf(state.applications action.payload.partOfApplication))
+            console.log("OBJ IN STATE", state.applications[0])
+            console.log("OBJ IN STATE AT INDEX", state.applications[action.payload.indexOfApplication])
             return {
                 ...state,
-                applications: {...state.applications},
+                applications: [
+                    ...state.applications, state.applications[action.payload.indexOfApplication] = {...state.applications[action.payload.indexOfApplication], ...action.payload.partOfApplication}
+                    ],
+                // applications: [
+                //     ...state.applications,
+                //     state.applications[action.payload.indexOfApplication]: {...state.applications[action.payload.indexOfApplication], ...action.payload.partOfApplication}
+                // ],
                 status: {...state.status, pendingUpdate: false}
             }
         case UPDATE_APPLICATION_ERROR:

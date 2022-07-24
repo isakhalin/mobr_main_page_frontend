@@ -13,8 +13,10 @@ const iconsOptions = [
     'Delete'
 ]
 
-export const Application = ({application, complete}) => {
+export const Application = ({application, complete, indexOfApplication}) => {
     const [addUserVisibility, setAddUserVisibility] = useState(false);
+
+    // console.log("IDX", indexOfApplication)
 
     // Логика работы меню три точки в карточке апликейшона
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,7 +38,7 @@ export const Application = ({application, complete}) => {
         <div>
             {
                 addUserVisibility
-                    ? <AddUser application={application}/>
+                    ? <AddUser application={application} indexOfApplication={indexOfApplication}/>
                     : <></>
             }
             <div

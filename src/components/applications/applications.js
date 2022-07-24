@@ -12,6 +12,8 @@ export const Applications = () => {
     const {applications, status} = useSelector((state) => state.applications); // Получаем апликейшоны из глобального стейта
     const {profiles} = useSelector((state) => state.profile);       //Получам профили всех юзеров из глобального стейта
 
+    console.log("APPLICATIONS-NOW", applications)
+
     useEffect(() => {
         dispatch(getApplications())
     }, [])
@@ -27,6 +29,7 @@ export const Applications = () => {
                             key={el.date}
                             application={el}
                             complete={el.isComplete}
+                            indexOfApplication={idx}
                         />
                     ))
             }

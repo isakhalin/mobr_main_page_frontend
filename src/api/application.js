@@ -8,6 +8,7 @@ export const setApplicationToFirebaseApi = (application) => {
 
 //сохраняем в firebase форму регистрации
 export const updateApplicationToFirebaseApi = (application) => {
+    //Нативный метод апдейт выполняет частичное обновление данных, не перезаписывая другие данные в ноде
     return update(child(ref(database), `applications/${application.date}`), application);
 }
 

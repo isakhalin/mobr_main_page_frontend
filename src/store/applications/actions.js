@@ -23,9 +23,9 @@ export const getApplicationsError = (error) => ({
 export const updateApplicationStart = () => ({
     type: UPDATE_APPLICATION_START,
 })
-export const updateApplicationSuccess = (partOfApplication) => ({
+export const updateApplicationSuccess = (partOfApplication, indexOfApplication) => ({
     type: UPDATE_APPLICATION_SUCCESS,
-    payload: partOfApplication,
+    payload: {partOfApplication, indexOfApplication},
 })
 export const updateApplicationError = (error) => ({
     type: UPDATE_APPLICATION_ERROR,

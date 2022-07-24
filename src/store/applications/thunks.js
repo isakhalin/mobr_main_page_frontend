@@ -1,7 +1,10 @@
 import {
     getApplicationsStart,
     getApplicationsSuccess,
-    getApplicationsError
+    getApplicationsError,
+    updateApplicationStart,
+    updateApplicationSuccess,
+    updateApplicationError,
 } from './actions';
 
 export const getApplications = () => async (dispatch, _, api) => {
@@ -13,8 +16,8 @@ export const getApplications = () => async (dispatch, _, api) => {
             applications.push(el.val());
         })
 
-        applications.sort((firstEl, secondEl)=>{
-            if (firstEl.date < secondEl.date){
+        applications.sort((firstEl, secondEl) => {
+            if (firstEl.date < secondEl.date) {
                 return 1
             }
             if (firstEl.date > secondEl.date) {
@@ -29,25 +32,19 @@ export const getApplications = () => async (dispatch, _, api) => {
     }
 }
 
-export const updateApplication = (partOfApplication) => (dispatch, _, api) => {
+// Санк для обновления флага isComplete в апликейшене глобального стейта и в FB
+// В partOfApplication приходит объект вида {date: application.date, isComplete: boolean}
+export const updateFlagIsCompleteInApplication = (partOfApplication, indexOfApplication) => async (dispatch, _, api) => {
     try {
+        dispatch(updateApplicationStart());
 
+        // await api.updateApplicationToFirebaseApi(partOfApplication)
+
+        dispatch(updateApplicationSuccess(partOfApplication, indexOfApplication));
     } catch (e) {
-
+        dispatch(updateApplicationError(e))
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // import {
