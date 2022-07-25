@@ -5,6 +5,9 @@ import {
     updateApplicationStart,
     updateApplicationSuccess,
     updateApplicationError,
+    removeApplicationStart,
+    removeApplicationSuccess,
+    removeApplicationError,
 } from './actions';
 
 export const getApplications = () => async (dispatch, _, api) => {
@@ -34,55 +37,28 @@ export const getApplications = () => async (dispatch, _, api) => {
 
 // Санк для обновления флага isComplete в апликейшене глобального стейта и в FB
 // В partOfApplication приходит объект вида {date: application.date, isComplete: boolean}
-export const updateFlagIsCompleteInApplication = (partOfApplication, indexOfApplication) => async (dispatch, _, api) => {
+export const updateFlagIsCompleteInApplication = (partOfApplication) => async (dispatch, _, api) => {
     try {
         dispatch(updateApplicationStart());
 
-        // await api.updateApplicationToFirebaseApi(partOfApplication)
+        await api.updateApplicationToFirebaseApi(partOfApplication)
 
-        dispatch(updateApplicationSuccess(partOfApplication, indexOfApplication));
+        dispatch(updateApplicationSuccess(partOfApplication));
     } catch (e) {
         dispatch(updateApplicationError(e))
     }
 }
 
+// Санк для удаления апликейшена из глобального стейта и из FB
+// В application приходит объект апликейшен
+export const removeApplication = (application) => async (dispatch, _, api) => {
+    try {
+        dispatch(removeApplicationStart());
 
-// import {
-//     getProfileStart,
-//     getProfileSuccess,
-//     getProfileError,
-//     clearProfileStart,
-//     clearProfileSuccess,
-//     clearProfileError
-// } from './actions'
-//
-// export const getProfile = (uid) => async (dispatch, _, api) => {
-//     try {
-//         dispatch(getProfileStart());
-//         const getProfileFromDB = await api.getProfileFromFirebaseApi(uid);
-//         console.log("getProfileFromDB.val()", getProfileFromDB)
-//         const {firstName, middleName, lastName, dept, isAdmin, avatar} = getProfileFromDB.val();
-//
-//         const profile = {
-//             firstName: firstName,
-//             lastName: lastName,
-//             middleName: middleName,
-//             avatar: avatar,
-//             dept: dept,
-//             isAdmin: isAdmin
-//         }
-//
-//         dispatch(getProfileSuccess(profile))
-//     } catch (e) {
-//         dispatch(getProfileError(e));
-//     }
-// }
-//
-// export const clearProfile = () => (dispatch, _, api) => {
-//     try {
-//         dispatch(clearProfileStart());
-//         dispatch(clearProfileSuccess());
-//     } catch (e) {
-//         dispatch(clearProfileError(e))
-//     }
-// }
+        await api.removeApplicationFromFireBaseApi(application);
+
+        dispatch(removeApplicationSuccess(application));
+    } catch (e) {
+        dispatch(removeApplicationError(e))
+    }
+}

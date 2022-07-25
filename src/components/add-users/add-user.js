@@ -21,7 +21,7 @@ import {
     FormControlLabel,
 } from "@mui/material";
 
-export const AddUser = ({application, indexOfApplication}) => {
+export const AddUser = ({application}) => {
     const dispatch = useDispatch();
 
     const [newUser, setNewUser] = useState({
@@ -53,12 +53,13 @@ export const AddUser = ({application, indexOfApplication}) => {
     // };
 
 
-    const createNewUser = () => {
-        // const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
-        // await setProfileToFirebaseApi(newUserUid, newUser);     // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
-        // console.log("indexOfApplication", indexOfApplication)
-        dispatch(updateFlagIsCompleteInApplication({date: application.date, isComplete: true}, indexOfApplication));
-        // await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
+    const createNewUser = async () => {
+        const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
+        await setProfileToFirebaseApi(newUserUid, newUser);     // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
+        // Вызываем санк updateFlagIsCompleteInApplication для обновления флага isComplete в в апликейшене,
+        // который отвечает за параметр "выполнено" и "не выполнено", передаем в него свойство, которое будем менять
+        dispatch(updateFlagIsCompleteInApplication({date: application.date, isComplete: true}));
+        await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
     };
 
     // useEffect(() => {

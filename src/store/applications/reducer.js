@@ -4,7 +4,10 @@ import {
     GET_APPLICATIONS_ERROR,
     UPDATE_APPLICATION_START,
     UPDATE_APPLICATION_SUCCESS,
-    UPDATE_APPLICATION_ERROR
+    UPDATE_APPLICATION_ERROR,
+    REMOVE_APPLICATION_START,
+    REMOVE_APPLICATION_SUCCESS,
+    REMOVE_APPLICATION_ERROR
 } from './types'
 
 const ApplicationState = {
@@ -14,6 +17,8 @@ const ApplicationState = {
         errorGet: null,
         pendingUpdate: false,
         errorUpdate: null,
+        pendingRemove: false,
+        errorRemove: null,
     }
 }
 
@@ -42,27 +47,39 @@ export const ApplicationReducer = (state = ApplicationState, action) => {
                 status: {...state.status, pendingUpdate: true, errorUpdate: null}
             }
         case UPDATE_APPLICATION_SUCCESS:
-            // const finded = ApplicationState["applications"].indexOf()
-            // console.log("APPLICATIONS IN REDUCER", ApplicationState["applications"]);
-            console.log("ПРИШЕЛ ИНДЕКС ЭЛЕМЕНТА", action.payload.indexOfApplication)
-            // console.log(state.applications.indexOf(state.applications action.payload.partOfApplication))
-            console.log("OBJ IN STATE", state.applications[0])
-            console.log("OBJ IN STATE AT INDEX", state.applications[action.payload.indexOfApplication])
+            state.applications.map((el) => {
+                if (el.date === action.payload.partOfApplication.date){
+                    el.isComplete = action.payload.partOfApplication.isComplete;
+                }
+            })
             return {
                 ...state,
-                applications: [
-                    ...state.applications, state.applications[action.payload.indexOfApplication] = {...state.applications[action.payload.indexOfApplication], ...action.payload.partOfApplication}
-                    ],
-                // applications: [
-                //     ...state.applications,
-                //     state.applications[action.payload.indexOfApplication]: {...state.applications[action.payload.indexOfApplication], ...action.payload.partOfApplication}
-                // ],
                 status: {...state.status, pendingUpdate: false}
             }
         case UPDATE_APPLICATION_ERROR:
             return {
                 ...state,
                 status: {...state.status, pendingUpdate: false, errorUpdate: action.payload}
+            }
+        case REMOVE_APPLICATION_START:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: true, errorRemove: null}
+            }
+        case REMOVE_APPLICATION_SUCCESS:
+            state.applications.map((application) => {
+                if (application.date === action.payload.date){
+                    state.applications.splice(state.applications.indexOf(application), 1)
+                }
+            })
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: false}
+            }
+        case REMOVE_APPLICATION_ERROR:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: false, errorRemove: action.payload}
             }
         default:
             return state;
