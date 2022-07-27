@@ -46,10 +46,11 @@ function a11yProps(index) {
 
 export const AdminPage = ({session, isAdmin}) => {
     const [value, setValue] = React.useState(0);
-
+    console.log('ses', session)
     const handleTabsChange = (event, newValue) => {
         setValue(newValue);
     };
+
 
 
     return (
@@ -59,16 +60,21 @@ export const AdminPage = ({session, isAdmin}) => {
                     <Tab label="Tickets" {...a11yProps(0)} />
                     <Tab label="Applications" {...a11yProps(1)} />
                     <Tab label="Users" {...a11yProps(2)} />
+                    <Tab label="My Tasks in work" {...a11yProps(3)}/>
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <TicketList session={session} isAdmin={isAdmin}/>
+                <TicketList session={session} isAdmin={isAdmin} worklist = {false}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Applications/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Users/>
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <TicketList session={session} isAdmin={isAdmin} worklist = {true}/>
+
             </TabPanel>
         </Box>
     );

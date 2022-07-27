@@ -19,6 +19,7 @@ import {
     getApplicationsFromFireBaseApi,
     sendTicketToFirebaseApi,
     getTicketsFromFirebaseApi,
+    changeTicketStatusToFirebaseApi,
 } from '../api'
 
 /** include reducers */
@@ -42,6 +43,7 @@ const api = {
     getApplicationsFromFireBaseApi,
     sendTicketToFirebaseApi,
     getTicketsFromFirebaseApi,
+    changeTicketStatusToFirebaseApi,
 }
 
 export const store = createStore(
