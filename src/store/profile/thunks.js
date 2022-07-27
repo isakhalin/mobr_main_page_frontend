@@ -5,12 +5,15 @@ import {
     sendProfileStart,
     sendProfileSuccess,
     sendProfileError,
+    getAllProfilesStart,
+    getAllProfilesSuccess,
+    getAllProfilesError,
+    removeUserProfileStart,
+    removeUserProfileSuccess,
+    removeUserProfileError,
     clearProfileStart,
     clearProfileSuccess,
     clearProfileError,
-    getAllProfilesStart,
-    getAllProfilesSuccess,
-    getAllProfilesError
 } from './actions'
 
 export const getProfile = (uid) => async (dispatch, _, api) => {
@@ -52,10 +55,23 @@ export const getAllProfiles = () => async (dispatch, _, api) => {
 
         dispatch(getAllProfilesSuccess(profiles));
     } catch (e) {
-        console.log("Что-то пошло не так")
+        // console.log("Что-то пошло не так")
         dispatch(getAllProfilesError(e));
     }
 }
+
+// Санк для удаления профиля пользователя из глоба стол и FB
+export const removeUser = (uid) => async (dispatch, _, api) => {
+    try {
+        dispatch(removeUserProfileStart());
+
+        await api.removeUserProfileFromFBApi(uid); // Удаляем профиль из FB
+
+        dispatch(removeUserProfileSuccess(uid)); //TODO Написать редюсер
+    } catch (error) {
+        dispatch(removeUserProfileError(error));
+    }
+};
 
 export const sendProfile = (uid, profile) => async (dispatch, _, api) => {
     console.log("Вызвался санк")
@@ -67,14 +83,6 @@ export const sendProfile = (uid, profile) => async (dispatch, _, api) => {
         dispatch(sendProfileError(e))
     }
 }
-
-// export const createNewProfile = (uid, profile) => (dispatch, _, api) => {
-//     try {
-//
-//     } catch (e) {
-//         dispatch()
-//     }
-// }
 
 export const clearProfile = () => (dispatch, _, api) => {
     try {

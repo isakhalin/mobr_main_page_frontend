@@ -4,7 +4,10 @@ import {
     sendTicketError,
     getTicketsStart,
     getTicketsSuccess,
-    getTicketsError
+    getTicketsError,
+    removeUserTicketsStart,
+    removeUserTicketsSuccess,
+    removeUserTicketsError,
 } from './actions'
 
 export const sendTicket = (ticket, uid) => async (dispatch, _, api) => {
@@ -70,7 +73,7 @@ export const getTickets = (uid, isAdmin = false) => async (dispatch, _, api) => 
             return 0
         })
         dispatch(getTicketsSuccess(tickets)); // Передаемм tickets, который имеет вид [{},{}]
-
+        console.log("tickets", tickets)
         // if (!isAdmin) {
         //     const snap = await api.getTicketsFromFirebaseApi(uid, !isAdmin).then(data => data.val()); // Приходит объект вида { dsaf: {}, fdsf: {} }
         //     console.log("GET SNAP", snap)
@@ -126,3 +129,24 @@ export const getTickets = (uid, isAdmin = false) => async (dispatch, _, api) => 
         dispatch(getTicketsError(e))
     }
 }
+
+// Санк для удаления всех тикетов пользователя из глоба стол и FB. принимает уид пользователя и дату тикета
+export const removeUserTickets = (uid, isAdmin) => async (dispatch, _, api) => {
+    try {
+        dispatch(removeUserTicketsStart());
+
+        const userTickets = await api.getTicketsFromFirebaseApi(uid).then(data => data.val()); // Приходит объект вида { Дата: {}, Дата: {} }
+
+        const ticketDates = [];
+        for (let dataKey in userTickets) {
+            ticketDates.push(dataKey);
+        }
+
+        // await api.removeUserTicketsFromFBApi(uid); // Удаляем тикеты пользователя из FB
+
+        // В экшен будем передавать массив с датами тикетов, которые нужно удалить из глобал стейт
+        dispatch(removeUserTicketsSuccess(ticketDates));
+    } catch (error) {
+        dispatch(removeUserTicketsError(error))
+    }
+};

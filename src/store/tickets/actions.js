@@ -5,7 +5,11 @@ import {
     SEND_TICKET_START,
     SEND_TICKET_SUCCESS,
     SEND_TICKET_ERROR,
+    REMOVE_USER_TICKETS_START,
+    REMOVE_USER_TICKETS_SUCCESS,
+    REMOVE_USER_TICKETS_ERROR,
 } from './types'
+import {REMOVE_USER_PROFILE_SUCCESS} from "../profile";
 
 export const getTicketsStart = () => ({
     type: GET_TICKETS_START,
@@ -31,3 +35,17 @@ export const sendTicketError = (error) => ({
     type: SEND_TICKET_ERROR,
     payload: error
 })
+
+// Экшены для удаления тикетов пользователя из глобал стор
+export const removeUserTicketsStart = () => ({
+    type: REMOVE_USER_TICKETS_START,
+});
+// В DateOfTickets приходит ммассив с датами тикетов, который нужно удалить
+export const removeUserTicketsSuccess = (DateOfTickets) => ({
+    type: REMOVE_USER_TICKETS_SUCCESS,
+    payload: DateOfTickets,
+});
+export const removeUserTicketsError = (error) => ({
+    type: REMOVE_USER_TICKETS_ERROR,
+    payload: error,
+});

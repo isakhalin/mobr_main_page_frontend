@@ -1,5 +1,5 @@
 import {database} from './firebase'
-import {set, get, child, ref, serverTimestamp, onValue, off} from 'firebase/database';
+import {set, get, child, ref, remove, serverTimestamp, onValue, off} from 'firebase/database';
 
 export const sendTicketToFirebaseApi = (ticket, uid) => {
 
@@ -51,8 +51,6 @@ export const sendTicketToFirebaseApi = (ticket, uid) => {
 };
 
 export const getTicketsFromFirebaseApi = (uid, isAdmin) => {
-    // debugger
-
     if (isAdmin) {
         return get(child(ref(database), "tickets"));
     } else {
@@ -67,3 +65,8 @@ export const getTicketsFromFirebaseApi = (uid, isAdmin) => {
     //     return get(child(ref(database), "tickets"));
     // }
 };
+
+// Удаление всех тикетов пользователя из FB
+export const removeUserTicketsFromFBApi = (uid) => {
+    return remove(child(ref(database), `tickets/${uid}`));
+}
