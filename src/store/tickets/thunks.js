@@ -142,7 +142,7 @@ export const removeUserTickets = (uid, isAdmin) => async (dispatch, _, api) => {
             ticketDates.push(dataKey);
         }
 
-        // await api.removeUserTicketsFromFBApi(uid); // Удаляем тикеты пользователя из FB
+        await api.removeUserTicketsFromFBApi(uid); // Удаляем тикеты пользователя из FB
 
         // В экшен будем передавать массив с датами тикетов, которые нужно удалить из глобал стейт
         dispatch(removeUserTicketsSuccess(ticketDates));

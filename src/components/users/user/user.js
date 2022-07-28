@@ -8,6 +8,7 @@ import { removeUserTickets } from '../../../store/tickets'
 
 import {removeApplication} from "../../../store/applications";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { removeUserProfile } from "../../../store/profile";
 
 const menuIconButtons = [
     "Удалить"
@@ -25,6 +26,7 @@ export const User = ({profile, isAdmin}) => {
     }
     const iconHandleClose = (option) => {
         if (option === "Удалить") {
+            dispatch(removeUserProfile(profile.uid));
             dispatch(removeUserTickets(profile.uid, isAdmin));
         }
         setAnchorEl(null);

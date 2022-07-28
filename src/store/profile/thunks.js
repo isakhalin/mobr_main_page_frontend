@@ -61,7 +61,7 @@ export const getAllProfiles = () => async (dispatch, _, api) => {
 }
 
 // Санк для удаления профиля пользователя из глоба стол и FB
-export const removeUser = (uid) => async (dispatch, _, api) => {
+export const removeUserProfile = (uid) => async (dispatch, _, api) => {
     try {
         dispatch(removeUserProfileStart());
 
