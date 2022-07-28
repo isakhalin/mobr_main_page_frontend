@@ -12,7 +12,7 @@ import {
 
 const ticketState = {
     tickets: [],
-    ticketsInWork: [],
+    // ticketsInWork: [],
     status: {
         pendingSet: false,
         errorSet: null,

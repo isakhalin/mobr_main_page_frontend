@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button} from "@mui/material";
+import {Button, ButtonGroup} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {changeTicketStatus} from "../../../store/tickets";
 // import {useEffect} from "@types/react";
@@ -17,8 +17,8 @@ export const Ticket = ({el, isAdmin = false, fio}) => {
 
     /**
      * Функция получения Uid пользователя отправившего тикет
-     * @param ticketAuthorFirstName имя пользователя
-     * @param ticketAuthorLastName фамилия пользователя
+     * @param ticketAuthorFirstName {String} имя пользователя
+     * @param ticketAuthorLastName {String} фамилия пользователя
      * @returns {String} user uid/ uid пользователя
      */
     const getProfiles = ({ticketAuthorFirstName, ticketAuthorLastName}) => {
@@ -29,12 +29,15 @@ export const Ticket = ({el, isAdmin = false, fio}) => {
     }
     /**
      * Функция изменения статуса тикета
-     * @param ticket тикет
+     * @param ticket {Object} тикет
+     * @param ticketStatus {String} статус тикета
+     * @param userCompleted {Boolean} Подтверждение закрытия тикета
      * @returns {Promise<void>}
      */
-    const changeTicketHandler = async (ticket) => {
-        el.ticketStatus = 'processed' //изменяем статус элемента(полученного в пропсах) на в работе
+    const changeTicketHandler = async (ticket, ticketStatus, userCompleted = false) => {
+        el.ticketStatus = ticketStatus //изменяем статус элемента(полученного в пропсах) на в работе
         el.ticketExecutor = fio // добавляем ФИО взявшего в работу
+        el.userCompleted = userCompleted // поле для подтверждение закрития тикета пользователем
         // debugger
 
         const profileUid = getProfiles(ticket) // получаем uid пользователя отправившего тикет
@@ -59,7 +62,8 @@ export const Ticket = ({el, isAdmin = false, fio}) => {
             borderRadius: "5px",
             marginBottom: "5px",
             padding: "5px",
-            textAlign: "left"
+            textAlign: "left",
+            color: el.userCompleted ? 'rgba(0,0,0,0.17)' : ''
         }}>
             <div><span>Дата: </span><span>{el.ticketDate}</span></div>
             <div>
@@ -73,12 +77,35 @@ export const Ticket = ({el, isAdmin = false, fio}) => {
                 <br/>
                 <span>Исполнитель:</span><span>{el.ticketExecutor ?? " не назначен"}</span>
             </div>
+            {isAdmin ? <div>
+                <span>Подтверждение закрытия пользователем: </span><span>{el.userCompleted === false ? 'Не завершено' : 'Завершено'}</span>
+            </div> : <></>
+            }
             <div><span>Описание проблемы:</span></div>
             <div><span><span>{el.ticketText}</span></span></div>
-            {/* проверяем если админ то добавляем кнопку взятия в работу*/}
+            {/* проверяем если админ то добавляем кнопку взятия в работу и завершения
+               передаем тикет, статусТикета
+            */}
             {
-                isAdmin ? <Button variant={"outlined"} disabled={el.ticketStatus === 'processed'}
-                                  onClick={() => changeTicketHandler(el)}>Взять в работу и т.д.</Button> : <></>
+                isAdmin ?
+                    <ButtonGroup variant="outlined" aria-label="outlined button group">
+                        <Button disabled={el.ticketStatus === 'processed'}
+                                onClick={() => changeTicketHandler(el, 'processed')}>В работу</Button>
+                        <Button disabled={el.userCompleted}
+                                onClick={() => changeTicketHandler(el, 'complited')}
+                        >Завершить</Button>
+                    </ButtonGroup>
+                    :
+                    //для пользователя отрисовываем кнопку для подтверждения закрытия
+                    //передаем тикет, статусТикета, и true для подтверждения заакрытия
+                    !el.userCompleted ? <Button variant="outlined"
+                            onClick={() => changeTicketHandler(el, 'complited', true)}
+                        >Завершить</Button>
+                        :
+                        // кнопка для возвращения в работу
+                        <Button variant="outlined"
+                            onClick={() => changeTicketHandler(el, 'processed', false)}
+                        >Вернуть в работу</Button>
             }
         </div>
         // </div>
