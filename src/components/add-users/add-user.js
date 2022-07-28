@@ -8,6 +8,9 @@ import { auth } from "../../api";
 /** Include Api */
 import { setProfileToFirebaseApi, updateApplicationToFirebaseApi } from "../../api";
 
+/** Include Thunks */
+import { updateFlagIsCompleteInApplication } from '../../store/applications'
+
 /** MUI Material Comps */
 import {
     Box,
@@ -53,7 +56,9 @@ export const AddUser = ({application}) => {
     const createNewUser = async () => {
         const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
         await setProfileToFirebaseApi(newUserUid, newUser);     // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
-        await updateApplicationToFirebaseApi({date: application.date, isComplete: true})       // Вызываем санк для изменения флага isComplete в апликейшене глобального стейта и FB
+        // Вызываем санк updateFlagIsCompleteInApplication для обновления флага isComplete в в апликейшене,
+        // который отвечает за параметр "выполнено" и "не выполнено", передаем в него свойство, которое будем менять
+        dispatch(updateFlagIsCompleteInApplication({date: application.date, isComplete: true}));
         await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
     };
 

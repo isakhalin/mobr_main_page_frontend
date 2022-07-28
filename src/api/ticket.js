@@ -1,5 +1,5 @@
 import {database} from './firebase'
-import {set, get, child, ref, serverTimestamp, onValue, off} from 'firebase/database';
+import {set, get, child, ref, serverTimestamp, onValue, off, update} from 'firebase/database';
 
 export const sendTicketToFirebaseApi = (ticket, uid) => {
 
@@ -67,3 +67,14 @@ export const getTicketsFromFirebaseApi = (uid, isAdmin) => {
     //     return get(child(ref(database), "tickets"));
     // }
 };
+
+/**
+ * функция обновления данных в firebase
+ * @param ticket тикет пользователя
+ * @param uid uid пользователя отправившего тикет
+ */
+export const changeTicketStatusToFirebaseApi = (ticket, uid) => {
+//Нативный метод апдейт выполняет частичное обновление данных, не перезаписывая другие данные в ноде
+//     debugger
+    return update(child(ref(database), `tickets/${uid}/${ticket.ticketDate}`), ticket);
+}

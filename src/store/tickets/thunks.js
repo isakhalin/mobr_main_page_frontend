@@ -4,7 +4,10 @@ import {
     sendTicketError,
     getTicketsStart,
     getTicketsSuccess,
-    getTicketsError
+    getTicketsError,
+    changeTicketStatusStart,
+    changeTicketStatusSuccess,
+    changeTicketStatusError
 } from './actions'
 
 export const sendTicket = (ticket, uid) => async (dispatch, _, api) => {
@@ -124,5 +127,31 @@ export const getTickets = (uid, isAdmin = false) => async (dispatch, _, api) => 
     } catch (e) {
         console.log("SOME WRONG")
         dispatch(getTicketsError(e))
+    }
+}
+/**
+ * Функция изменения статуса тикета
+ * @param ticket Тикет пользователя
+ * @param fio ФИО взявшего в работу
+ * @param uid UID пользователя отправившего тикет
+ * @returns {(function(*, *, *): Promise<void>)|*}
+ */
+// export const changeTicketStatus = (ticket, fio ,uid ) => async (dispatch, _, api) => {
+export const changeTicketStatus = (ticket ,uid ) => async (dispatch, _, api) => {
+
+    try {
+        dispatch(changeTicketStatusStart());
+
+        await api.changeTicketStatusToFirebaseApi(ticket, uid);
+        console.log('тикет санк', ticket)
+        // console.log('fio санк', fio)
+        console.log('uid санк', uid)
+
+
+        dispatch(changeTicketStatusSuccess(ticket))
+
+        // dispatch(changeTicketStatusSuccess(ticket, fio))
+    } catch (e) {
+        dispatch(changeTicketStatusError(e));
     }
 }

@@ -13,10 +13,13 @@ import {
     getProfileFromFirebaseApi,
     setProfileToFirebaseApi,
     getAllProfilesFromFirebaseApi,
+    updateApplicationToFirebaseApi,
+    removeApplicationFromFireBaseApi,
     setApplicationToFirebaseApi,
     getApplicationsFromFireBaseApi,
     sendTicketToFirebaseApi,
     getTicketsFromFirebaseApi,
+    changeTicketStatusToFirebaseApi,
 } from '../api'
 
 /** include reducers */
@@ -34,10 +37,13 @@ const api = {
     getProfileFromFirebaseApi,
     setProfileToFirebaseApi,
     getAllProfilesFromFirebaseApi,
+    updateApplicationToFirebaseApi,
+    removeApplicationFromFireBaseApi,
     setApplicationToFirebaseApi,
     getApplicationsFromFireBaseApi,
     sendTicketToFirebaseApi,
     getTicketsFromFirebaseApi,
+    changeTicketStatusToFirebaseApi,
 }
 
 export const store = createStore(

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useDispatch} from "react-redux";
 
 /** MUI Material */
 import {IconButton, Menu, MenuItem} from "@mui/material";
@@ -7,14 +8,22 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 /** Include Custom Comps */
 import {AddUser} from "../../add-users";
 
+/** Include Thunks */
+import { removeApplication } from '../../../store/applications'
 
-const iconsOptions = [
+const iconsOptionsWhenIsIncomplete = [
     'Add user',
+    'Delete'
+]
+const iconsOptionsWhenIsComplete = [
     'Delete'
 ]
 
 export const Application = ({application, complete}) => {
+    const dispatch = useDispatch();
     const [addUserVisibility, setAddUserVisibility] = useState(false);
+
+    // console.log("IDX", indexOfApplication)
 
     // Логика работы меню три точки в карточке апликейшона
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,6 +35,9 @@ export const Application = ({application, complete}) => {
         if (option === "Add user") {
             addUser();
         }
+        if (option === "Delete"){
+            dispatch(removeApplication(application));
+        }
         setAnchorEl(null);
     };
     const addUser = () => {
@@ -35,7 +47,7 @@ export const Application = ({application, complete}) => {
     return (
         <div>
             {
-                addUserVisibility
+                addUserVisibility && !application.isComplete
                     ? <AddUser application={application}/>
                     : <></>
             }
@@ -80,13 +92,21 @@ export const Application = ({application, complete}) => {
                         }}
                     >
                         {
-                            iconsOptions.map((option) => (
+                            !application.isComplete
+                                ?
+                                iconsOptionsWhenIsIncomplete.map((option) => (
                                     <MenuItem key={option} selected={option === "fgdfgd"}
                                               onClick={() => iconHandleClose(option)}>
                                         {option}
                                     </MenuItem>
-                                )
-                            )
+                                ))
+                                :
+                                iconsOptionsWhenIsComplete.map((option) => (
+                                    <MenuItem key={option} selected={option === "fgdfgd"}
+                                              onClick={() => iconHandleClose(option)}>
+                                        {option}
+                                    </MenuItem>
+                                ))
                         }
                     </Menu>
                 </div>

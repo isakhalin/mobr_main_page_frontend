@@ -5,6 +5,9 @@ import {
     UPDATE_APPLICATION_START,
     UPDATE_APPLICATION_SUCCESS,
     UPDATE_APPLICATION_ERROR,
+    REMOVE_APPLICATION_START,
+    REMOVE_APPLICATION_SUCCESS,
+    REMOVE_APPLICATION_ERROR,
 } from './types';
 
 export const getApplicationsStart = () => ({
@@ -25,9 +28,21 @@ export const updateApplicationStart = () => ({
 })
 export const updateApplicationSuccess = (partOfApplication) => ({
     type: UPDATE_APPLICATION_SUCCESS,
-    payload: partOfApplication,
+    payload: {partOfApplication},
 })
 export const updateApplicationError = (error) => ({
     type: UPDATE_APPLICATION_ERROR,
     payload: error,
+})
+
+export const removeApplicationStart = () => ({
+    type: REMOVE_APPLICATION_START
+})
+export const removeApplicationSuccess = (application) => ({
+    type: REMOVE_APPLICATION_SUCCESS,
+    payload: application
+})
+export const removeApplicationError = (error) => ({
+    type: REMOVE_APPLICATION_ERROR,
+    payload: error
 })

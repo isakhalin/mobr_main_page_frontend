@@ -74,7 +74,7 @@ export const ApplicationsPage = () => {
         dept: '',           // Отдел
         position: '',       // Должность
         room: '',           // Кабинет
-        phone: '',          // Рабочий номер телефона
+        phoneNumber: '',    // Рабочий номер телефона
         isMinobr: null      // Принадлежность к Минобр
     })
 
@@ -266,8 +266,8 @@ export const ApplicationsPage = () => {
                                         sx={{width: '400px'}}
                                         label="Рабочий телефон (текущее трудоустройство)"
                                         variant="standard"
-                                        value={form.phone}
-                                        onChange={(e) => setForm({...form, phone: e.target.value})}
+                                        value={form.phoneNumber}
+                                        onChange={(e) => setForm({...form, phoneNumber: e.target.value})}
                                     />
                                 </div>
                                 {/*<Button variant="outlined">Сохранить</Button>*/}

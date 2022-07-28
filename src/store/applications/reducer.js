@@ -4,7 +4,10 @@ import {
     GET_APPLICATIONS_ERROR,
     UPDATE_APPLICATION_START,
     UPDATE_APPLICATION_SUCCESS,
-    UPDATE_APPLICATION_ERROR
+    UPDATE_APPLICATION_ERROR,
+    REMOVE_APPLICATION_START,
+    REMOVE_APPLICATION_SUCCESS,
+    REMOVE_APPLICATION_ERROR
 } from './types'
 
 const ApplicationState = {
@@ -14,6 +17,8 @@ const ApplicationState = {
         errorGet: null,
         pendingUpdate: false,
         errorUpdate: null,
+        pendingRemove: false,
+        errorRemove: null,
     }
 }
 
@@ -36,21 +41,45 @@ export const ApplicationReducer = (state = ApplicationState, action) => {
                 status: {...state.status, pendingGet: false, errorGet: action.payload}
             }
         case UPDATE_APPLICATION_START:
+            console.log("APPLICATIONS IN REDUCER", state);
             return {
                 ...state,
                 status: {...state.status, pendingUpdate: true, errorUpdate: null}
             }
         case UPDATE_APPLICATION_SUCCESS:
-            // const finded = ApplicationState["applications"].indexOf()
+            state.applications.map((el) => {
+                if (el.date === action.payload.partOfApplication.date){
+                    el.isComplete = action.payload.partOfApplication.isComplete;
+                }
+            })
             return {
                 ...state,
-                applications: {...state.applications},
                 status: {...state.status, pendingUpdate: false}
             }
         case UPDATE_APPLICATION_ERROR:
             return {
                 ...state,
                 status: {...state.status, pendingUpdate: false, errorUpdate: action.payload}
+            }
+        case REMOVE_APPLICATION_START:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: true, errorRemove: null}
+            }
+        case REMOVE_APPLICATION_SUCCESS:
+            state.applications.map((application) => {
+                if (application.date === action.payload.date){
+                    state.applications.splice(state.applications.indexOf(application), 1)
+                }
+            })
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: false}
+            }
+        case REMOVE_APPLICATION_ERROR:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: false, errorRemove: action.payload}
             }
         default:
             return state;

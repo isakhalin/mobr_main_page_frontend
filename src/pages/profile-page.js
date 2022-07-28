@@ -38,7 +38,7 @@ export const ProfilePage = ({session}) => {
         isAdmin: isAdmin,
         org: org, //*
         prevOrg: prevOrg,
-        phoneNumber: phoneNumber, //*
+            phoneNumber: phoneNumber, //*
         phoneNumberMobile: phoneNumberMobile, //*
         position: position, //*
         room: room, //*
