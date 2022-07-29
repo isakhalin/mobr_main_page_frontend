@@ -70,7 +70,7 @@ export const AdminPage = ({session, isAdmin}) => {
                 <Applications/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Users/>
+                <Users isAdmin={isAdmin}/>
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <TicketList session={session} isAdmin={isAdmin} worklist = {true}/>

@@ -28,7 +28,7 @@ export const TicketList = ({session, isAdmin = false, worklist = false}) => {
                         // для вкладки Tickets
                         if (!worklist) {
                             return (
-                                <Ticket el={el} isAdmin={isAdmin} fio={`${firstName} ${lastName} ${middleName}`}/>
+                                <Ticket el={el} isAdmin={isAdmin} fio={`${firstName} ${lastName} ${middleName}`} uid={session.uid} />
                             )
                         } else {
                             //проверяем соответсвует ли Исполнитель текущему пользователю, если true вернем Ticket

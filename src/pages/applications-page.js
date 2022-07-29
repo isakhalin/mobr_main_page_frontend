@@ -112,7 +112,7 @@ export const ApplicationsPage = () => {
     const [isDisabled, setIsDisabled] = useState(true)
 
     useEffect(() => {
-        if (form.firstName && form.lastName && form.middleName && form.prevOrg && form.org && form.dept && form.position && (form.isMinobr !== null) && form.phone && form.room) {
+        if (form.firstName && form.lastName && form.middleName && form.prevOrg && form.org && form.dept && form.position && (form.isMinobr !== null) && form.phoneNumber && form.room) {
             setIsDisabled(false);
         } else {
             setIsDisabled(true);

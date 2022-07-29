@@ -7,17 +7,30 @@ import {
     GET_TICKETS_ERROR,
     CHANGE_TICKET_STATUS_START,
     CHANGE_TICKET_STATUS_SUCCESS,
-    CHANGE_TICKET_STATUS_ERROR
+    CHANGE_TICKET_STATUS_ERROR,
+    REMOVE_USER_TICKETS_START,
+    REMOVE_USER_TICKETS_SUCCESS,
+    REMOVE_USER_TICKETS_ERROR,
 } from './types';
 
 const ticketState = {
-    tickets: [],
-    // ticketsInWork: [],
+    tickets: [
+        // {
+        //    ticketAuthorFirstName: "Дарт"
+        //    ticketAuthorLastName: "Вейдор"
+        //    ticketDate: 1658627234558
+        //    ticketImportance: "low"
+        //    ticketStatus: "sent"
+        //    ticketText: "asdasd"
+        // }
+    ],
     status: {
         pendingSet: false,
         errorSet: null,
         pendingGet: false,
         errorGet: null,
+        pendingRemove: false,
+        errorRemove: null
     }
 }
 
@@ -115,6 +128,35 @@ export const TicketReducer = (state = ticketState, action) => {
             return {
                 ...state,
                 status: {...state.status, pendingSet: false, errorSet: action.payload}
+            }
+        case REMOVE_USER_TICKETS_START:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: true, errorRemove: null}
+            }
+        case REMOVE_USER_TICKETS_SUCCESS:
+            const userTicketDates = action.payload;     //Сюда приходит массив с датами тикетов пользователя, которые надо удалить
+            let newTickets = [...state.tickets];        //Создаем из стейта копию массива, с которым будем работать
+            state.tickets.map((reducerTicket) => {      //Перебираем исходный массив
+                if (reducerTicket.hasOwnProperty('ticketDate')){    //Проверяем наличие свойства ticketDate
+                    userTicketDates.map((userTicket) => {   // Перебираем массив с датами тикетов, которые нужно удалить
+                        if(reducerTicket.ticketDate.toString() === userTicket){ //Ищем совпадения дат в исходном массиве
+                            //newTickets.splice(newTickets.indexOf(reducerTicket), 1) //Удаляем при совпадении
+                        }
+                    })
+                }
+            })
+            console.log("prevTickets", state.tickets)
+            console.log("newTickets", newTickets);
+            return {
+                ...state,
+                tickets: [...newTickets],
+                status: {...state.status, pendingRemove: false}
+            }
+        case REMOVE_USER_TICKETS_ERROR:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: false, errorRemove: action.payload}
             }
         default:
             return state;
