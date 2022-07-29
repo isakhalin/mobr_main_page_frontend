@@ -95,24 +95,25 @@ export const ApplicationsPage = () => {
     const sendApplicationForm = async () => {
         await setApplicationToFirebaseApi({...form, date: new Date().getTime()});
         setForm({
-            date: null,
-            lastName: '',
-            firstName: '',
-            middleName: '',
-            prevOrg: '',
-            org: '',
-            dept: '',
-            position: '',
-            room: '',
-            phone: '',
-            isMinobr: null
+            date: null,         // Дата
+            isComplete: false,  // Флаг выполнения заявки
+            lastName: '',       // Фамилия
+            firstName: '',      // Имя
+            middleName: '',     // Отчество
+            prevOrg: '',        // Предыдущее место работы
+            org: '',            // Организация
+            dept: '',           // Отдел
+            position: '',       // Должность
+            room: '',           // Кабинет
+            phoneNumber: '',    // Рабочий номер телефона
+            isMinobr: null      // Принадлежность к Минобр
         });
     };
 
     const [isDisabled, setIsDisabled] = useState(true)
 
     useEffect(() => {
-        if (form.firstName && form.lastName && form.middleName && form.prevOrg && form.org && form.dept && form.position && (form.isMinobr !== null) && form.phone && form.room) {
+        if (form.firstName && form.lastName && form.middleName && form.prevOrg && form.org && form.dept && form.position && (form.isMinobr !== null) && form.phoneNumber && form.room) {
             setIsDisabled(false);
         } else {
             setIsDisabled(true);
