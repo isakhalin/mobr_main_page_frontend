@@ -21,7 +21,7 @@ export const Users = ({isAdmin}) => {
         <div>
             {
                 status.pendingAllGet ?
-                    <div>Loading...</div>
+                    <div>Загружаю...</div>
                     :
                     profiles.map((el, idx) => (
                         <div key={el.uid} style={{
