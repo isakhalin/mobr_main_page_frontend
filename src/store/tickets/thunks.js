@@ -54,7 +54,6 @@ export const getTickets = (uid, isAdmin = false) => async (dispatch, _, api) => 
             if (snap.hasOwnProperty(el)) {  //Проверяем есть ли такое свойство в объекте snap
                 if (isAdmin) { //Проверяем адимн ли это
                     for (let subEl in snap[el]) {   // В subEl приходит значение свойства date
-                        // console.log("SUBEL", snap[el][subEl])
                         if (snap[el].hasOwnProperty(subEl)) { //Проверяем есть ли такое свойство в объекте snap[el]
                             tickets.push(snap[el][subEl]);  //Пушим в массив содержимое свойства subEl объекта snap[el]
                         }
@@ -182,6 +181,7 @@ export const removeUserTickets = (uid, isAdmin) => async (dispatch, _, api) => {
     try {
         dispatch(removeUserTicketsStart());
 
+        // Получаем тикеты юзера из FB
         const userTickets = await api.getTicketsFromFirebaseApi(uid).then(data => data.val()); // Приходит объект вида { Дата: {}, Дата: {} }
 
         const ticketDates = [];
