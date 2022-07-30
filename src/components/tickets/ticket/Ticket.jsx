@@ -39,7 +39,7 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
      * @param userCompleted {Boolean} Подтверждение закрытия тикета
      * @returns {Promise<void>}
      */
-    const changeTicketHandler = async (ticket, ticketStatus, userCompleted = false) => {
+    const changeTicketHandler = (ticket, ticketStatus, userCompleted = false) => {
         el.ticketStatus = ticketStatus //изменяем статус элемента(полученного в пропсах) на в работе
         el.userCompleted = userCompleted // поле для подтверждение закрития тикета пользователем
 
@@ -64,7 +64,6 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
     }
 
     return (
-        // <div>
         <div style={{
             border: "solid 1px grey",
             borderRadius: "5px",
@@ -81,12 +80,14 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
                 <span>Срочность: </span><span>{el.ticketImportance === 'low' ? "Не срочно" : el.ticketImportance === 'normal' ? "В порядке очереди" : "Срочно"}</span>
             </div>
             <div>
-                <span>Статус: </span><span>{el.ticketStatus === 'sent' ? "Отправлено" : el.ticketStatus === 'processed' ? "Выполняется" : "Готово"}</span>
+                <span>Статус: </span><span>{el.ticketStatus}</span>
+
+                {/*<span>Статус: </span><span>{el.ticketStatus === 'sent' ? "Отправлено" : el.ticketStatus === 'processed' ? "Выполняется" : "Готово"}</span>*/}
                 <br/>
                 <span>Исполнитель:</span><span>{el.ticketExecutor ?? " не назначен"}</span>
             </div>
             {isAdmin ? <div>
-                <span>Подтверждение закрытия пользователем: </span><span>{el.userCompleted === true ? 'Завершено' : 'Не завершено' }</span>
+                <span>Подтверждение закрытия пользователем: </span><span>{el.userCompleted === true ? 'Подтверждено' : 'Не подтверждено'}</span>
             </div> : <></>
             }
             <div><span>Описание проблемы:</span></div>
@@ -96,30 +97,39 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
             */}
             {
                 isAdmin ?
-                    <ButtonGroup variant="outlined" aria-label="outlined button group">
-                        <Button disabled={el.ticketStatus === 'processed'}
-                                onClick={() => changeTicketHandler(el, 'processed')}>В работу</Button>
+                    <ButtonGroup variant="outlined" aria-label="outlined button group"
+                                 sx={{
+                                     display: 'flex',
+                                     justifyContent: 'center',
+                                 }}
+                    >
+                        <Button disabled={el.ticketStatus === 'В работе'}
+                                onClick={() => changeTicketHandler(el, 'В работе')}>В работу</Button>
                         <Button disabled={el.userCompleted}
-                                onClick={() => changeTicketHandler(el, 'complited')}
+                                onClick={() => changeTicketHandler(el, 'Готово')}
                         >Завершить</Button>
                         <Button variant="outlined"
                                 disabled={el.userCompleted}
-                                onClick={() => changeTicketHandler(el, 'complited', true)}
-                        >Подтвердить</Button>
+                                onClick={() => changeTicketHandler(el, 'Заявка закрыта', true)}
+                        >Закрыть задачу</Button>
                     </ButtonGroup>
                     :
                     //для пользователя отрисовываем кнопку для подтверждения закрытия
                     //передаем тикет, статусТикета, и true для подтверждения заакрытия
-                    !el.userCompleted ? <Button variant="outlined"
-                            onClick={() => changeTicketHandler(el, 'complited', true)}
-                        >Закрыть задачу</Button>
+                    !el.userCompleted
+                        ?
+                        <Button
+                            variant="outlined"
+                            onClick={() => changeTicketHandler(el, 'Заявка закрыта', true)}
+                        >
+                            Закрыть задачу
+                        </Button>
                         :
                         // кнопка для возвращения в работу
                         <Button variant="outlined"
-                            onClick={() => changeTicketHandler(el, 'processed', false)}
+                                onClick={() => changeTicketHandler(el, 'В работе', false)}
                         >Вернуть в работу</Button>
             }
         </div>
-        // </div>
     );
 };
