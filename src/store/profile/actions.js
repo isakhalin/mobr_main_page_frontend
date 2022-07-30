@@ -8,6 +8,9 @@ import {
     GET_ALL_PROFILES_START,
     GET_ALL_PROFILES_SUCCESS,
     GET_ALL_PROFILES_ERROR,
+    REMOVE_USER_PROFILE_START,
+    REMOVE_USER_PROFILE_SUCCESS,
+    REMOVE_USER_PROFILE_ERROR,
     CLEAR_PROFILE_START,
     CLEAR_PROFILE_SUCCESS,
     CLEAR_PROFILE_ERROR
@@ -51,6 +54,19 @@ export const sendProfileError = (error) => ({
     type: SEND_PROFILE_ERROR,
     payload: error
 })
+
+// Екшены для удаления профиля пользователя из глобал стор
+export const removeUserProfileStart = () => ({
+    type: REMOVE_USER_PROFILE_START,
+})
+export const removeUserProfileSuccess = (uid) => ({
+    type: REMOVE_USER_PROFILE_SUCCESS,
+    payload: uid,
+});
+export const removeUserProfileError = (error) => ({
+    type: REMOVE_USER_PROFILE_ERROR,
+    payload: error
+});
 
 // Методы для очистки профиля из глобального стейта при выходе
 export const clearProfileStart = () => ({

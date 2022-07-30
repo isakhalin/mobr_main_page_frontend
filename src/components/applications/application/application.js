@@ -26,7 +26,7 @@ export const Application = ({application, complete}) => {
     // console.log("IDX", indexOfApplication)
 
     // Логика работы меню три точки в карточке апликейшона
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const iconHandleClick = (event) => {
         setAnchorEl(event.currentTarget);

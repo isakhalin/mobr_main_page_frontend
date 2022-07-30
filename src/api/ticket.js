@@ -1,5 +1,5 @@
 import {database} from './firebase'
-import {set, get, child, ref, serverTimestamp, onValue, off, update} from 'firebase/database';
+import {set, get, child, ref, serverTimestamp, onValue, off, update, remove} from 'firebase/database';
 
 export const sendTicketToFirebaseApi = (ticket, uid) => {
 
@@ -51,8 +51,6 @@ export const sendTicketToFirebaseApi = (ticket, uid) => {
 };
 
 export const getTicketsFromFirebaseApi = (uid, isAdmin) => {
-    // debugger
-
     if (isAdmin) {
         return get(child(ref(database), "tickets"));
     } else {
@@ -77,4 +75,8 @@ export const changeTicketStatusToFirebaseApi = (ticket, uid) => {
 //Нативный метод апдейт выполняет частичное обновление данных, не перезаписывая другие данные в ноде
 //     debugger
     return update(child(ref(database), `tickets/${uid}/${ticket.ticketDate}`), ticket);
+    }
+// Удаление всех тикетов пользователя из FB
+export const removeUserTicketsFromFBApi = (uid) => {
+    return remove(child(ref(database), `tickets/${uid}`));
 }

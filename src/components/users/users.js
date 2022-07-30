@@ -4,7 +4,10 @@ import {useDispatch, useSelector} from "react-redux";
 /** include Thunks */
 import {getAllProfiles} from '../../store/profile'
 
-export const Users = () => {
+/** Include Custom Comps */
+import {User} from "./user";
+
+export const Users = ({isAdmin}) => {
     const dispatch = useDispatch();
     const {profiles, status} = useSelector((state) => state.profile);
 
@@ -33,14 +36,7 @@ export const Users = () => {
                             <div style={{paddingRight: "5px"}}>
                                 {idx + 1}
                             </div>
-                            <div>
-                                <div><span></span><span>{el.lastName}</span></div>
-                                <div><span></span><span>{el.middleName}</span></div>
-                                <div><span></span><span>{el.firstName}</span></div>
-                                <div><span></span><span>{el.org}</span></div>
-                                <div><span></span><span>{el.phoneNumber}</span></div>
-                                <div><span></span><span>{el.phoneNumberMobile}</span></div>
-                            </div>
+                            <User profile={el} isAdmin={isAdmin}/>
                         </div>
                     ))
             }

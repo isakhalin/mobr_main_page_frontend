@@ -8,6 +8,9 @@ import {
     GET_ALL_PROFILES_START,
     GET_ALL_PROFILES_SUCCESS,
     GET_ALL_PROFILES_ERROR,
+    REMOVE_USER_PROFILE_START,
+    REMOVE_USER_PROFILE_SUCCESS,
+    REMOVE_USER_PROFILE_ERROR,
     CLEAR_PROFILE_START,
     CLEAR_PROFILE_SUCCESS,
     CLEAR_PROFILE_ERROR,
@@ -15,16 +18,21 @@ import {
 
 // По умолчанию пустая форма, используем если надо обнулить текущий стейт.
 const clearedForm = {
-    firstName: "",
-    lastName: "",
-    middleName: "",
-    dept: "",
-    avatar: "",
-    isAdmin: false,
-    isMinobr: "",
-    org: "",
-    phoneNumber: "",
-    phoneNumberMobile: ""
+        date: '',
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        dept: '',
+        isMinobr: false,
+        isAdmin: false,
+        org: '',
+        prevOrg: '',
+        phoneNumber: '',
+        phoneNumberMobile: '',
+        position: '',
+        room: '',
+        email: '',
+        avatar: '',
 }
 
 const profileState = {
@@ -54,7 +62,9 @@ const profileState = {
         pendingAllGet: false,
         errorAllGet: null,
         pendingClear: false,
-        errorClear: null
+        errorClear: null,
+        pendingRemove: false,
+        errorRemove: null,
     }
 }
 
@@ -107,6 +117,30 @@ export const ProfileReducer = (state = profileState, action) => {
             return {
                 ...state,
                 status: {...state.status, pendingAllGet: false, errorAllGet: action.payload}
+            }
+        case REMOVE_USER_PROFILE_START:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: true, errorRemove: null}
+            }
+        case REMOVE_USER_PROFILE_SUCCESS:
+            let newProfiles = [...state.profiles];  // создаем копию массива из исходного profiles
+            state.profiles.map((el) => {    // Перебираем исходный массив
+                if(el.uid === action.payload){  // В payload приходит uid, сравниваем каждый uid элемента с полученным uid
+                    // Находим индекс нужного элемента в копии массива и удаляем этот элемента из копии массива
+                    newProfiles.splice(newProfiles.indexOf(el), 1);
+                }
+            })
+            console.log("newProfiles", newProfiles)
+            return {
+                ...state,
+                profiles: [...newProfiles],
+                status: {pendingRemove: false}
+            }
+        case REMOVE_USER_PROFILE_ERROR:
+            return {
+                ...state,
+                status: {...state.status, pendingRemove: false, errorRemove: action.payload}
             }
         case CLEAR_PROFILE_START:
             return {

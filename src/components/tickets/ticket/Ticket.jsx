@@ -1,32 +1,37 @@
+//Импорт реакта и редакса
 import React, {useEffect} from 'react';
-import {Button, ButtonGroup} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
+
+//MUI
+import {Button, ButtonGroup} from "@mui/material";
+
+//Санки
 import {changeTicketStatus} from "../../../store/tickets";
-// import {useEffect} from "@types/react";
 import {getAllProfiles} from "../../../store/profile";
 
-export const Ticket = ({el, isAdmin = false, fio}) => {
+export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
     const dispatch = useDispatch();
-    const {profiles, status} = useSelector((state) => state.profile);
+    // const {profiles, status} = useSelector((state) => state.profile);
 
-    useEffect(() => { // если админ получаем все профили пользователей
-        if (isAdmin) {
-            dispatch(getAllProfiles())
-        }
-    }, [dispatch])
+    // useEffect(() => { // если админ получаем все профили пользователей
+    //     if (!isAdmin) {
+    //         dispatch(getAllProfiles())
+    //     }
+    // }, [dispatch])
 
-    /**
-     * Функция получения Uid пользователя отправившего тикет
-     * @param ticketAuthorFirstName {String} имя пользователя
-     * @param ticketAuthorLastName {String} фамилия пользователя
-     * @returns {String} user uid/ uid пользователя
-     */
-    const getProfiles = ({ticketAuthorFirstName, ticketAuthorLastName}) => {
-        // фильтруем массив профилей и получаем нужный профиль сравнивая имя и фамилию из тикета
-        let profile = profiles.filter(elem => elem.firstName === ticketAuthorFirstName && elem.lastName === ticketAuthorLastName)
+    // /**
+    //  * Функция получения Uid пользователя отправившего тикет
+    //  * @param ticketAuthorFirstName {String} имя пользователя
+    //  * @param ticketAuthorLastName {String} фамилия пользователя
+    //  * @returns {String} user uid/ uid пользователя
+    //  */
+    // const getUserUid = ({ticketAuthorFirstName, ticketAuthorLastName}) => {
+    //     // фильтруем массив профилей и получаем нужный профиль сравнивая имя и фамилию из тикета
+    //     let profile = profiles.filter(elem => elem.firstName === ticketAuthorFirstName && elem.lastName === ticketAuthorLastName)
+    //
+    //     return profile[0].uid
+    // }
 
-        return profile[0].uid
-    }
     /**
      * Функция изменения статуса тикета
      * @param ticket {Object} тикет
@@ -36,21 +41,24 @@ export const Ticket = ({el, isAdmin = false, fio}) => {
      */
     const changeTicketHandler = async (ticket, ticketStatus, userCompleted = false) => {
         el.ticketStatus = ticketStatus //изменяем статус элемента(полученного в пропсах) на в работе
-        el.ticketExecutor = fio // добавляем ФИО взявшего в работу
         el.userCompleted = userCompleted // поле для подтверждение закрития тикета пользователем
+
+        if (isAdmin) {
+            el.ticketExecutor = fio // добавляем ФИО взявшего в работу
+        }
+
         // debugger
 
-        const profileUid = getProfiles(ticket) // получаем uid пользователя отправившего тикет
+        // const profileUid = getUserUid(ticket) // получаем uid пользователя отправившего тикет
         console.log('фио', fio)
-        console.log("PROFILES", profileUid)
+        // console.log("PROFILES", profileUid)
         /**
          * вызываем dispatch и функцию изменения статуса тикета, передаем в нее
-         * Тикет
-         * ФИО взявшего в работу
-         * UID пользователя отправившего тикет
+         * Ticket Тикет
+         * isAdmin админ ли это
          */
         // dispatch(changeTicketStatus(ticket, fio, profileUid))
-        dispatch(changeTicketStatus(ticket, profileUid))
+        dispatch(changeTicketStatus(ticket, uid, isAdmin))
 
         console.log('отработал')
     }
@@ -78,7 +86,7 @@ export const Ticket = ({el, isAdmin = false, fio}) => {
                 <span>Исполнитель:</span><span>{el.ticketExecutor ?? " не назначен"}</span>
             </div>
             {isAdmin ? <div>
-                <span>Подтверждение закрытия пользователем: </span><span>{el.userCompleted === false ? 'Не завершено' : 'Завершено'}</span>
+                <span>Подтверждение закрытия пользователем: </span><span>{el.userCompleted === true ? 'Завершено' : 'Не завершено' }</span>
             </div> : <></>
             }
             <div><span>Описание проблемы:</span></div>
@@ -94,13 +102,17 @@ export const Ticket = ({el, isAdmin = false, fio}) => {
                         <Button disabled={el.userCompleted}
                                 onClick={() => changeTicketHandler(el, 'complited')}
                         >Завершить</Button>
+                        <Button variant="outlined"
+                                disabled={el.userCompleted}
+                                onClick={() => changeTicketHandler(el, 'complited', true)}
+                        >Подтвердить</Button>
                     </ButtonGroup>
                     :
                     //для пользователя отрисовываем кнопку для подтверждения закрытия
                     //передаем тикет, статусТикета, и true для подтверждения заакрытия
                     !el.userCompleted ? <Button variant="outlined"
                             onClick={() => changeTicketHandler(el, 'complited', true)}
-                        >Завершить</Button>
+                        >Подтвердить</Button>
                         :
                         // кнопка для возвращения в работу
                         <Button variant="outlined"
