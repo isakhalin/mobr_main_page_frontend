@@ -54,11 +54,12 @@ export const AdminPage = ({session, isAdmin}) => {
     };
 
 
-
     return (
-        <Box sx={{width: '100%'}}>
-            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                <Tabs value={value} onChange={handleTabsChange} aria-label="basic tabs example">
+        <Box sx={{width:'100%'}}>
+            {/*//{ maxWidth: { xs: 380, sm: '100%' }}*/}
+            <Box sx={{borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center'}}>
+                <Tabs value={value} onChange={handleTabsChange} variant="scrollable" scrollButtons="auto"
+                      aria-label="basic tabs example">
                     <Tab label="Tickets" {...a11yProps(0)} />
                     <Tab label="Applications" {...a11yProps(1)} />
                     <Tab label="Users" {...a11yProps(2)} />
@@ -69,7 +70,7 @@ export const AdminPage = ({session, isAdmin}) => {
             {/*    <AdminTicketForm></AdminTicketForm>*/}
             {/*</Container>*/}
             <TabPanel value={value} index={0}>
-                <TicketList session={session} isAdmin={isAdmin} worklist = {false}/>
+                <TicketList session={session} isAdmin={isAdmin} worklist={false}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Applications/>
@@ -78,7 +79,7 @@ export const AdminPage = ({session, isAdmin}) => {
                 <Users isAdmin={isAdmin}/>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <TicketList session={session} isAdmin={isAdmin} worklist = {true}/>
+                <TicketList session={session} isAdmin={isAdmin} worklist={true}/>
 
             </TabPanel>
         </Box>
