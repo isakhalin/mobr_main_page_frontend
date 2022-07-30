@@ -20,7 +20,7 @@ export const AdminTicketForm = ({session, isAdmin}) => {
             ticketAuthorLastName: lastName,
             ticketDate: new Date().getTime(),
             ticketImportance: importance,
-            ticketStatus: "sent",
+            ticketStatus: "Отправлено",
             ticketExecutor: "Не назначен",
             userCompleted: false,
             ticketText: form
@@ -69,7 +69,7 @@ export const AdminTicketForm = ({session, isAdmin}) => {
                                 </Select>
                             </FormControl>
                             <Button
-                                style={{marginTop: "12px", padding: "4px 10px", lineHeight: "2"}}
+                                style={{marginTop: "8px", padding: "5.5px 14px", lineHeight: "2"}}
                                 variant="outlined"
                                 onClick={sandClickHandler}
                                 disabled={isForm}

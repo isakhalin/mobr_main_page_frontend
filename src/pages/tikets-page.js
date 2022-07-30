@@ -36,7 +36,7 @@ export const TicketsPage = ({session}) => {
             ticketAuthorLastName: lastName,
             ticketDate: new Date().getTime(),
             ticketImportance: importance,
-            ticketStatus: "sent",
+            ticketStatus: "Отправлено",
             ticketExecutor: "Не назначен",
             userCompleted: false,
             ticketText: form
@@ -47,10 +47,10 @@ export const TicketsPage = ({session}) => {
     };
 
     return (
-        <div>
+        <div style={{padding: '0 10px'}}>
             <h3>Здесть можно оставить заявку на решение проблемы</h3>
             <div style={{display: "flex", flexWrap: "wrap"}}>
-                <div>
+                <div style={{marginLeft:'10px'}}>
                     <Box
                         component="form"
                         sx={{
@@ -86,7 +86,7 @@ export const TicketsPage = ({session}) => {
                                 </Select>
                             </FormControl>
                             <Button
-                                style={{marginTop: "12px", padding: "4px 10px", lineHeight: "2"}}
+                                style={{marginTop: "8px", padding: "5.5px 14px", lineHeight: "2"}}
                                 variant="outlined"
                                 onClick={sandClickHandler}
                                 disabled={isForm}
@@ -96,7 +96,7 @@ export const TicketsPage = ({session}) => {
                         </div>
                     </Box>
                 </div>
-                <div>
+                <div style={{flexGrow: '1'}}>
                     <div>Задачи, отправленные мной:</div>
                     <TicketList session={session}/> {/*передаем без админа чтобы не было лишник кнопок*/}
                 </div>
