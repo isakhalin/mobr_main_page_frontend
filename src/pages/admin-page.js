@@ -80,7 +80,6 @@ export const AdminPage = ({session, isAdmin}) => {
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <TicketList session={session} isAdmin={isAdmin} worklist={true}/>
-
             </TabPanel>
         </Box>
     );

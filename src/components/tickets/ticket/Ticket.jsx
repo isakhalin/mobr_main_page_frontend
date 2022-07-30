@@ -9,6 +9,9 @@ import {Button, ButtonGroup} from "@mui/material";
 import {changeTicketStatus} from "../../../store/tickets";
 import {getAllProfiles} from "../../../store/profile";
 
+/** Include Styles */
+import './ticket.module.css'
+
 export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
     const dispatch = useDispatch();
     // const {profiles, status} = useSelector((state) => state.profile);
@@ -67,6 +70,7 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
         <div style={{
             border: "solid 1px grey",
             borderRadius: "5px",
+            backgroundColor: "#05050008",
             marginBottom: "5px",
             padding: "5px",
             textAlign: "left",
@@ -97,20 +101,25 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
             */}
             {
                 isAdmin ?
-                    <ButtonGroup variant="outlined" aria-label="outlined button group"
-                                 sx={{
-                                     display: 'flex',
-                                     justifyContent: 'center',
-                                 }}
+                    <ButtonGroup
+                        variant="outlined"
+                        size='ticketButtonSize' // Пропс переопределен в custom-theme-provider
+                        aria-label="outlined button group"
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}
                     >
-                        <Button disabled={el.ticketStatus === 'В работе'}
-                                onClick={() => changeTicketHandler(el, 'В работе')}>В работу</Button>
-                        <Button disabled={el.userCompleted}
-                                onClick={() => changeTicketHandler(el, 'Готово')}
+                        <Button
+                            disabled={el.ticketStatus === 'В работе'}
+                            onClick={() => changeTicketHandler(el, 'В работе')}>В работу</Button>
+                        <Button
+                            disabled={el.userCompleted}
+                            onClick={() => changeTicketHandler(el, 'Готово')}
                         >Завершить</Button>
-                        <Button variant="outlined"
-                                disabled={el.userCompleted}
-                                onClick={() => changeTicketHandler(el, 'Заявка закрыта', true)}
+                        <Button
+                            disabled={el.userCompleted}
+                            onClick={() => changeTicketHandler(el, 'Заявка закрыта', true)}
                         >Закрыть задачу</Button>
                     </ButtonGroup>
                     :
@@ -129,6 +138,7 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
                         <Button variant="outlined"
                                 onClick={() => changeTicketHandler(el, 'В работе', false)}
                         >Вернуть в работу</Button>
+
             }
         </div>
     );

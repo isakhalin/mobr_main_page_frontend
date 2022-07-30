@@ -17,9 +17,26 @@ const themeMUI = {
         myPalette: {},
         palette: {
             primary: {
-                main: "#505050"
-            }
+                main: "#505050",
+            },
         },
+        components: {
+            MuiButton: {
+                variants: [
+                    {
+                        props: {size: 'ticketButtonSize'},  //Переопределение пропсов
+                        style: {
+                            fontSize: '11px'
+                        }
+                    }
+                ]
+                // styleOverrides: {    //Переопределение стилей
+                //     root: {
+                //         fontSize: "11px"
+                //     }
+                // }
+            }
+        }
         // typography: {
         //     fontFamily: [
         //         'Roboto',
