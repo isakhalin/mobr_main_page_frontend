@@ -9,7 +9,9 @@ import Box from '@mui/material/Box';
 /** include Custom Comps */
 import {Applications} from '../components/applications'; // Компонент с формами заявок (апликации)
 import {Users} from "../components/users";
-import {TicketList} from "../components/tickets";  // Компонент для процессов с пользователями
+import {TicketList} from "../components/tickets";
+// import {Container} from "@mui/material";
+// import {AdminTicketForm} from "../components/tickets/adminTiketForm";  // Компонент для процессов с пользователями
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -63,6 +65,9 @@ export const AdminPage = ({session, isAdmin}) => {
                     <Tab label="My Tasks in work" {...a11yProps(3)}/>
                 </Tabs>
             </Box>
+            {/*<Container>*/}
+            {/*    <AdminTicketForm></AdminTicketForm>*/}
+            {/*</Container>*/}
             <TabPanel value={value} index={0}>
                 <TicketList session={session} isAdmin={isAdmin} worklist = {false}/>
             </TabPanel>

@@ -38,6 +38,7 @@ export const TicketsPage = ({session, isAdmin}) => {
             ticketImportance: importance,
             ticketStatus: "sent",
             ticketExecutor: "Не назначен",
+            userCompleted: false,
             ticketText: form
         };
         await dispatch(sendTicket(ticket, session.uid));
