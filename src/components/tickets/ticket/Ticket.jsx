@@ -112,7 +112,7 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
                     //передаем тикет, статусТикета, и true для подтверждения заакрытия
                     !el.userCompleted ? <Button variant="outlined"
                             onClick={() => changeTicketHandler(el, 'complited', true)}
-                        >Подтвердить</Button>
+                        >Закрыть задачу</Button>
                         :
                         // кнопка для возвращения в работу
                         <Button variant="outlined"
