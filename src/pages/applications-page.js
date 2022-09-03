@@ -122,7 +122,7 @@ export const ApplicationsPage = () => {
 
     return (
         <div>
-            <h3>Страница с формами заявок</h3>
+            <h3>Форма регистрации</h3>
 
             <FormControl>
                 <FormLabel id="demo-controlled-radio-buttons-group">Место официального трудоустройства:</FormLabel>
