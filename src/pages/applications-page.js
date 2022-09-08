@@ -78,12 +78,7 @@ export const ApplicationsPage = () => {
         isMinobr: null      // Принадлежность к Минобр
     })
 
-    // const [form3, setForm3] = useState({});
-    //
-    // const [form4, setForm4] = useState();
-
     //Логика радио кнопок
-    // const [valueRadio, setValueRadio] = React.useState('');
     const handleChangeRadio = (event) => {
         if (event.target.value === "true") {
             setForm({...form, org: "Министерство образования Сахалинской области", isMinobr: true})
@@ -277,23 +272,8 @@ export const ApplicationsPage = () => {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-                {/*<Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>*/}
-                {/*    <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">*/}
-                {/*        <Typography>Форма доступа в СЭД</Typography>*/}
-                {/*    </AccordionSummary>*/}
-                {/*    <AccordionDetails>*/}
-                {/*        <Typography>*/}
-                {/*            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse*/}
-                {/*            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor*/}
-                {/*            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,*/}
-                {/*            sit amet blandit leo lobortis eget.*/}
-                {/*        </Typography>*/}
-                {/*    </AccordionDetails>*/}
-                {/*</Accordion>*/}
                 <Button variant="outlined" onClick={sendApplicationForm} disabled={isDisabled}>Отправить</Button>
             </div>
-
-
         </div>
     );
 };
