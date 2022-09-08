@@ -16,21 +16,21 @@ export const getApplications = () => async (dispatch, _, api) => {
         dispatch(getApplicationsStart());
 
         ////////////////////////////////////////////
-        // // Логика для взаимодействия с Firebase
-        // const snap = await api.getApplicationsFromFireBaseApi(); // Приходит {{}{}}
-        // snap.forEach((el) => {
-        //     applications.push(el.val());
-        // })
-        //
-        // applications.sort((firstEl, secondEl) => {
-        //     if (firstEl.date < secondEl.date) {
-        //         return 1
-        //     }
-        //     if (firstEl.date > secondEl.date) {
-        //         return -1
-        //     }
-        //     return 0
-        // })
+        // Логика для взаимодействия с Firebase
+        const snap = await api.getApplicationsFromFireBaseApi(); // Приходит {{}{}}
+        snap.forEach((el) => {
+            applications.push(el.val());
+        })
+
+        applications.sort((firstEl, secondEl) => {
+            if (firstEl.date < secondEl.date) {
+                return 1
+            }
+            if (firstEl.date > secondEl.date) {
+                return -1
+            }
+            return 0
+        })
         // /////////////////////////////////////////
 
         ///////////////////////////////////////////////////
@@ -48,10 +48,10 @@ export const getApplications = () => async (dispatch, _, api) => {
         //     .catch((error) => console.log('Some Error', error, error.message));
 
         // // Запросы на axios
-        const applications  = await api.getApplicationsFromMongoDBApi(); // Апи возвращает из MongoDB массив с объектами
-        console.log('Апликейшены получены из MongoDB: ', applications)
+        // const applications  = await api.getApplicationsFromMongoDBApi(); // Апи возвращает из MongoDB массив с объектами
+        // console.log('Апликейшены получены из MongoDB: ', applications)
 
-        // //////////////////////////////////////////////////
+        /////////////////////////////////////////////////////
 
 
         dispatch(getApplicationsSuccess(applications)); // В getApplicationsSuccess нужно передать [{}{}]
