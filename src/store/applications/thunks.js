@@ -9,13 +9,13 @@ import {
     removeApplicationSuccess,
     removeApplicationError,
 } from './actions';
-import { request } from '../../api/request';
 
 export const getApplications = () => async (dispatch, _, api) => {
     const applications = [];
     try {
         dispatch(getApplicationsStart());
 
+        ////////////////////////////////////////////
         // // Логика для взаимодействия с Firebase
         // const snap = await api.getApplicationsFromFireBaseApi(); // Приходит {{}{}}
         // snap.forEach((el) => {
@@ -33,10 +33,10 @@ export const getApplications = () => async (dispatch, _, api) => {
         // })
         // /////////////////////////////////////////
 
+        ///////////////////////////////////////////////////
         // // Логика для взаимодействия с MongoDB
         // //Запросы на фетчах
         // const applications = fetch('http://localhost:3005/api/test', {
-        //     // mode: 'no-cors',
         //     method: "get",
         //     headers: {
         //         "Content-Type": "application/json"
@@ -48,13 +48,13 @@ export const getApplications = () => async (dispatch, _, api) => {
         //     .catch((error) => console.log('Some Error', error, error.message));
 
         // // Запросы на axios
-        const applications  = await request.get('/api/allapplications').then(response => response.data);
+        const applications  = await api.getApplicationsFromMongoDBApi(); // Апи возвращает из MongoDB массив с объектами
         console.log('Апликейшены получены из MongoDB: ', applications)
 
         // //////////////////////////////////////////////////
 
 
-        dispatch(getApplicationsSuccess(applications)); // Нужно передать [{}{}]
+        dispatch(getApplicationsSuccess(applications)); // В getApplicationsSuccess нужно передать [{}{}]
     } catch (e) {
         dispatch(getApplicationsError(e))
     }
