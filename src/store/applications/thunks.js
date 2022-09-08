@@ -9,25 +9,50 @@ import {
     removeApplicationSuccess,
     removeApplicationError,
 } from './actions';
+import { request } from '../../api/request';
 
 export const getApplications = () => async (dispatch, _, api) => {
     const applications = [];
     try {
         dispatch(getApplicationsStart());
-        const snap = await api.getApplicationsFromFireBaseApi(); // Приходит {{}{}}
-        snap.forEach((el) => {
-            applications.push(el.val());
-        })
 
-        applications.sort((firstEl, secondEl) => {
-            if (firstEl.date < secondEl.date) {
-                return 1
-            }
-            if (firstEl.date > secondEl.date) {
-                return -1
-            }
-            return 0
-        })
+        // // Логика для взаимодействия с Firebase
+        // const snap = await api.getApplicationsFromFireBaseApi(); // Приходит {{}{}}
+        // snap.forEach((el) => {
+        //     applications.push(el.val());
+        // })
+        //
+        // applications.sort((firstEl, secondEl) => {
+        //     if (firstEl.date < secondEl.date) {
+        //         return 1
+        //     }
+        //     if (firstEl.date > secondEl.date) {
+        //         return -1
+        //     }
+        //     return 0
+        // })
+        // /////////////////////////////////////////
+
+        // // Логика для взаимодействия с MongoDB
+        // //Запросы на фетчах
+        // const applications = fetch('http://localhost:3005/api/test', {
+        //     // mode: 'no-cors',
+        //     method: "get",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     // body: JSON.stringify(ob)
+        // })
+        //     .then((data) => data.json())
+        //     .then((data) => console.log('It\'s OK: ', data))
+        //     .catch((error) => console.log('Some Error', error, error.message));
+
+        // // Запросы на axios
+        const applications  = await request.get('/api/allapplications').then(response => response.data);
+        console.log('Апликейшены получены из MongoDB: ', applications)
+
+        // //////////////////////////////////////////////////
+
 
         dispatch(getApplicationsSuccess(applications)); // Нужно передать [{}{}]
     } catch (e) {
