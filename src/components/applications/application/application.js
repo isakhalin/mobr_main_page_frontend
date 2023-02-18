@@ -112,7 +112,7 @@ export const Application = ({application, complete}) => {
                 </div>
 
                 <div>
-                    <div><span>Дата заявки: </span><span>{application.date}</span></div>
+                    <div><span>Дата заявки: </span><span>{new Date(application.createdAt).toLocaleString()}</span></div>
                     <div>
                         <span>ФИО: </span><span>{application.lastName} {application.firstName} {application.middleName}</span>
                     </div>
@@ -120,7 +120,7 @@ export const Application = ({application, complete}) => {
                     <div><span>Место текущего трудоустройства: </span><span>{application.org}</span></div>
                     <div><span>Отдел: </span><span>{application.dept}</span></div>
                     <div><span>Должность: </span><span>{application.position}</span></div>
-                    <div><span>т.: </span><span>{application.phone}</span></div>
+                    <div><span>т.: </span><span>{application.phoneNumber}</span></div>
                     <div><span>Кабинет: </span><span>{application.room}</span></div>
                     {/*<SamplesButton profileData={el} />*/}
                 </div>

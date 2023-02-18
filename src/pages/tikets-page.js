@@ -19,7 +19,7 @@ import {TicketList} from "../components/tickets";
 export const TicketsPage = ({session}) => {
     const dispatch = useDispatch();
     // const {tickets, status} = useSelector((state) => state.tickets);     //перенесено в TicketList
-    const {firstName, lastName} = useSelector((state) => state.profile.form);
+    const {id, firstName, lastName} = useSelector((state) => state.profile.form);
     const [form, setForm] = useState('');
     const [importance, setImportance] = useState("low");
     const isForm = !(!!form);
@@ -34,15 +34,16 @@ export const TicketsPage = ({session}) => {
         const ticket = {
             ticketAuthorFirstName: firstName,
             ticketAuthorLastName: lastName,
-            ticketDate: new Date().getTime(),
+            //ticketDate: new Date().getTime(), //Логика для FB
             ticketImportance: importance,
             ticketStatus: "Отправлено",
             ticketExecutor: "Не назначен",
             userCompleted: false,
             ticketText: form
         };
-        await dispatch(sendTicket(ticket, session.uid));
-        dispatch(getTickets(session.uid))
+        await dispatch(sendTicket(id, ticket));
+        // dispatch(getTickets(session.uid)); // Логика из FB
+        dispatch(getTickets(id));
         setForm('');
     };
 

@@ -16,9 +16,12 @@ import {
 const ticketState = {
     tickets: [
         // {
+        //    *_id: 543gdfg4643gdfg456          // Id тикета в МонгоДБ
+        //    *authorId: 4fds32453fdsfdsf3532   // Id автора тикета
         //    ticketAuthorFirstName: "Дарт"
         //    ticketAuthorLastName: "Вейдор"
-        //    ticketDate: 1658627234558
+        //    *createdAt: 1658627234558
+        //    //ticketDate: 1658627234558
         //    ticketImportance: "low"
         //    ticketStatus: "sent"
         //    ticketText: "asdasd"
@@ -93,16 +96,25 @@ export const TicketReducer = (state = ticketState, action) => {
             //     tempTicketsInWork.push(action.payload.ticket)
             // }
 
-
+            // //// Логика для FB (рабочий вариант)
             // работаем с тикетами
-            let tempTickets = []
-            state.tickets.map((el) => {
-                if (el.ticketDate === action.payload.ticket.ticketDate) {
-                    tempTickets.push(action.payload.ticket)
+            // let tempTickets = []
+            // state.tickets.map((el) => {
+            //     if (el.ticketDate === action.payload.ticket.ticketDate) {
+            //         tempTickets.push(action.payload.ticket)
+            //     } else {
+            //         tempTickets.push(el)
+            //     }
+            // })
 
+            //// Логика при использовании MGDB.
+            let tempTickets = [];
+            state.tickets.map((el) => {
+                if (el._id === action.payload.ticket._id) {
+                    // Деструктуризация. Перезаписывается только часть свойств
+                    tempTickets.push({...el, ...action.payload.ticket})
                 } else {
                     tempTickets.push(el)
-
                 }
             })
 
@@ -114,14 +126,12 @@ export const TicketReducer = (state = ticketState, action) => {
             // //фильтруем массив с тикетами по ФИО взявшего в работу
 
 
-
             return {
                 ...state,
                 tickets: [
                     ...tempTickets
                 ]
                 ,
-                // ticketsInWork: [...tempTicketsInWork],
                 status: {...state.status, pendingSet: false}
             }
         case CHANGE_TICKET_STATUS_ERROR:
@@ -135,12 +145,28 @@ export const TicketReducer = (state = ticketState, action) => {
                 status: {...state.status, pendingRemove: true, errorRemove: null}
             }
         case REMOVE_USER_TICKETS_SUCCESS:
-            const userTicketDates = action.payload;     //Сюда приходит массив с датами тикетов пользователя, которые надо удалить
+            //// Логика для FB
+            // const userTicketDates = action.payload;     //Сюда приходит массив с датами тикетов пользователя, которые надо удалить
+            // let newTickets = [...state.tickets];        //Создаем из стейта копию массива, с которым будем работать
+            // state.tickets.map((reducerTicket) => {      //Перебираем исходный массив
+            //     if (reducerTicket.hasOwnProperty('ticketDate')) {    //Проверяем наличие свойства ticketDate
+            //         userTicketDates.map((userTicket) => {   // Перебираем массив с датами тикетов, которые нужно удалить
+            //             if (reducerTicket.ticketDate.toString() === userTicket) { //Ищем совпадения дат в исходном массиве
+            //                 //newTickets.splice(newTickets.indexOf(reducerTicket), 1) //Удаляем при совпадении
+            //             }
+            //         })
+            //     }
+            // })
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //// Логика для MongoDB
+            // todo эту логику нужно оптимизировать. Если нужно использовать эту логику
+            const deletedTickets = action.payload;     //Сюда приходит массив с датами тикетов пользователя, которые надо удалить
             let newTickets = [...state.tickets];        //Создаем из стейта копию массива, с которым будем работать
             state.tickets.map((reducerTicket) => {      //Перебираем исходный массив
-                if (reducerTicket.hasOwnProperty('ticketDate')){    //Проверяем наличие свойства ticketDate
-                    userTicketDates.map((userTicket) => {   // Перебираем массив с датами тикетов, которые нужно удалить
-                        if(reducerTicket.ticketDate.toString() === userTicket){ //Ищем совпадения дат в исходном массиве
+                if (reducerTicket.hasOwnProperty('_id')) {    //Проверяем наличие свойства ticketDate
+                    deletedTickets.map((deletedTicket) => {   // Перебираем массив с датами тикетов, которые нужно удалить
+                        if (reducerTicket._id.toString() === deletedTicket._id) { //Ищем совпадения дат в исходном массиве
                             //newTickets.splice(newTickets.indexOf(reducerTicket), 1) //Удаляем при совпадении
                         }
                     })

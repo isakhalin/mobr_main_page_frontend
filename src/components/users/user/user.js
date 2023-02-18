@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {IconButton, Menu, MenuItem} from "@mui/material";
 
 /** Include Thunks */
-import { removeUserTickets } from '../../../store/tickets'
+import {removeUserTickets} from '../../../store/tickets'
 
 import {removeApplication} from "../../../store/applications";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { removeUserProfile } from "../../../store/profile";
+import {removeUserProfile} from "../../../store/profile";
 
 const menuIconButtons = [
     "Удалить"
@@ -16,7 +16,9 @@ const menuIconButtons = [
 
 export const User = ({profile, isAdmin}) => {
     const dispatch = useDispatch();
-    const {uid, lastName, middleName, firstName, org, phoneNumber, phoneNumberMobile} = profile;
+    // id MongoDB пользователя
+    const {id} = useSelector((state) => state.profile.form);
+    const {_id, lastName, middleName, firstName, org, phoneNumber, phoneNumberMobile} = profile;
 
     // Логика работы меню три точки в карточке пользователя
     const [anchorEl, setAnchorEl] = useState(null);
@@ -26,8 +28,11 @@ export const User = ({profile, isAdmin}) => {
     }
     const iconHandleClose = (option) => {
         if (option === "Удалить") {
-            dispatch(removeUserProfile(profile.uid));
-            dispatch(removeUserTickets(profile.uid, isAdmin));
+            // id - id пользователя, от имени которого выполняется запрос
+            // _id - id пользователя, тикеты которого нужно удалить
+            dispatch(removeUserTickets(id, _id));
+            dispatch(removeUserProfile(_id));
+            // dispatch(removeUserTickets(profile.uid, isAdmin)); // Логика для работы с FB
         }
         setAnchorEl(null);
     };

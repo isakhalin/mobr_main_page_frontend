@@ -21,6 +21,7 @@ import TextField from '@mui/material/TextField';
 import {light} from "@mui/material/styles/createPalette";
 
 import {setApplicationToFirebaseApi} from '../api'
+import {setApplicationToMongoDBApi} from '../api'
 
 const Accordion = styled((props) => (<MuiAccordion disableGutters elevation={0} square {...props} />))
 (({theme}) => ({
@@ -64,8 +65,8 @@ export const ApplicationsPage = () => {
     };
     // Форма для отправки
     const [form, setForm] = useState({
-        date: null,         // Дата
-        isComplete: false,  // Флаг выполнения заявки
+        //date: null,         // Дата
+        //isComplete: false,  // Флаг выполнения заявки
         lastName: '',       // Фамилия
         firstName: '',      // Имя
         middleName: '',     // Отчество
@@ -88,10 +89,11 @@ export const ApplicationsPage = () => {
     };
 
     const sendApplicationForm = async () => {
-        await setApplicationToFirebaseApi({...form, date: new Date().getTime()});
+        //await setApplicationToFirebaseApi({...form, date: new Date().getTime()}); // Метод для firebase
+        await setApplicationToMongoDBApi({...form});
         setForm({
-            date: null,         // Дата
-            isComplete: false,  // Флаг выполнения заявки
+            //date: null,         // Дата (Требуется при работе с firebase и не требуется при работе с Mongo)
+            //isComplete: false,  // Флаг выполнения заявки (Требуется при работе с firebase и не требуется с Mongo)
             lastName: '',       // Фамилия
             firstName: '',      // Имя
             middleName: '',     // Отчество

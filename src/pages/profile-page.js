@@ -7,10 +7,16 @@ import {Box, Button, TextField, Typography} from "@mui/material"
 /** Include Thunks */
 import { sendProfile } from '../store/profile';
 
-export const ProfilePage = ({session}) => {
+/** Компонент страницы профиля пользователя
+ * @param session Принимает объект сессии из файрбейза
+ * @returns {*}
+ * @constructor
+ */
+export const ProfilePage = ({session}) => { // session не используется в текущей имплементации
     const dispatch = useDispatch();
 
     const {
+        id,
         date,
         firstName,
         lastName,
@@ -29,26 +35,29 @@ export const ProfilePage = ({session}) => {
     } = useSelector((state) => state.profile.form)
 
     const [profile, setProfile] = useState({
-        date: date, //*
-        firstName: firstName, //*
-        lastName: lastName, //*
-        middleName: middleName, //*
-        dept: dept, //*
-        isMinobr: isMinobr,
-        isAdmin: isAdmin,
-        org: org, //*
-        prevOrg: prevOrg,
-        phoneNumber: phoneNumber, //*
-        phoneNumberMobile: phoneNumberMobile, //*
-        position: position, //*
-        room: room, //*
-        email: email, //*
-        avatar: avatar,
+        //date: date,           // Не редактируется в этом компоненте (Генерится автоматически при создании профиля)
+        firstName: firstName,   // Обязательное для заполнения в заявке
+        lastName: lastName,     // Обязательное для заполнения в заявке
+        middleName: middleName, // Обязательное для заполнения в заявке
+        dept: dept,             // Обязательное для заполнения в заявке
+        //isMinobr: isMinobr,   // Не редактируется в этом компоненте
+        //isAdmin: isAdmin,     // Не редактируется в этом компоненте
+        org: org,               // Обязательное для заполнения в заявке
+        //prevOrg: prevOrg,
+        phoneNumber: phoneNumber,               // Обязательное для заполнения в заявке
+        phoneNumberMobile: phoneNumberMobile,   // Обязательное для заполнения в заявке
+        position: position,                     // Не редактируется в этом компоненте (Обязательное для заполнения в заявке)
+        room: room,             // Обязательное для заполнения в заявке
+        email: email,           // Обязательное для заполнения в заявке
+        //avatar: avatar,       // Не редактируется в этом компоненте
     });
 
-    const postProfile = () => {
-        console.log(session.uid)
-        dispatch(sendProfile(session.uid, profile));
+    /** Отправляет свойства профиля для изменения их в БД и глобальном стейте
+     * @param id Идентификатор изменяемого профиля пользователя (MongoDB id пользователя)
+     * @param profile Объект со свойствами профиля, которые будут внесены в профиль в БД и глобальный стейт
+     */
+    const postProfile = (id, profile) => {
+        dispatch(sendProfile(id, profile)); // Вызываем санк для отправки части профиля в БД и глобальный стейт
     };
 
     return (
@@ -72,7 +81,7 @@ export const ProfilePage = ({session}) => {
                     label="Дата регистрации"
                     type="text"
                     variant="standard"
-                    value={profile.date}
+                    value={date}
                     disabled
                     // onChange={(e) => setProfile({...profile, date: e.target.value})}
                 />
@@ -178,7 +187,7 @@ export const ProfilePage = ({session}) => {
                 />
                 <Button
                     variant="outlined"
-                    onClick={postProfile}
+                    onClick={() => postProfile(id, profile)}
                     size="small"
                     sx={{
                         fontSize: 12,

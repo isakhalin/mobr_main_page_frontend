@@ -126,12 +126,11 @@ export const ProfileReducer = (state = profileState, action) => {
         case REMOVE_USER_PROFILE_SUCCESS:
             let newProfiles = [...state.profiles];  // создаем копию массива из исходного profiles
             state.profiles.map((el) => {    // Перебираем исходный массив
-                if(el.uid === action.payload){  // В payload приходит uid, сравниваем каждый uid элемента с полученным uid
+                if(el._id === action.payload){  // В payload приходит uid, сравниваем каждый uid элемента с полученным uid
                     // Находим индекс нужного элемента в копии массива и удаляем этот элемента из копии массива
                     newProfiles.splice(newProfiles.indexOf(el), 1);
                 }
             })
-            console.log("newProfiles", newProfiles)
             return {
                 ...state,
                 profiles: [...newProfiles],

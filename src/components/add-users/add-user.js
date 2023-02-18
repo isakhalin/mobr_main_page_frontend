@@ -6,7 +6,11 @@ import { createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from "../../api";
 
 /** Include Api */
-import { setProfileToFirebaseApi, updateApplicationToFirebaseApi } from "../../api";
+import {
+    setProfileToFirebaseApi,
+    updateApplicationToFirebaseApi,
+    setProfileToMongoDBApi,
+} from "../../api";
 
 /** Include Thunks */
 import { updateFlagIsCompleteInApplication } from '../../store/applications'
@@ -26,7 +30,7 @@ export const AddUser = ({application}) => {
 
     const [newUser, setNewUser] = useState({
         //Данные в апликейшене
-        date: application.date,                   // Дата апликейшена. Возможно сохранять в профиль не нужно
+        //date: application.date, //В логике с Mongo не нужно передавать дату   // Дата апликейшена. Возможно сохранять в профиль не нужно
         firstName: application.firstName,
         lastName: application.lastName,
         middleName: application.middleName,
@@ -41,7 +45,7 @@ export const AddUser = ({application}) => {
 
         email: '@sakhalin.gov.ru',
         avatar: "",                                 //+ Данные в профиле
-        isAdmin: false,
+        //isAdmin: false, //В логике с Mongo передавать не нужно, флаг выставит бекенд самостоятельно
     });
     const [pass, setPass] = useState('');
 
@@ -54,11 +58,14 @@ export const AddUser = ({application}) => {
 
 
     const createNewUser = async () => {
-        const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid); //Создаем нового юзверя в FB
-        await setProfileToFirebaseApi(newUserUid, newUser);     // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
-        // Вызываем санк updateFlagIsCompleteInApplication для обновления флага isComplete в в апликейшене,
+        // Создаем нового юзверя в FB
+        const newUserUid = await createUserWithEmailAndPassword(auth, newUser.email, pass).then(user => user.user.uid);
+        // Вызываем api setProfileToFirebaseApi чтобы записать профиль в FB
+        // await setProfileToFirebaseApi(newUserUid, newUser); // Логика для FB
+        await setProfileToMongoDBApi({...newUser, idFirebase: newUserUid});
+        // Вызываем санк updateFlagIsCompleteInApplication для обновления флага isComplete в апликейшене,
         // который отвечает за параметр "выполнено" и "не выполнено", передаем в него свойство, которое будем менять
-        dispatch(updateFlagIsCompleteInApplication({date: application.date, isComplete: true}));
+        dispatch(updateFlagIsCompleteInApplication({_id: application._id, isComplete: true}));
         await signOut(auth);        // Выходим из учётки, т.к. выполняется авторизация под новым пользователем
     };
 

@@ -10,11 +10,11 @@ import {User} from "./user";
 export const Users = ({isAdmin}) => {
     const dispatch = useDispatch();
     const {profiles, status} = useSelector((state) => state.profile);
-
-    console.log("PROFILES", profiles)
+    console.log("PROFILES FROM GSTATE", profiles);
+    const {id} = useSelector((state) => state.profile.form);
 
     useEffect(() => {
-        dispatch(getAllProfiles())
+        dispatch(getAllProfiles(id)); // Логика работает только с MongoDB. Для FB нужно убрать id.
     }, [])
 
     return (
@@ -24,7 +24,7 @@ export const Users = ({isAdmin}) => {
                     <div>Загружаю...</div>
                     :
                     profiles.map((el, idx) => (
-                        <div key={el.uid} style={{
+                        <div key={el._id} style={{
                             border: "solid 1px #00000040",
                             backgroundColor: "#05050008",
                             borderRadius: "5px",

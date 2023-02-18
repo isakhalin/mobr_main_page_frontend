@@ -59,9 +59,9 @@ export const sendProfileError = (error) => ({
 export const removeUserProfileStart = () => ({
     type: REMOVE_USER_PROFILE_START,
 })
-export const removeUserProfileSuccess = (uid) => ({
+export const removeUserProfileSuccess = (_id) => ({
     type: REMOVE_USER_PROFILE_SUCCESS,
-    payload: uid,
+    payload: _id,
 });
 export const removeUserProfileError = (error) => ({
     type: REMOVE_USER_PROFILE_ERROR,

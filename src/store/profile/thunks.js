@@ -20,65 +20,86 @@ export const getProfile = (uid) => async (dispatch, _, api) => {
     try {
         dispatch(getProfileStart());
 
-        const getProfileFromDB = await api.getProfileFromFirebaseApi(uid);
-        console.log("getProfileFromDB.val()", getProfileFromDB.val())
+        //// Логика для получения профиля из FB
+        // const getProfileFromDB = await api.getProfileFromFirebaseApi(uid);
+        // console.log("getProfileFromDB.val()", getProfileFromDB.val());
+        // Отправляем профиль в глобальный стейт через диспатч
+        // В getProfileSuccess передаем загруженный из БД профиль
+        // dispatch(getProfileSuccess(getProfileFromDB.val()));
+        ////////////////////////////////////////////////////////////////////
 
-        // const {firstName, middleName, lastName, dept, isAdmin, avatar} = getProfileFromDB.val();
-        //
-        // const profile = {
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     middleName: middleName,
-        //     avatar: avatar,
-        //     dept: dept,
-        //     isAdmin: isAdmin
-        // }
-
-        dispatch(getProfileSuccess(getProfileFromDB.val()));
-
+        //// Логика для получения профиля из MongoDB
+        // Получаем профиль из MongoDB. И деструктуризируем входящие данные
+        // В data приходит объект.
+        const {data} = await api.getProfileFromMongoDBApi(uid);
+        console.log("DATA", data)
+        // Отправляем профиль в глобальный стейт через диспатч
+        // В getProfileSuccess передаем загруженный из БД профиль
+        dispatch(getProfileSuccess(data));  // Передаем {}
+        /////////////////////////////////////////////////////////////////////
     } catch (e) {
         dispatch(getProfileError(e));
     }
 }
 
-export const getAllProfiles = () => async (dispatch, _, api) => {
+export const getAllProfiles = (id) => async (dispatch, _, api) => {
     try {
         dispatch(getAllProfilesStart());
 
-        const snap = await api.getAllProfilesFromFirebaseApi(); // Приходит объект вида { {}{}{} }
-        // console.log("getProfileFromDB.val()", profilesData);
-        const profiles = [];
 
-        snap.forEach((el) => {
-            profiles.push({uid: el.key, ...el.val()});  // получаем массив вида [ {}{}{} ], в каждый объект дописываем свойство равное ключу, который представляет собой uid.
-        })                                                  // Таким образом записываем в объект uid
+        //// Логика получения всех профилей из FB
+        // const snap = await api.getAllProfilesFromFirebaseApi(); // Приходит объект вида { {}{}{} }
+        // const profiles = [];
+        //
+        // snap.forEach((el) => {
+        //     profiles.push({uid: el.key, ...el.val()});  // получаем массив вида [ {}{}{} ], в каждый объект дописываем свойство равное ключу, который представляет собой uid.
+        // })                                              // Таким образом записываем в объект uid
+        //
+        // dispatch(getAllProfilesSuccess(profiles));
+        ///////////////////////////////////////////////////////////
 
-        dispatch(getAllProfilesSuccess(profiles));
+        //// Логика получения всех профилей из MongoDB
+        const {data: profiles} = await api.getAllProfilesFromMongoDBApi(id);  // получаем массив вида [ {}{}{} ]
+        dispatch(getAllProfilesSuccess(profiles)); // Передаем в глобальный стейт массив вида [{}{}]
+        ///////////////////////////////////////////////////////////
+
     } catch (e) {
-        // console.log("Что-то пошло не так")
         dispatch(getAllProfilesError(e));
     }
 }
 
-// Санк для удаления профиля пользователя из глоба стол и FB
-export const removeUserProfile = (uid) => async (dispatch, _, api) => {
+// Санк для удаления профиля пользователя из глобал стор и FB или MongoDB
+export const removeUserProfile = (_id) => async (dispatch, _, api) => {
     try {
         dispatch(removeUserProfileStart());
 
-        await api.removeUserProfileFromFBApi(uid); // Удаляем профиль из FB
+        //// Логика для удаления профиля из FB
+        // await api.removeUserProfileFromFBApi(uid); // Удаляем профиль из FB
+        // dispatch(removeUserProfileSuccess(uid));
+        ////////////////////////////////////////////////////////////////////
 
-        dispatch(removeUserProfileSuccess(uid)); //TODO Написать редюсер
+        //// Логика для удаления профиля из MongoDB
+        await api.deleteProfileFromMongoDBApi(_id); // Удаляем профиль из MongoDB
+        dispatch(removeUserProfileSuccess(_id))
+        ////////////////////////////////////////////////////////////////////
     } catch (error) {
         dispatch(removeUserProfileError(error));
     }
 };
 
-export const sendProfile = (uid, profile) => async (dispatch, _, api) => {
-    console.log("Вызвался санк")
+export const sendProfile = (uid, partOfProfile) => async (dispatch, _, api) => {
     try {
         dispatch(sendProfileStart());
-        await api.setProfileToFirebaseApi(uid, profile);
-        dispatch(sendProfileSuccess(profile));
+
+        //// Логика для отправки профиля в FB
+        // await api.setProfileToFirebaseApi(uid, profile);
+        // dispatch(sendProfileSuccess(profile));
+        //////////////////////////////////////////////////////////////////////
+
+        //// Логика для отправки профиля в MongoDB
+        await api.updateProfileFromMongoDBApi(uid, partOfProfile);
+        dispatch(sendProfileSuccess(partOfProfile));
+        //////////////////////////////////////////////////////////////////////
     } catch (e) {
         dispatch(sendProfileError(e))
     }

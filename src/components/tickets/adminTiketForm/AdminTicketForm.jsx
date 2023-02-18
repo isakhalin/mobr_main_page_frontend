@@ -5,7 +5,11 @@ import {Box, Button, FormControl, InputLabel, MenuItem, Select, TextField} from 
 
 export const AdminTicketForm = ({session, isAdmin}) => {
     const dispatch = useDispatch();
-    const {firstName, lastName} = useSelector((state) => state.profile.form);
+    const {
+        id, // id пользователя МонгоДБ
+        firstName,
+        lastName
+    } = useSelector((state) => state.profile.form);
     const [form, setForm] = useState('');
     const [importance, setImportance] = useState("low");
     const isForm = !(!!form);
@@ -18,15 +22,16 @@ export const AdminTicketForm = ({session, isAdmin}) => {
         const ticket = {
             ticketAuthorFirstName: firstName,
             ticketAuthorLastName: lastName,
-            ticketDate: new Date().getTime(),
+            //ticketDate: new Date().getTime(),
             ticketImportance: importance,
             ticketStatus: "Отправлено",
             ticketExecutor: "Не назначен",
             userCompleted: false,
             ticketText: form
         };
-        await dispatch(sendTicket(ticket, session.uid));
-        dispatch(getTickets(session.uid, isAdmin))
+        await dispatch(sendTicket(ticket, id));
+        //dispatch(getTickets(session.uid, isAdmin))  // Логика получения тикетов для FB
+        //dispatch(getTickets(id));
         setForm('');
     };
     return (

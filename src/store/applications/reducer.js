@@ -41,14 +41,14 @@ export const ApplicationReducer = (state = ApplicationState, action) => {
                 status: {...state.status, pendingGet: false, errorGet: action.payload}
             }
         case UPDATE_APPLICATION_START:
-            console.log("APPLICATIONS IN REDUCER", state);
+            // console.log("APPLICATIONS IN REDUCER", state);
             return {
                 ...state,
                 status: {...state.status, pendingUpdate: true, errorUpdate: null}
             }
         case UPDATE_APPLICATION_SUCCESS:
             state.applications.map((el) => {
-                if (el.date === action.payload.partOfApplication.date){
+                if (el._id === action.payload.partOfApplication._id){
                     el.isComplete = action.payload.partOfApplication.isComplete;
                 }
             })
@@ -68,7 +68,7 @@ export const ApplicationReducer = (state = ApplicationState, action) => {
             }
         case REMOVE_APPLICATION_SUCCESS:
             state.applications.map((application) => {
-                if (application.date === action.payload.date){
+                if (application._id === action.payload){
                     state.applications.splice(state.applications.indexOf(application), 1)
                 }
             })

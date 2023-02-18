@@ -14,6 +14,8 @@ import './ticket.module.css'
 
 export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
     const dispatch = useDispatch();
+    const {id} = useSelector((state) => state.profile.form);
+    console.log("_ID FROM COMP", id)
     // const {profiles, status} = useSelector((state) => state.profile);
 
     // useEffect(() => { // если админ получаем все профили пользователей
@@ -43,11 +45,11 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
      * @returns {Promise<void>}
      */
     const changeTicketHandler = (ticket, ticketStatus, userCompleted = false) => {
-        el.ticketStatus = ticketStatus //изменяем статус элемента(полученного в пропсах) на в работе
-        el.userCompleted = userCompleted // поле для подтверждение закрития тикета пользователем
+        ticket.ticketStatus = ticketStatus //изменяем статус элемента(полученного в пропсах) на в работе
+        ticket.userCompleted = userCompleted // поле для подтверждение закрития тикета пользователем
 
         if (isAdmin) {
-            el.ticketExecutor = fio // добавляем ФИО взявшего в работу
+            ticket.ticketExecutor = fio // добавляем ФИО взявшего в работу
         }
 
         // debugger
@@ -55,15 +57,27 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
         // const profileUid = getUserUid(ticket) // получаем uid пользователя отправившего тикет
         console.log('фио', fio)
         // console.log("PROFILES", profileUid)
-        /**
-         * вызываем dispatch и функцию изменения статуса тикета, передаем в нее
-         * Ticket Тикет
-         * isAdmin админ ли это
-         */
-        // dispatch(changeTicketStatus(ticket, fio, profileUid))
-        dispatch(changeTicketStatus(ticket, uid, isAdmin))
 
-        console.log('отработал')
+        // вызываем dispatch и функцию изменения статуса тикета, передаем в нее
+        // Ticket Тикет
+        // isAdmin флаг администратора. true админ, false не админ
+        // dispatch(changeTicketStatus(ticket, fio, profileUid))
+        // dispatch(changeTicketStatus(ticket, uid, isAdmin)); // Логика для FB
+        // В ticket приходит объект
+                // authorId: "631c504b1c25f6ddd6fa1ca7"
+                // createdAt: "2022-09-12T13:49:34.786Z"
+                // ticketAuthorFirstName: "Роман"
+                // ticketAuthorLastName: "Степанов"
+                // + ticketExecutor: "Роман Степанов Викторович"
+                // ticketImportance: "normal"
+                // + ticketStatus: "В работе"
+                // ticketText: "Швайне"
+                // updatedAt: "2022-09-12T13:49:34.786Z"
+                // + userCompleted: false
+                // __v: 0
+                // + _id: "631f38ee462923aee603f5cb"
+        // _id идентификатор MongoBD пользователя (взят из профиля в стейте), который отправил запрос
+        dispatch(changeTicketStatus(ticket, id)); // Логика для MongoDB
     }
 
     return (
@@ -76,7 +90,7 @@ export const Ticket = ({el, isAdmin = false, fio = null, uid}) => {
             textAlign: "left",
             color: el.userCompleted ? 'rgba(0,0,0,0.17)' : ''
         }}>
-            <div><span>Дата: </span><span>{el.ticketDate}</span></div>
+            <div><span>Дата: </span><span>{new Date(el.createdAt).toLocaleString()}</span></div>
             <div>
                 <span>Отправитель: </span><span>{el.ticketAuthorLastName} {el.ticketAuthorFirstName}</span>
             </div>

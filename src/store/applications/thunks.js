@@ -16,21 +16,21 @@ export const getApplications = () => async (dispatch, _, api) => {
         dispatch(getApplicationsStart());
 
         ////////////////////////////////////////////
-        // Логика для взаимодействия с Firebase
-        const snap = await api.getApplicationsFromFireBaseApi(); // Приходит {{}{}}
-        snap.forEach((el) => {
-            applications.push(el.val());
-        })
-
-        applications.sort((firstEl, secondEl) => {
-            if (firstEl.date < secondEl.date) {
-                return 1
-            }
-            if (firstEl.date > secondEl.date) {
-                return -1
-            }
-            return 0
-        })
+        // // Логика для взаимодействия с Firebase
+        // const snap = await api.getApplicationsFromFireBaseApi(); // Приходит {{}{}}
+        // snap.forEach((el) => {
+        //     applications.push(el.val());
+        // })
+        //
+        // applications.sort((firstEl, secondEl) => {
+        //     if (firstEl.date < secondEl.date) {
+        //         return 1
+        //     }
+        //     if (firstEl.date > secondEl.date) {
+        //         return -1
+        //     }
+        //     return 0
+        // })
         // /////////////////////////////////////////
 
         ///////////////////////////////////////////////////
@@ -48,10 +48,10 @@ export const getApplications = () => async (dispatch, _, api) => {
         //     .catch((error) => console.log('Some Error', error, error.message));
 
         // // Запросы на axios
-        // const applications  = await api.getApplicationsFromMongoDBApi(); // Апи возвращает из MongoDB массив с объектами
-        // console.log('Апликейшены получены из MongoDB: ', applications)
+        const applications  = await api.getApplicationsFromMongoDBApi(); // Апи возвращает из MongoDB массив с объектами
+        console.log('Апликейшены получены из MongoDB: ', applications)
 
-        /////////////////////////////////////////////////////
+        // //////////////////////////////////////////////////
 
 
         dispatch(getApplicationsSuccess(applications)); // В getApplicationsSuccess нужно передать [{}{}]
@@ -66,9 +66,21 @@ export const updateFlagIsCompleteInApplication = (partOfApplication) => async (d
     try {
         dispatch(updateApplicationStart());
 
-        await api.updateApplicationToFirebaseApi(partOfApplication)
+        ///// Логика для firebase. Обновляем флаг isComplete = true
+        // await api.updateApplicationToFirebaseApi(partOfApplication)
 
-        dispatch(updateApplicationSuccess(partOfApplication));
+        // // В updateApplicationSuccess передаем {date: application.date, isComplete: boolean}
+        // // По дате будем искать нужный апликейшен, который нужно изменять.
+        // dispatch(updateApplicationSuccess(partOfApplication));
+        ///////////////////////////////////////////////////////////////
+
+        ///// Логика для Mongo. Обновляем флаг isComplete = true. В data приходит обновленный апликейшен из БД
+        const {data} = await api.updateApplicationToMongoDBApi(partOfApplication);
+        // В updateApplicationSuccess передаем {date: application.date, isComplete: boolean}
+        // По дате будем искать нужный апликейшен, который нужно изменять.
+        // console.log('APL FROM BACK: ', data);
+        dispatch(updateApplicationSuccess(data));
+        ///////////////////////////////////////////////////////////////
     } catch (e) {
         dispatch(updateApplicationError(e))
     }
@@ -80,9 +92,17 @@ export const removeApplication = (application) => async (dispatch, _, api) => {
     try {
         dispatch(removeApplicationStart());
 
-        await api.removeApplicationFromFireBaseApi(application);
+        //// Логика удаления апликейшена из firebase
+        // await api.removeApplicationFromFireBaseApi(application);
+        // dispatch(removeApplicationSuccess(application.date)); // Передаем в стейт дату апликейшена для его удаления
+        /////////////////////////////////////////////////////////
 
-        dispatch(removeApplicationSuccess(application));
+        //// Логика удаления апликейшена из МонгоДБ
+        // Деструктуризируем получаемые данные, в removedApplicationID записываем содержимое свойства data, которое вернулось с сервера
+        const {data: removedApplicationID} = await api.deleteApplicationToMongoDBApi(application._id);
+        // Передаем в стейт (через экшен removeApplicationSuccess) ID апликейшена для его удаления
+        dispatch(removeApplicationSuccess(removedApplicationID));
+        /////////////////////////////////////////////////////////
     } catch (e) {
         dispatch(removeApplicationError(e))
     }

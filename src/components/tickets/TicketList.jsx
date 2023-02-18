@@ -7,7 +7,12 @@ import {AdminTicketForm} from "./adminTiketForm";
 export const TicketList = ({session, isAdmin = false, worklist = false}) => {
 
     const dispatch = useDispatch();
-    const {firstName, lastName, middleName} = useSelector((state) => state.profile.form);
+    const {
+        id, // ID пользователя в MongoDB
+        firstName,
+        lastName,
+        middleName
+    } = useSelector((state) => state.profile.form);
 
     const {tickets, status, ticketsInWork} = useSelector((state) => state.tickets);
     console.log('tickets', tickets)
@@ -15,8 +20,8 @@ export const TicketList = ({session, isAdmin = false, worklist = false}) => {
 
 
     useEffect(() => {
-        dispatch(getTickets(session.uid, isAdmin));
-        // dispatch(getTickets(session.uid, isAdmin))
+        dispatch(getTickets(id));
+        // dispatch(getTickets(session.uid, isAdmin)) // Логика получения тикетов из FB
     }, []);
     return (
         // !worklist ?

@@ -11,18 +11,35 @@ import thunk from "redux-thunk"
 /** include Api */
 import {
     getProfileFromFirebaseApi,
-    setProfileToFirebaseApi,
     getAllProfilesFromFirebaseApi,
+    setProfileToFirebaseApi,
     removeUserProfileFromFBApi,
+
+    getApplicationsFromFireBaseApi,
+    setApplicationToFirebaseApi,
     updateApplicationToFirebaseApi,
     removeApplicationFromFireBaseApi,
-    setApplicationToFirebaseApi,
-    getApplicationsFromFireBaseApi,
-    getApplicationsFromMongoDBApi,
-    sendTicketToFirebaseApi,
+
     getTicketsFromFirebaseApi,
+    sendTicketToFirebaseApi,
     changeTicketStatusToFirebaseApi,
     removeUserTicketsFromFBApi,
+
+    getProfileFromMongoDBApi,
+    setProfileToMongoDBApi,
+    getAllProfilesFromMongoDBApi,
+    updateProfileFromMongoDBApi,
+    deleteProfileFromMongoDBApi,
+
+    setApplicationToMongoDBApi,
+    getApplicationsFromMongoDBApi,
+    updateApplicationToMongoDBApi,
+    deleteApplicationToMongoDBApi,
+
+    getUserTicketsFromMongoDBApi,
+    sendTicketToMongoDBApi,
+    changeTicketStatusToMongoDBApi,
+    removeUserTicketsFromMongoDBApi,
 } from '../api'
 
 /** include reducers */
@@ -38,18 +55,35 @@ const rootReducers = combineReducers({
 
 const api = {
     getProfileFromFirebaseApi,
-    setProfileToFirebaseApi,
     getAllProfilesFromFirebaseApi,
+    setProfileToFirebaseApi,
     removeUserProfileFromFBApi,
+
+    getApplicationsFromFireBaseApi,
+    setApplicationToFirebaseApi,
     updateApplicationToFirebaseApi,
     removeApplicationFromFireBaseApi,
-    setApplicationToFirebaseApi,
-    getApplicationsFromFireBaseApi,
-    getApplicationsFromMongoDBApi,
-    sendTicketToFirebaseApi,
+
     getTicketsFromFirebaseApi,
+    sendTicketToFirebaseApi,
     changeTicketStatusToFirebaseApi,
     removeUserTicketsFromFBApi,
+
+    getProfileFromMongoDBApi,
+    setProfileToMongoDBApi,
+    getAllProfilesFromMongoDBApi,
+    updateProfileFromMongoDBApi,
+    deleteProfileFromMongoDBApi,
+
+    setApplicationToMongoDBApi,
+    getApplicationsFromMongoDBApi,
+    updateApplicationToMongoDBApi,
+    deleteApplicationToMongoDBApi,
+
+    getUserTicketsFromMongoDBApi,
+    sendTicketToMongoDBApi,
+    changeTicketStatusToMongoDBApi,
+    removeUserTicketsFromMongoDBApi,
 }
 
 export const store = createStore(
