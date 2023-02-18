@@ -1,9 +1,9 @@
 import React from 'react';
 
 export const TicketsInWork = () => {
-    return (
-        <div>
+  return (
+    <div>
 
-        </div>
-    );
+    </div>
+  );
 };

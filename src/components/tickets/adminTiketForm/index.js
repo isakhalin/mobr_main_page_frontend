@@ -1,1 +1,1 @@
-export * from './AdminTicketForm'
+export * from './AdminTicketForm';

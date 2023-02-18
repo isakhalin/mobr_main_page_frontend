@@ -10,7 +10,6 @@ export const setApplicationToFirebaseApi = (application) => {
 
 // Сохраняем в firebase форму регистрации
 export const updateApplicationToFirebaseApi = (application) => {
-    //Нативный метод апдейт выполняет частичное обновление данных, не перезаписывая другие данные в ноде
     return update(child(ref(database), `applications/${application.date}`), application);
 }
 
@@ -23,32 +22,24 @@ export const getApplicationsFromFireBaseApi = () => {
 export const removeApplicationFromFireBaseApi = (application) => {
     return remove(child(ref(database), `applications/${application.date}`));
 };
-///////////////////////////////////////////////////////////////////////////////
 
 // Api MongoDB Cloud
-// Чтение из MongoDB всех апликейшенов. Апи используетс в санке store/applications.
+// Чтение из MongoDB всех апликейшенов.
 export const getApplicationsFromMongoDBApi = () => {
     return request.get('/api/allapplications').then(response => response.data);
-    // console.log('Апликейшены получены из MongoDB: ', applications)
 };
 
-// Запись апликейшена в МонгоДБ. Апи используется в санке store/applications
+// Запись апликейшена в МонгоДБ.
 export const setApplicationToMongoDBApi = (application) => {    // В application должен прийти объект который отправляем
     return request.post('/api/application', application);
-    // return fetch('http://localhost:3005/api/application', {
-    //     method: 'POST',
-    //     headers: {'content-type': 'application/json'},
-    //     body: JSON.stringify(application)
-    // })
 };
 
-// Изменение апликейшена в Монго. PATCH обновляется отдельные свойства, не перезаписывая весь объект.
+// Изменение апликейшена в Монго.
 export const updateApplicationToMongoDBApi = ({_id, isComplete}) => {
     return request.patch(`/api/application/${_id}`, {isComplete});
 };
 
 // Удаление аппликейшена из Монго
 export const deleteApplicationToMongoDBApi = (id) => {
-    console.log("PATH FOR DELETE: ", `/api/application/${id}`)
     return request.delete(`/api/application/${id}`);
 };
