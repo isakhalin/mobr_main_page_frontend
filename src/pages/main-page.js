@@ -1,5 +1,3 @@
-//TODO Страница с отображением основной страницы
-
 import React from 'react';
 
 export const MainPage = () => {

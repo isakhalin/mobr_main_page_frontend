@@ -1,9 +1,7 @@
-//TODO Страница отображает телефонный справочник минобра
-
 import React from 'react';
-import {Button} from '@mui/material'
+import {Button} from '@mui/material';
 
-const api = "http://netcity.admsakhalin.ru/phonebook/"
+const api = 'http://netcity.admsakhalin.ru/phonebook/';
 
 export const ContactsPage = () => {
     return (
