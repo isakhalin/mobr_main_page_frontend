@@ -1,7 +1,7 @@
 # IT DEPARTMENT START PAGE. FRONTEND
 
 Фронтенд для прилолжения "IT Department Start Page".
-В данной ветке билд работает с MongoDB
+В данной ветке билд использует авторизацию Firebase и REST API с MongoDB в качестве базы данных.
 
 #### Стек:
 HTML5, SCSS, JavaScript, React.js, Redux, React Router, webpack
