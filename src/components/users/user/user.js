@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch} from 'react-redux';
 
-import {IconButton, Menu, MenuItem} from "@mui/material";
+import {IconButton, Menu, MenuItem} from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 /** Include Thunks */
 import { removeUserTickets } from '../../../store/tickets'
-
-import {removeApplication} from "../../../store/applications";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { removeUserProfile } from "../../../store/profile";
+import { removeUserProfile } from '../../../store/profile';
 
 const menuIconButtons = [
     "Удалить"
@@ -18,7 +16,6 @@ export const User = ({profile, isAdmin}) => {
     const dispatch = useDispatch();
     const {uid, lastName, middleName, firstName, org, phoneNumber, phoneNumberMobile} = profile;
 
-    // Логика работы меню три точки в карточке пользователя
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const iconHandleClick = (event) => {
@@ -84,7 +81,6 @@ export const User = ({profile, isAdmin}) => {
                 <div><span>Рабочий телефон: </span><span>{phoneNumber}</span></div>
                 <div><span>Мобильный телефон: </span><span>{phoneNumberMobile}</span></div>
             </div>
-
         </div>
     );
 };

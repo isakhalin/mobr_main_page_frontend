@@ -4,9 +4,6 @@ class Request {
     constructor(token = '') {
         this.request = axios.create({
             baseURL: 'http://localhost:3005/',
-            //withCredentials: true,
-            //timeout: 1000,
-            //headers: {'X-Custom-Header': 'foobar'}
         });
         this.token = token;
     }

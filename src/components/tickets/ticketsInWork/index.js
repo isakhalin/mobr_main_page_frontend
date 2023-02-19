@@ -1,1 +1,1 @@
-export * from './TicketsInWork'
+export * from './TicketsInWork';
